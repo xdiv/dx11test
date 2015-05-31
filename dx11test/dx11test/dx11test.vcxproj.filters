@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{941f3afe-bcbf-43fd-8188-024da8877e78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders Resource Files">
+      <UniqueIdentifier>{15ea2b10-e13a-47fa-8620-e215e8ffeaee}</UniqueIdentifier>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="models">
+      <UniqueIdentifier>{ecd49a85-e2ad-43f7-aa16-b8ea5f7f91ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ModelLoader">
+      <UniqueIdentifier>{421b7f88-2cdc-4574-8192-259b93b6be05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Math">
+      <UniqueIdentifier>{a85dcf77-5779-4613-bae7-9562da5829ce}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="dx11test.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderBase.cpp">
+      <Filter>Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureShader.cpp">
+      <Filter>Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="test.cpp">
+      <Filter>models</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ColorShader.cpp">
+      <Filter>Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="TexturedModelBase.cpp">
+      <Filter>models</Filter>
+    </ClCompile>
+    <ClCompile Include="MD5Model.cpp">
+      <Filter>ModelLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="MD5Animation.cpp">
+      <Filter>ModelLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="MD5ModelBinary.cpp">
+      <Filter>ModelLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="DXMath.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="complex_types.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GameWindow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderBase.h">
+      <Filter>Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureShader.h">
+      <Filter>Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="test.h">
+      <Filter>models</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PublicData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ColorShader.h">
+      <Filter>Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="TexturedModelBase.h">
+      <Filter>models</Filter>
+    </ClInclude>
+    <ClInclude Include="MD5Model.h">
+      <Filter>ModelLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="MD5ModelBinary.h">
+      <Filter>ModelLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="MD5Animation.h">
+      <Filter>ModelLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="DXMath.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="complex_types.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="DX_Global.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ColorShader.hlsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="TextureShader.hlsl">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="texttest.dds">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+</Project>
