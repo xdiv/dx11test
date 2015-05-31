@@ -2,3 +2,4 @@ dx11test/Debug*/
 *.dll
 dx11test/dx11test/Debug*/
 shader-error.txt
+dx11test.opensdf

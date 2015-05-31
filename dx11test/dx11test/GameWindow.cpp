@@ -352,12 +352,9 @@ void GameWindow::Run()
 			camera->SetRotation(0,0, 0.0f);
 			camera->Render();
 			camera->GetViewMatrix(viewMatrix);
-			//D3DXMatrixMultiply(&finalMatrix, &viewMatrix, &vpMatrix);
-			finalMatrix = viewMatrix * vpMatrix;
-			//t->Render(devcon, worldMatrix, viewMatrix, projectionMatrix);
-			//t2->Render(devcon, worldMatrix, viewMatrix, projectionMatrix);
-			//tb->Render(devcon, finalMatrix);
-			tb->Render(devcon, worldMatrix, viewMatrix, projectionMatrix);
+			finalMatrix = worldMatrix * viewMatrix * projectionMatrix;
+
+			tb->Render(devcon, finalMatrix);
 
 			swapchain->Present(1, 0);
 

@@ -173,14 +173,6 @@
     <ClInclude Include="TextureShader.h" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\..\..\..\..\Desktop\dx11src45\source\texture.ps">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\..\..\..\..\Desktop\dx11src45\source\texture.vs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="ColorShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='DebugW8|Win32'">Vertex</ShaderType>
