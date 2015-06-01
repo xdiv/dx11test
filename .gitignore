@@ -7,3 +7,4 @@ dx11test/ssh/*
 *.sdf
 *.v12.suo
 dx11test/ssh/*.*
+ssh/
