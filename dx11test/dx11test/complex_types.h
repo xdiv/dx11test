@@ -8,6 +8,9 @@
 typedef struct float2
 {
 	float x, y;
+	float2(){};
+	float2(float f);
+	float2(float fx, float fy);
 	const void Zero() { x = y = 0;};
 
 	bool operator!=(float2 a);
@@ -21,8 +24,10 @@ public:
 	float x, y, z;
 
 	float3() {};
+	float3(float f) {float3(f, f, f); }
 	float3(float x, float y, float z);
-	const void Zero() { x = y = z = 0; };
+
+	static float3 Zero() { float3(0); };
 
 	// assignment operators
 	float3& operator += (const float3&);
@@ -131,8 +136,13 @@ typedef struct meshv1{
 	float3   Pos;
 	float2   Tex0;
 	float3   Normal;
-	int           StartWeight;
-	int           WeightCount;
+	//int           StartWeight;
+	//int           WeightCount;
 } meshv1;
+
+typedef struct InstanceType_A
+{
+	float3 position;
+}InstanceType_A;
 
 #endif

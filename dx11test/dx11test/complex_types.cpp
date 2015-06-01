@@ -5,6 +5,19 @@
 //    float2
 //
 //===========================================================================
+
+float2::float2(float f)
+{
+	x = f;
+	y = f;
+}
+
+float2::float2(float fx, float fy)
+{
+	x = fx;
+	y = fy;
+}
+
 bool float2::operator != (float2 a) {
 	if (a.x != x || a.y != y)
 		return true;
