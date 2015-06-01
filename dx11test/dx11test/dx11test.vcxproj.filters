@@ -16,10 +16,6 @@
     <Filter Include="Shaders">
       <UniqueIdentifier>{941f3afe-bcbf-43fd-8188-024da8877e78}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Shaders Resource Files">
-      <UniqueIdentifier>{15ea2b10-e13a-47fa-8620-e215e8ffeaee}</UniqueIdentifier>
-      <ParseFiles>false</ParseFiles>
-    </Filter>
     <Filter Include="models">
       <UniqueIdentifier>{ecd49a85-e2ad-43f7-aa16-b8ea5f7f91ba}</UniqueIdentifier>
     </Filter>
@@ -122,18 +118,16 @@
     <None Include="TextureShader.hlsl">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="PixelShader.hlsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="VertexShader.hlsl">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="texttest.dds">
       <Filter>Resource Files</Filter>
     </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="VertexShader.hlsl">
-      <Filter>Resource Files</Filter>
-    </FxCompile>
-    <FxCompile Include="PixelShader.hlsl">
-      <Filter>Resource Files</Filter>
-    </FxCompile>
   </ItemGroup>
 </Project>
