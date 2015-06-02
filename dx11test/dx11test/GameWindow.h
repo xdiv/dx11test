@@ -8,6 +8,7 @@
 #include "PublicData.h"
 #include "test.h"
 #include "TexturedModelBase.h"
+#include "InstanedShader.h"
 
 #pragma comment (lib, "d3d11.lib")
 #pragma comment (lib, "d3dx11.lib")

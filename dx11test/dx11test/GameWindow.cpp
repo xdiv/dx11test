@@ -320,16 +320,18 @@ void GameWindow::Run()
 	D3DXMATRIX viewMatrix, vpMatrix, finalMatrix;
 	Camera* camera = new Camera();
 	MSG msg;
-
-	//D3DXMatrixMultiply(&vpMatrix, &viewMatrix, &projectionMatrix);
 	
-	test * t = new test(dev, hWnd, devcon, D3DXVECTOR3(2, 2, 0));
+	/*test * t = new test(dev, hWnd, devcon, D3DXVECTOR3(2, 2, 0));
 	test * t2 = new test(dev, hWnd, devcon, D3DXVECTOR3(-2, -2, 0));
-	TexturedModelBase* tb = new TexturedModelBase(dev, hWnd, devcon, D3DXVECTOR3(0, 0, 0));
+	TexturedModelBase* tb = new TexturedModelBase(dev, hWnd, devcon, D3DXVECTOR3(0, 0, 0));*/
+	InstanedShader* insTest = new InstanedShader();
 
 	camera->GetViewMatrix(viewMatrix);
-	camera->SetPosition(0.0f, -10.0f, 3.0f);
-	//camera->SetPosition(0, 10, 3.0f);
+	//camera->SetPosition(0.0f, -10.0f, 3.0f);
+
+	insTest->Init(dev, devcon, hWnd);
+	insTest->Prepare(dev);
+
 	vpMatrix = projectionMatrix * worldMatrix;
 	float z = -25.0f;
 	while (TRUE)
@@ -354,7 +356,8 @@ void GameWindow::Run()
 			camera->GetViewMatrix(viewMatrix);
 			finalMatrix = worldMatrix * viewMatrix * projectionMatrix;
 
-			tb->Render(devcon, finalMatrix);
+			insTest->Render(devcon, finalMatrix);
+			//tb->Render(devcon, finalMatrix);
 
 			swapchain->Present(1, 0);
 

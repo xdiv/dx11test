@@ -12,7 +12,6 @@ class TextureShader : protected ShaderBase
 {
 private:
 	static TextureShader* _instance;
-	ID3D11Buffer *pVertexBuffer, *pIndexBuffer;
 	ID3D11SamplerState* pSampleState;
 
 	//functions

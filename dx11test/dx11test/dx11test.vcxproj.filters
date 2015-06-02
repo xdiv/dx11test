@@ -25,6 +25,12 @@
     <Filter Include="Math">
       <UniqueIdentifier>{a85dcf77-5779-4613-bae7-9562da5829ce}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Vertex">
+      <UniqueIdentifier>{e2904232-35f3-4068-931b-660d945d4877}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Pixel">
+      <UniqueIdentifier>{7815d153-b8e7-47ca-90cc-dd57cb899bd7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dx11test.cpp">
@@ -65,6 +71,9 @@
     </ClCompile>
     <ClCompile Include="complex_types.cpp">
       <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="InstanedShader.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -110,6 +119,9 @@
     <ClInclude Include="DX_Global.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="InstanedShader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ColorShader.hlsl">
@@ -119,10 +131,10 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="PixelShader.hlsl">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Pixel</Filter>
     </None>
     <None Include="VertexShader.hlsl">
-      <Filter>Resource Files</Filter>
+      <Filter>Resource Files\Vertex</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

@@ -148,6 +148,7 @@
     <ClCompile Include="dx11test.cpp" />
     <ClCompile Include="DXMath.cpp" />
     <ClCompile Include="GameWindow.cpp" />
+    <ClCompile Include="InstanedShader.cpp" />
     <ClCompile Include="MD5Animation.cpp" />
     <ClCompile Include="MD5Model.cpp" />
     <ClCompile Include="MD5ModelBinary.cpp" />
@@ -163,6 +164,7 @@
     <ClInclude Include="DX_Global.h" />
     <ClInclude Include="DXMath.h" />
     <ClInclude Include="GameWindow.h" />
+    <ClInclude Include="InstanedShader.h" />
     <ClInclude Include="MD5Animation.h" />
     <ClInclude Include="MD5Model.h" />
     <ClInclude Include="MD5ModelBinary.h" />

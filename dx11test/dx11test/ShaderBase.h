@@ -13,21 +13,22 @@ using namespace std;
 #pragma comment (lib, "d3dx11.lib")
 #pragma comment (lib, "d3dx10.lib")
 
+struct MatrixBufferTypeA
+{
+	D3DXMATRIX world;
+	D3DXMATRIX view;
+	D3DXMATRIX projection;
+};
+
+struct MatrixBufferTypeB
+{
+	D3DXMATRIX world;
+};
+
 class ShaderBase
 {
-private:
-	struct MatrixBufferTypeA
-	{
-		D3DXMATRIX world;
-		D3DXMATRIX view;
-		D3DXMATRIX projection;
-	};
-	struct MatrixBufferTypeB
-	{
-		D3DXMATRIX world;
-	};
-	ID3D11Buffer* m_matrixBuffer;
 protected:
+	ID3D11Buffer* m_matrixBuffer;
 	ID3D11VertexShader *pVS;    // the vertex shader
 	ID3D11PixelShader *pPS;     // the pixel shader
 	ID3D11InputLayout *pLayout;    // global
