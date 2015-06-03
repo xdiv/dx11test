@@ -6,21 +6,18 @@
 class InstanedShader: protected ShaderBase
 {
 private:
+	static InstanedShader* _instance;
 	ID3D11SamplerState* pSampleState;
 
-	ID3D11Buffer* pVBuffer; //vertex buffer
-	ID3D11Buffer* pIBuffer; //index buffer
-	ID3D11Buffer* pInsBuffer;
-	ID3D11ShaderResourceView* texture;
-
-	UINT indexCount;
-	UINT instanceCount;
-	UINT meshSize;
+	//functions
+	bool LoadTexture(ID3D11Device*, WCHAR*);
+	void ReleaseTexture();
 public:
 	InstanedShader();
 	~InstanedShader();
-	void Init(ID3D11Device* dev, ID3D11DeviceContext* devcon, HWND hwnd);
-	void Prepare(ID3D11Device* dev);
-	void Render(ID3D11DeviceContext *devcon, D3DXMATRIX worldMatrix);
+	void Init(ID3D11Device*, HWND, ID3D11DeviceContext*);
+	void Render(ID3D11DeviceContext* devcon, D3DXMATRIX worldMatrix, UINT indexCount, UINT instanceCount);
+	static InstanedShader* GetInstance(ID3D11Device* dev, HWND hWnd, ID3D11DeviceContext * devcon);
+	static void ShutDown();
 };
 

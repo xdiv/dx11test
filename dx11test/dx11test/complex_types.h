@@ -24,7 +24,7 @@ public:
 	float x, y, z;
 
 	float3() {};
-	float3(float f) {float3(f, f, f); }
+	float3(float f);
 	float3(float x, float y, float z);
 
 	static float3 Zero() { float3(0); };
@@ -153,6 +153,9 @@ typedef struct meshv2{
 //--------------------------------------------------------------------------------------------------------------
 typedef struct InstanceType_A
 {
+public:
+	//InstanceType_A(){};
+	//InstanceType_A(float x, float y, float z);
 	float3 position;
 }InstanceType_A;
 

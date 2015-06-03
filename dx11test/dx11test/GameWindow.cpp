@@ -1,4 +1,5 @@
 #include "GameWindow.h"
+#include "itmr.h"
 
 GameWindow::GameWindow(int& w, int& h, LPCWSTR t, float screenNear, float screenDepth)
 {
@@ -322,15 +323,20 @@ void GameWindow::Run()
 	MSG msg;
 	
 	/*test * t = new test(dev, hWnd, devcon, D3DXVECTOR3(2, 2, 0));
-	test * t2 = new test(dev, hWnd, devcon, D3DXVECTOR3(-2, -2, 0));
-	TexturedModelBase* tb = new TexturedModelBase(dev, hWnd, devcon, D3DXVECTOR3(0, 0, 0));*/
-	InstanedShader* insTest = new InstanedShader();
+	test * t2 = new test(dev, hWnd, devcon, D3DXVECTOR3(-2, -2, 0));*/
+	TexturedModelBase* tb = new TexturedModelBase(dev, hWnd, devcon, D3DXVECTOR3(0, 0, 0));
+	itmr* insTest = new itmr();
+	insTest->Init(dev, hWnd, devcon);
 
 	camera->GetViewMatrix(viewMatrix);
-	//camera->SetPosition(0.0f, -10.0f, 3.0f);
+	camera->SetPosition(0.0f, -50.0f, 3.0f);
+	InstanceType_A poz;
+	InstanceType_A poz1;
+	InstanceType_A poz2;
 
-	insTest->Init(dev, devcon, hWnd);
-	insTest->Prepare(dev);
+	poz.position = float3(0);
+	poz1.position = float3( 15, 0, 0);
+	poz2.position = float3(-15, 0, 0);
 
 	vpMatrix = projectionMatrix * worldMatrix;
 	float z = -25.0f;
@@ -355,6 +361,10 @@ void GameWindow::Run()
 			camera->Render();
 			camera->GetViewMatrix(viewMatrix);
 			finalMatrix = worldMatrix * viewMatrix * projectionMatrix;
+
+			insTest->AddInstance(poz);
+			insTest->AddInstance(poz1);
+			insTest->AddInstance(poz2);
 
 			insTest->Render(devcon, finalMatrix);
 			//tb->Render(devcon, finalMatrix);

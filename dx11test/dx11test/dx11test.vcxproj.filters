@@ -13,12 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Shaders">
-      <UniqueIdentifier>{941f3afe-bcbf-43fd-8188-024da8877e78}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="models">
-      <UniqueIdentifier>{ecd49a85-e2ad-43f7-aa16-b8ea5f7f91ba}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ModelLoader">
       <UniqueIdentifier>{421b7f88-2cdc-4574-8192-259b93b6be05}</UniqueIdentifier>
     </Filter>
@@ -31,6 +25,15 @@
     <Filter Include="Resource Files\Pixel">
       <UniqueIdentifier>{7815d153-b8e7-47ca-90cc-dd57cb899bd7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Renderers">
+      <UniqueIdentifier>{941f3afe-bcbf-43fd-8188-024da8877e78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderers\Shader">
+      <UniqueIdentifier>{b998b14b-1b15-439d-bb11-dffea6a13781}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderers\models">
+      <UniqueIdentifier>{ecd49a85-e2ad-43f7-aa16-b8ea5f7f91ba}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dx11test.cpp">
@@ -39,23 +42,14 @@
     <ClCompile Include="GameWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ShaderBase.cpp">
-      <Filter>Shaders</Filter>
-    </ClCompile>
-    <ClCompile Include="TextureShader.cpp">
-      <Filter>Shaders</Filter>
-    </ClCompile>
     <ClCompile Include="test.cpp">
-      <Filter>models</Filter>
+      <Filter>Renderers\models</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ColorShader.cpp">
-      <Filter>Shaders</Filter>
-    </ClCompile>
     <ClCompile Include="TexturedModelBase.cpp">
-      <Filter>models</Filter>
+      <Filter>Renderers\models</Filter>
     </ClCompile>
     <ClCompile Include="MD5Model.cpp">
       <Filter>ModelLoader</Filter>
@@ -72,22 +66,28 @@
     <ClCompile Include="complex_types.cpp">
       <Filter>Math</Filter>
     </ClCompile>
+    <ClCompile Include="itmr.cpp">
+      <Filter>Renderers\models</Filter>
+    </ClCompile>
+    <ClCompile Include="ColorShader.cpp">
+      <Filter>Renderers\Shader</Filter>
+    </ClCompile>
     <ClCompile Include="InstanedShader.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Renderers\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderBase.cpp">
+      <Filter>Renderers\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureShader.cpp">
+      <Filter>Renderers\Shader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ShaderBase.h">
-      <Filter>Shaders</Filter>
-    </ClInclude>
-    <ClInclude Include="TextureShader.h">
-      <Filter>Shaders</Filter>
-    </ClInclude>
     <ClInclude Include="test.h">
-      <Filter>models</Filter>
+      <Filter>Renderers\models</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>Header Files</Filter>
@@ -95,11 +95,8 @@
     <ClInclude Include="PublicData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ColorShader.h">
-      <Filter>Shaders</Filter>
-    </ClInclude>
     <ClInclude Include="TexturedModelBase.h">
-      <Filter>models</Filter>
+      <Filter>Renderers\models</Filter>
     </ClInclude>
     <ClInclude Include="MD5Model.h">
       <Filter>ModelLoader</Filter>
@@ -119,8 +116,20 @@
     <ClInclude Include="DX_Global.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="itmr.h">
+      <Filter>Renderers\models</Filter>
+    </ClInclude>
+    <ClInclude Include="ColorShader.h">
+      <Filter>Renderers\Shader</Filter>
+    </ClInclude>
     <ClInclude Include="InstanedShader.h">
-      <Filter>Header Files</Filter>
+      <Filter>Renderers\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderBase.h">
+      <Filter>Renderers\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureShader.h">
+      <Filter>Renderers\Shader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

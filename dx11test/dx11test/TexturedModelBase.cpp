@@ -9,23 +9,15 @@ TexturedModelBase::TexturedModelBase(ID3D11Device* dev, HWND hWnd, ID3D11DeviceC
 
 	tsinst = TextureShader::GetInstance(dev, hWnd, devcon);
 
-	MD5Model * mod = new MD5Model();
+	MD5ModelBinary * mod = new MD5ModelBinary("test.txt");
 	meshv1 * mesh = NULL;
 	int* list = NULL;
 
-	//MD5ModelBinary * modb = new MD5ModelBinary();
-
-	//modb->WriteModelToFile("test.txt", mod->GetMeshSize(), mod->GetJointsSize(), mod->GetMesh(), mod->GetBones());
-
-	//SAFE_DELETE(modb);
-
-	//mod.LoadModel("untl.md5mesh");
-	mod->LoadModel("bob.md5mesh");
+	mod->LoadModel(0);
 	mod->PrepareMesh(mesh, list, 0);
-	
 
-	vert_count = mod->GetMeshSize(0);
-	indexCount = mod->GetIntSize(0);
+	vert_count = mod->GetMeshSize();
+	indexCount = mod->GetIntSize();
 
 	SAFE_DELETE (mod);
 

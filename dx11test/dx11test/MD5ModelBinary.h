@@ -29,7 +29,7 @@ public:
 
 	bool	PrepareMesh(meshv1 *& mesh, int *& list, int);
 	void	SafeDelete();
-	void	ReadModel(int modelPart);
+	void	LoadModel(int modelPart);
 
 	size_t	GetMeshSize();
 	size_t	GetJointsSize();

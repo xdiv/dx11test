@@ -37,6 +37,12 @@ bool float2::operator==(float2 a) {
 //    float3
 //
 //===========================================================================
+float3::float3(float nx)
+{
+	x = nx;
+	y = nx;
+	z = nx;
+}
 
 float3::float3(float nx, float ny, float nz)
 {

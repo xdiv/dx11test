@@ -5,6 +5,7 @@ ShaderBase::ShaderBase()
 	pVS = 0;    // the vertex shader
 	pPS = 0;     // the pixel shader
 	pLayout = 0;    // global
+	m_matrixBuffer = 0;
 }
 
 ShaderBase::~ShaderBase()
@@ -16,7 +17,10 @@ ShaderBase::~ShaderBase()
 
 void ShaderBase::Relese()
 {
-
+	SAFE_RELEASE(pLayout);
+	SAFE_RELEASE(pVS);
+	SAFE_RELEASE(pPS);
+	SAFE_RELEASE(m_matrixBuffer);
 }
 
 void ShaderBase::Init(ID3D11Device* dev, HWND hwnd, WCHAR* vsFilename, WCHAR* psFilename, ID3D11DeviceContext* devcon, D3D11_INPUT_ELEMENT_DESC * iedf, int desc_count)

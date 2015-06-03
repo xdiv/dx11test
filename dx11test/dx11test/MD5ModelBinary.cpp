@@ -33,7 +33,7 @@ void MD5ModelBinary::SafeDelete()
 	SAFE_DELETE(Meshes);
 }
 
-void MD5ModelBinary::ReadModel(int modelPart)
+void MD5ModelBinary::LoadModel(int modelPart)
 {
 	//ifstream myfile(file);
 
