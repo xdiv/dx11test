@@ -1,5 +1,6 @@
 #include "GameWindow.h"
 #include "itmr.h"
+#include "InputClass.h"
 
 GameWindow::GameWindow(int& w, int& h, LPCWSTR t, float screenNear, float screenDepth)
 {
@@ -321,7 +322,12 @@ void GameWindow::Run()
 	D3DXMATRIX viewMatrix, vpMatrix, finalMatrix;
 	Camera* camera = new Camera();
 	MSG msg;
-	
+
+	InputClass *input = new InputClass();
+	input->Initialize(hInstance, hWnd, screenWidth, screenHeight);
+
+	float2 move;
+	move = float2(0);
 	/*test * t = new test(dev, hWnd, devcon, D3DXVECTOR3(2, 2, 0));
 	test * t2 = new test(dev, hWnd, devcon, D3DXVECTOR3(-2, -2, 0));*/
 	TexturedModelBase* tb = new TexturedModelBase(dev, hWnd, devcon, D3DXVECTOR3(0, 0, 0));
@@ -333,6 +339,8 @@ void GameWindow::Run()
 	InstanceType_A poz;
 	InstanceType_A poz1;
 	InstanceType_A poz2;
+
+	move = float2(0, -50.0f);
 
 	poz.position = float3(0);
 	poz1.position = float3( 15, 0, 0);
@@ -354,9 +362,21 @@ void GameWindow::Run()
 			break;
 		}else
 		{
+			input->Frame();
+
+			if (input->MoveLeft())
+				move.x += 1;
+			if (input->MoveRight())
+				move.x -= 1;
+			if (input->MoveUp())
+				move.y += 1;
+			if (input->MoveDown())
+				move.y -= 1;
+
 			devcon->ClearRenderTargetView(backbuffer, D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f));
 			devcon->ClearDepthStencilView(depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 
+			camera->SetPosition(move.x, move.y, 3.0f);
 			camera->SetRotation(0,0, 0.0f);
 			camera->Render();
 			camera->GetViewMatrix(viewMatrix);
@@ -369,6 +389,7 @@ void GameWindow::Run()
 			insTest->Render(devcon, finalMatrix);
 			//tb->Render(devcon, finalMatrix);
 
+			
 			swapchain->Present(1, 0);
 
 			//z += 0.5f;

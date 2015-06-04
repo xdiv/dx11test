@@ -34,6 +34,9 @@
     <Filter Include="Renderers\models">
       <UniqueIdentifier>{ecd49a85-e2ad-43f7-aa16-b8ea5f7f91ba}</UniqueIdentifier>
     </Filter>
+    <Filter Include="input">
+      <UniqueIdentifier>{104ef39b-72da-4b0f-959b-ece9b4e08479}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dx11test.cpp">
@@ -80,6 +83,9 @@
     </ClCompile>
     <ClCompile Include="TextureShader.cpp">
       <Filter>Renderers\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="InputClass.cpp">
+      <Filter>input</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -130,6 +136,9 @@
     </ClInclude>
     <ClInclude Include="TextureShader.h">
       <Filter>Renderers\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="InputClass.h">
+      <Filter>input</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
