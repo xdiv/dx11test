@@ -1,27 +1,30 @@
 #include "InputClass.h"
-
+#include "PublicData.h"
 
 InputClass::InputClass()
 {
 	m_directInput = 0;
 	m_keyboard = 0;
+	//lastKeyboardState = 0;
+	//keyboardState = 0;
 	m_mouse = 0;
-}
 
+	keyState = 0;
+	keyState = new UCHAR*[2];
+	keyState[0] = new UCHAR[256];
+	keyState[1] = new UCHAR[256];
+	
+	mouseState = new DIMOUSESTATE[2];
+}
 
 InputClass::~InputClass()
 {
-	m_directInput = 0;
-	m_keyboard = 0;
-	m_mouse = 0;
+	Shutdown();
 }
 
-bool InputClass::Initialize(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenHeight)
+bool InputClass::Initialize(HINSTANCE hinstance, HWND hwnd)
 {
 	HRESULT result;
-	// Store the screen size which will be used for positioning the mouse cursor.
-	m_screenWidth = screenWidth;
-	m_screenHeight = screenHeight;
 
 	// Initialize the location of the mouse on the screen.
 	m_mouseX = 0;
@@ -95,6 +98,11 @@ bool InputClass::Initialize(HINSTANCE hinstance, HWND hwnd, int screenWidth, int
 
 void InputClass::Shutdown()
 {
+	SAFE_DELETE(keyState[0]);
+	SAFE_DELETE(keyState[0]);
+	SAFE_DELETE(keyState);
+	SAFE_DELETE(mouseState);
+
 	// Release the mouse.
 	if (m_mouse)
 	{
@@ -125,7 +133,6 @@ bool InputClass::Frame()
 {
 	bool result;
 
-
 	// Read the current state of the keyboard.
 	result = ReadKeyboard();
 	if (!result)
@@ -149,9 +156,12 @@ bool InputClass::Frame()
 bool InputClass::ReadKeyboard()
 {
 	HRESULT result;
+	//UCHAR keyboardState2[256];
 
 	// Read the keyboard device.
-	result = m_keyboard->GetDeviceState(sizeof(m_keyboardState), (LPVOID)&m_keyboardState);
+	
+	result = m_keyboard->GetDeviceState(sizeof(keyboardState), (LPVOID)&keyboardState);
+
 	if (FAILED(result))
 	{
 		// If the keyboard lost focus or was not acquired then try to get control back.
@@ -163,6 +173,11 @@ bool InputClass::ReadKeyboard()
 		{
 			return false;
 		}
+	}
+	else
+	{
+		keyState[OLD_S] = keyState[NEW_S];
+		keyState[NEW_S] = keyboardState;
 	}
 
 	return true;
@@ -187,6 +202,11 @@ bool InputClass::ReadMouse()
 			return false;
 		}
 	}
+	else
+	{
+		mouseState[OLD_S] = mouseState[NEW_S];
+		mouseState[NEW_S] = m_mouseState;
+	}
 
 	return true;
 }
@@ -207,38 +227,40 @@ void InputClass::ProcessInput()
 	return;
 }
 
-bool InputClass::IsEscapePressed()
-{
-	// Do a bitwise and on the keyboard state to check if the escape key is currently being pressed.
-	if (m_keyboardState[DIK_ESCAPE] & 0x80)
-	{
-		return true;
-	}
-
-	return false;
-}
-
-bool InputClass::MoveLeft()
-{
-	return m_keyboardState[DIK_A] & 0x80;
-}
-
-bool InputClass::MoveRight()
-{
-	return m_keyboardState[DIK_D] & 0x80;
-}
-bool InputClass::MoveUp()
-{
-	return m_keyboardState[DIK_W] & 0x80;
-}
-bool InputClass::MoveDown()
-{
-	return m_keyboardState[DIK_S] & 0x80;
-}
-
+/*
 void InputClass::GetMouseLocation(int& mouseX, int& mouseY)
 {
 	mouseX = m_mouseX;
 	mouseY = m_mouseY;
 	return;
+}*/
+
+bool InputClass::KeyPressedDown(UINT key)
+{
+	return keyState[NEW_S][key] & DOWN && keyState[OLD_S][key] & UP;
+}
+
+bool InputClass::KeyReleased(UINT key)
+{
+	return keyState[NEW_S][key] & UP && keyState[OLD_S][key] & DOWN;
+}
+
+bool InputClass::KeyHoldDown(UINT key)
+{
+	return keyState[NEW_S][key] & DOWN && keyState[OLD_S][key] & DOWN;
+}
+
+bool InputClass::MouseKeyPressedDown(UINT key)
+{
+	return mouseState[NEW_S].rgbButtons[key] & DOWN && mouseState[OLD_S].rgbButtons[key] & UP;
+}
+
+bool InputClass::MouseKeyReleased(UINT key)
+{
+	return mouseState[NEW_S].rgbButtons[key] & UP && mouseState[OLD_S].rgbButtons[key] & DOWN;
+}
+
+bool InputClass::MouseKeyHoldDown(UINT key)
+{
+	return mouseState[NEW_S].rgbButtons[key] & DOWN &&  mouseState[OLD_S].rgbButtons[key] & DOWN;
 }

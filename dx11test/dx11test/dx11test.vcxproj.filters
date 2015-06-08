@@ -87,6 +87,9 @@
     <ClCompile Include="InputClass.cpp">
       <Filter>input</Filter>
     </ClCompile>
+    <ClCompile Include="ButtonsActionMap.cpp">
+      <Filter>input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameWindow.h">
@@ -138,6 +141,9 @@
       <Filter>Renderers\Shader</Filter>
     </ClInclude>
     <ClInclude Include="InputClass.h">
+      <Filter>input</Filter>
+    </ClInclude>
+    <ClInclude Include="ButtonsActionMap.h">
       <Filter>input</Filter>
     </ClInclude>
   </ItemGroup>

@@ -142,6 +142,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ButtonsActionMap.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ColorShader.cpp" />
     <ClCompile Include="complex_types.cpp" />
@@ -160,6 +161,7 @@
     <ClCompile Include="TextureShader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ButtonsActionMap.h" />
     <ClInclude Include="complex_types.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="ColorShader.h" />

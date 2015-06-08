@@ -1,6 +1,5 @@
 #pragma once
 #include "DX_Global.h"
-#include "PublicData.h"
 
 class Camera
 {
@@ -16,6 +15,8 @@ public:
 
 	void SetPosition(float x, float y, float z);
 	void SetRotation(float x, float y, float z);
+
+	void MoveCamera(float dx, float dy, float dz);
 
 	D3DXVECTOR3 GetPosition();
 	D3DXVECTOR3 GetRotation();

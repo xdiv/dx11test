@@ -1,5 +1,5 @@
 #include "Camera.h"
-
+#include "PublicData.h"
 
 Camera::Camera()
 {
@@ -31,6 +31,12 @@ void Camera::SetPosition(float x, float y, float z)
 	return;
 }
 
+void Camera::MoveCamera(float dx, float dy, float dz)
+{
+	m_positionX += dx;
+	m_positionY += dy;
+	m_positionZ += dz;
+}
 
 void Camera::SetRotation(float x, float y, float z)
 {
