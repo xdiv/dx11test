@@ -251,3 +251,21 @@ bool Weight::operator == (Weight a) {
 	else
 		return false;
 }
+
+
+//===========================================================================
+//
+//    InstanceType_A
+//
+//===========================================================================
+InstanceType_A::InstanceType_A(float x, float y, float z)
+{
+	position.x = x;
+	position.y = y;
+	position.z = z;
+}
+
+InstanceType_A::InstanceType_A(float3 p)
+{
+	position = p;
+}

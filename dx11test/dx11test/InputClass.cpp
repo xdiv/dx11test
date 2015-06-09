@@ -98,8 +98,8 @@ bool InputClass::Initialize(HINSTANCE hinstance, HWND hwnd)
 
 void InputClass::Shutdown()
 {
-	SAFE_DELETE(keyState[0]);
-	SAFE_DELETE(keyState[0]);
+	/*SAFE_DELETE(keyState[0]);
+	SAFE_DELETE(keyState[0]);*/
 	SAFE_DELETE(keyState);
 	SAFE_DELETE(mouseState);
 

@@ -9,6 +9,8 @@
 #include "test.h"
 #include "TexturedModelBase.h"
 #include "InstanedShader.h"
+#include "itmr.h"
+#include "ButtonsActionMap.h"
 
 #pragma comment (lib, "d3d11.lib")
 #pragma comment (lib, "d3dx11.lib")
@@ -34,6 +36,11 @@ class GameWindow
 		ID3D11DepthStencilView* depthStencilView;
 		ID3D11RasterizerState* rasterState;
 
+		D3DXMATRIX viewMatrix, finalMatrix;
+		Camera* camera;
+		ButtonsActionMap *input;
+		itmr* insTest;
+
 		char m_videoCardDescription[128];
 
 		D3DXMATRIX projectionMatrix;
@@ -47,6 +54,12 @@ class GameWindow
 		void Close();
 		void Run();
 		void ShutDown();
+
+		void GameInit();
+		void GameShutDown();
+		void Update();
+		void Render();
+		void RenderInterface();
 };
 
 LRESULT CALLBACK WindowProc(HWND hWnd, 	UINT message, WPARAM wParam, LPARAM lParam);

@@ -1,6 +1,5 @@
 #include "GameWindow.h"
-#include "itmr.h"
-#include "ButtonsActionMap.h"
+
 
 GameWindow::GameWindow(int& w, int& h, LPCWSTR t, float screenNear, float screenDepth)
 {
@@ -319,31 +318,9 @@ void GameWindow::InitD3D()
 
 void GameWindow::Run()
 {
-	D3DXMATRIX viewMatrix, vpMatrix, finalMatrix;
-	Camera* camera = new Camera();
 	MSG msg;
-	ButtonsActionMap *input = new ButtonsActionMap(hInstance, hWnd);
-
-	ShowCursor(FALSE);
-	/*test * t = new test(dev, hWnd, devcon, D3DXVECTOR3(2, 2, 0));
-	test * t2 = new test(dev, hWnd, devcon, D3DXVECTOR3(-2, -2, 0));*/
-	TexturedModelBase* tb = new TexturedModelBase(dev, hWnd, devcon, D3DXVECTOR3(0, 0, 0));
-	itmr* insTest = new itmr();
-	insTest->Init(dev, hWnd, devcon);
-
-	camera->SetPosition(0.0f, -50.0f, 3.0f);
-	InstanceType_A poz;
-	InstanceType_A poz1;
-	InstanceType_A poz2;
-
-	poz.position = float3(0);
-	poz1.position = float3( 15, 0, 0);
-	poz2.position = float3(-15, 0, 0);
-
-	input->SetCamera(camera);
-
-	vpMatrix = projectionMatrix * worldMatrix;
-	float z = -25.0f;
+	
+	GameInit();
 	while (TRUE)
 	{
 		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
@@ -358,29 +335,19 @@ void GameWindow::Run()
 			break;
 		}else
 		{
-			input->Update();
-
 			devcon->ClearRenderTargetView(backbuffer, D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f));
 			devcon->ClearDepthStencilView(depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 
-			camera->Render();
-			camera->GetViewMatrix(viewMatrix);
-			finalMatrix = worldMatrix * viewMatrix * projectionMatrix;
-
-			insTest->AddInstance(poz);
-			insTest->AddInstance(poz1);
-			insTest->AddInstance(poz2);
-
-			insTest->Render(devcon, finalMatrix);
-			//tb->Render(devcon, finalMatrix);
-
+			Update();
+			Render();
+			RenderInterface();
 			
 			swapchain->Present(1, 0);
-
-			//z += 0.5f;
 		}
 		
 	}
+
+	GameShutDown();
 }
 
 void GameWindow::Close()
@@ -390,6 +357,46 @@ void GameWindow::Close()
 	dev->Release();
 	devcon->Release();
 	backbuffer->Release();
+}
+
+
+void GameWindow::GameInit()
+{
+	ShowCursor(FALSE);
+	camera = new Camera();
+	input = new ButtonsActionMap(hInstance, hWnd);
+
+	camera->SetPosition(0.0f, -50.0f, 3.0f);
+	input->SetCamera(camera);
+
+	insTest = new itmr();
+	insTest->Init(dev, hWnd, devcon);
+}
+void GameWindow::GameShutDown()
+{
+	SAFE_DELETE(camera);
+	SAFE_DELETE(input);
+	SAFE_DELETE(insTest);
+}
+
+void GameWindow::Update()
+{
+	camera->Render();
+	input->Update();
+	camera->GetViewMatrix(viewMatrix);
+	finalMatrix = worldMatrix * viewMatrix * projectionMatrix;
+
+	insTest->AddInstance(InstanceType_A(0, 0, 0));
+	insTest->AddInstance(InstanceType_A(15, 0, 0));
+	insTest->AddInstance(InstanceType_A(-15, 0, 0));
+}
+void GameWindow::Render()
+{
+	insTest->Render(devcon, finalMatrix);
+}
+void GameWindow::RenderInterface()
+{
+
 }
 
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)

@@ -154,8 +154,9 @@ typedef struct meshv2{
 typedef struct InstanceType_A
 {
 public:
-	//InstanceType_A(){};
-	//InstanceType_A(float x, float y, float z);
+	InstanceType_A(){};
+	InstanceType_A(float x, float y, float z);
+	InstanceType_A(float3 p);
 	float3 position;
 }InstanceType_A;
 
