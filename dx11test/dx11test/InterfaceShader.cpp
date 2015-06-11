@@ -45,36 +45,8 @@ void InterfaceShader::Init(ID3D11Device* dev, HWND hWnd, ID3D11DeviceContext * d
 
 	UINT index[] = {0, 1, 2, 2, 3, 0 };
 
-	ZeroMemory(&data, sizeof(D3D11_SUBRESOURCE_DATA));
-	ZeroMemory(&bufferDesc, sizeof(D3D11_BUFFER_DESC));
-
-	bufferDesc.Usage = D3D11_USAGE_DYNAMIC;                // write access access by CPU and GPU
-	bufferDesc.ByteWidth = sizeof(mesh2d) * vert_count;             // size is the TEXVERTEX struct * 3
-	bufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;       // use as a vertex buffer
-	bufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;    // allow CPU to write in buffer
-	bufferDesc.MiscFlags = 0;
-	bufferDesc.StructureByteStride = 0;
-
-	data.pSysMem = mesh;
-	data.SysMemPitch = 0;
-	data.SysMemSlicePitch = 0;
-
-	dev->CreateBuffer(&bufferDesc, &data, &pVBuffer);       // create the buffer
-
-	ZeroMemory(&data, sizeof(D3D11_SUBRESOURCE_DATA));
-	ZeroMemory(&bufferDesc, sizeof(D3D11_BUFFER_DESC));
-
-	bufferDesc.Usage = D3D11_USAGE_DEFAULT;
-	bufferDesc.ByteWidth = sizeof(unsigned long) * indexCount;
-	bufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
-	bufferDesc.CPUAccessFlags = 0;
-	bufferDesc.MiscFlags = 0;
-	bufferDesc.StructureByteStride = 0;
-
-	data.pSysMem = index;
-	data.SysMemPitch = 0;
-	data.SysMemSlicePitch = 0;
-	dev->CreateBuffer(&bufferDesc, &data, &pIBuffer);
+	pVBuffer = CreateVertexBufferHelp(dev, (sizeof(meshv1) * vert_count), mesh);
+	pIBuffer = CreateIndexBufferHelp(dev, sizeof(unsigned long) * indexCount, index);
 }
 
 void InterfaceShader::Render(ID3D11DeviceContext* devcon, float4 cube, ID3D11ShaderResourceView* texture, PSConstBuffer settings)
@@ -85,7 +57,6 @@ void InterfaceShader::Render(ID3D11DeviceContext* devcon, float4 cube, ID3D11Sha
 
 	devcon->IASetVertexBuffers(0, 1, &pVBuffer, &stride, &offset);
 	devcon->IASetIndexBuffer(pIBuffer, DXGI_FORMAT_R32_UINT, 0);
-	devcon->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	ShaderBase::SetShaderParameters(devcon, settings);
 

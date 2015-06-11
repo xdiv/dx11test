@@ -45,6 +45,7 @@ class GameWindow
 		ButtonsActionMap *input;
 		itmr* insTest;
 		InterfaceShader* is;
+		test *tst;
 
 		char m_videoCardDescription[128];
 

@@ -45,63 +45,15 @@ void itmr::Init(ID3D11Device* dev, HWND hWnd, ID3D11DeviceContext * devcon)
 	vert_count = mod->GetMeshSize();
 	indexCount = mod->GetIntSize();
 
-	D3D11_BUFFER_DESC bufferDesc;
-	D3D11_SUBRESOURCE_DATA data;
-
-	ZeroMemory(&bufferDesc, sizeof(D3D11_BUFFER_DESC));
-	ZeroMemory(&data, sizeof(D3D11_SUBRESOURCE_DATA));
-
-	bufferDesc.Usage = D3D11_USAGE_DYNAMIC;                // write access access by CPU and GPU
-	bufferDesc.ByteWidth = sizeof(meshv1) * vert_count;             // size is the TEXVERTEX struct * 3
-	bufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;       // use as a vertex buffer
-	bufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;    // allow CPU to write in buffer
-	bufferDesc.MiscFlags = 0;
-	bufferDesc.StructureByteStride = 0;
-
-	data.pSysMem = mesh;
-	data.SysMemPitch = 0;
-	data.SysMemSlicePitch = 0;
-
-	dev->CreateBuffer(&bufferDesc, &data, &pVBuffer);       // create the buffer
-
-	SAFE_DELETE(mesh);
-	SAFE_DELETE(mod);
-
-	ZeroMemory(&data, sizeof(D3D11_SUBRESOURCE_DATA));
-	ZeroMemory(&bufferDesc, sizeof(D3D11_BUFFER_DESC));
-
-	bufferDesc.Usage = D3D11_USAGE_DEFAULT;
-	bufferDesc.ByteWidth = sizeof(unsigned long) * indexCount;
-	bufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
-	bufferDesc.CPUAccessFlags = 0;
-	bufferDesc.MiscFlags = 0;
-	bufferDesc.StructureByteStride = 0;
-
-	data.pSysMem = list;
-	data.SysMemPitch = 0;
-	data.SysMemSlicePitch = 0;
-	dev->CreateBuffer(&bufferDesc, &data, &pIBuffer);
-
-	SAFE_DELETE(list);
-
-	ZeroMemory(&data, sizeof(D3D11_SUBRESOURCE_DATA));
-	ZeroMemory(&bufferDesc, sizeof(D3D11_BUFFER_DESC));
-
 	instances = new InstanceType_A[maxInstanceCount];
 
-	bufferDesc.Usage = D3D11_USAGE_DYNAMIC;                // write access access by CPU and GPU
-	bufferDesc.ByteWidth = sizeof(InstanceType_A) * maxInstanceCount;             // size is the TEXVERTEX struct * 3
-	bufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;       // use as a vertex buffer
-	bufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;    // allow CPU to write in buffer
-	bufferDesc.MiscFlags = 0;
-	bufferDesc.StructureByteStride = 0;
+	pVBuffer	= CreateVertexBufferHelp(dev, (sizeof(meshv1) * vert_count), mesh);
+	pIBuffer	= CreateIndexBufferHelp(dev, sizeof(unsigned long) * indexCount, list);
+	pInsBuffer  = CreateInstanceBufferHelp(dev, sizeof(InstanceType_A) * maxInstanceCount, list);
 
-	//vertexData.pSysMem = OurVertices;
-	data.pSysMem = instances;
-	data.SysMemPitch = 0;
-	data.SysMemSlicePitch = 0;
-
-	dev->CreateBuffer(&bufferDesc, &data, &pInsBuffer);
+	SAFE_DELETE(mesh);
+	SAFE_DELETE(list);
+	SAFE_DELETE(mod);
 
 	D3DX11CreateShaderResourceViewFromFile(dev, L"bob_body.dds", NULL, NULL, &texture, NULL);
 }
@@ -124,7 +76,6 @@ void itmr::Render(ID3D11DeviceContext *devcon, D3DXMATRIX worldMatrix)
 
 	devcon->IASetVertexBuffers(0, 2, bufferPointers, stride, offset);
 	devcon->IASetIndexBuffer(pIBuffer, DXGI_FORMAT_R32_UINT, 0);
-	devcon->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	devcon->PSSetShaderResources(0, 1, &texture);
 	tsinst->Render(devcon, worldMatrix, indexCount, instanceCount);

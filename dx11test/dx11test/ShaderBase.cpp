@@ -116,7 +116,7 @@ void ShaderBase::CreatePixelShaderBuffer(ID3D11Device* dev)
 
 	bufferDesc.Usage = D3D11_USAGE_DYNAMIC;                // write access access by CPU and GPU
 	bufferDesc.ByteWidth = sizeof(PSConstBuffer);             // size is the TEXVERTEX struct * 3
-	bufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;       // use as a vertex buffer
+	bufferDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;       // use as a vertex buffer
 	bufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;    // allow CPU to write in buffer
 	bufferDesc.MiscFlags = 0;
 	bufferDesc.StructureByteStride = 0;
@@ -209,4 +209,51 @@ void ShaderBase::OutputShaderErrorMessage(ID3D10Blob* errorMessage, HWND hwnd, W
 	MessageBox(hwnd, L"Error compiling shader.  Check shader-error.txt for message.", shaderFilename, MB_OK);
 
 	return;
+}
+
+ID3D11Buffer* CreateD3D11Buffer(ID3D11Device* dev, D3D11_USAGE usage, UINT byteWidth, UINT bindFlags, UINT cpuAccesFlags, void * data)
+{
+	D3D11_BUFFER_DESC bufferDesc;
+	D3D11_SUBRESOURCE_DATA subData;
+	ID3D11Buffer * buffer;
+	buffer = 0;
+
+	ZeroMemory(&bufferDesc, sizeof(D3D11_BUFFER_DESC));
+	ZeroMemory(&subData, sizeof(D3D11_SUBRESOURCE_DATA));
+
+	bufferDesc.Usage = usage;                // write access access by CPU and GPU
+	bufferDesc.ByteWidth = byteWidth;						   // size sizeof(struct)*elementCount
+	bufferDesc.BindFlags = bindFlags;       // use as a vertex buffer
+	bufferDesc.CPUAccessFlags = cpuAccesFlags;    // allow CPU to write in buffer
+	bufferDesc.MiscFlags = 0;
+	bufferDesc.StructureByteStride = 0;
+
+	//vertexData.pSysMem = OurVertices;
+	subData.pSysMem = data;
+	subData.SysMemPitch = 0;
+	subData.SysMemSlicePitch = 0;
+
+	//delete mesh;
+
+	dev->CreateBuffer(&bufferDesc, &subData, &buffer);       // create the buffer
+	return buffer;
+}
+
+ID3D11Buffer* CreateD3D11BufferEmpty(ID3D11Device* dev, D3D11_USAGE usage, UINT byteWidth, UINT bindFlags, UINT cpuAccesFlags)
+{
+	D3D11_BUFFER_DESC bufferDesc;
+	ID3D11Buffer * buffer;
+	buffer = 0;
+
+	ZeroMemory(&bufferDesc, sizeof(D3D11_BUFFER_DESC));
+
+	bufferDesc.Usage = usage;                // write access access by CPU and GPU
+	bufferDesc.ByteWidth = byteWidth;						   // size sizeof(struct)*elementCount
+	bufferDesc.BindFlags = bindFlags;       // use as a vertex buffer
+	bufferDesc.CPUAccessFlags = cpuAccesFlags;    // allow CPU to write in buffer
+	bufferDesc.MiscFlags = 0;
+	bufferDesc.StructureByteStride = 0;
+
+	dev->CreateBuffer(&bufferDesc, NULL, &buffer);       // create the buffer
+	return buffer;
 }

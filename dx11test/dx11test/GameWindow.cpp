@@ -19,6 +19,7 @@ GameWindow::GameWindow(int& w, int& h, LPCWSTR t, float screenNear, float screen
 
 	alphaDisableBlendingState = 0;
 	alphaEnableBlendingState = 0;
+	tst = 0;
 
 	this->screenNear = screenNear;
 	this->screenDepth = screenDepth;
@@ -357,6 +358,16 @@ void GameWindow::Run()
 			DispatchMessage(&msg);
 		}
 
+		if (msg.message == WM_SIZE)
+		{
+			RECT rect;
+			if (GetWindowRect(hWnd, &rect))
+			{
+				int width = rect.right - rect.left;
+				int height = rect.bottom - rect.top;
+			}
+		}
+
 		// If windows signals to end the application then exit out.
 		if (msg.message == WM_QUIT)
 		{
@@ -391,7 +402,7 @@ void GameWindow::Close()
 
 void GameWindow::GameInit()
 {
-	ShowCursor(FALSE);
+	//ShowCursor(FALSE);
 	camera = new Camera();
 	input = new ButtonsActionMap(hInstance, hWnd);
 
@@ -403,6 +414,10 @@ void GameWindow::GameInit()
 
 	is = new InterfaceShader();
 	is->Init(dev, hWnd, devcon);
+
+	tst = new test(dev, hWnd, devcon, D3DXVECTOR3(0, 0, 0));
+
+	devcon->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 }
 void GameWindow::GameShutDown()
 {
@@ -429,11 +444,13 @@ void GameWindow::Render()
 void GameWindow::RenderInterface()
 {
 	PSConstBuffer ps;
-	ps.color = float4(1, 0, 0, 1);
+	ps.color = float4(1, 0, 1, 0);
 	ps.hasColor = 0;
 	ps.hasTexture = 0;
 	ps.transperency = 1.0f;
 	is->Render(devcon, float4(0,0,1,1), NULL, ps);
+
+	//tst->Render(devcon, worldMatrix, viewMatrix, projectionMatrix);
 }
 
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
