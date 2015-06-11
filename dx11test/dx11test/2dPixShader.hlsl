@@ -3,10 +3,11 @@ SamplerState SampleType;
 
 cbuffer PSConstBuffer
 {
+	float3 color;
+	float transperency;
 	float hasTexture;
 	float hasColor;
-	float4 color;
-	float transperency;
+	float3 buffer;
 };
 
 struct PixelInputType

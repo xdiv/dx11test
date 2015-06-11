@@ -444,7 +444,7 @@ void GameWindow::Render()
 void GameWindow::RenderInterface()
 {
 	PSConstBuffer ps;
-	ps.color = float4(1, 0, 1, 0);
+	ps.color = float3(1, 1, 1);
 	ps.hasColor = 0;
 	ps.hasTexture = 0;
 	ps.transperency = 1.0f;

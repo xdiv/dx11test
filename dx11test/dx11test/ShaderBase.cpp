@@ -110,18 +110,19 @@ void ShaderBase::SetShaderParameters(ID3D11DeviceContext* deviceContext, D3DXMAT
 
 void ShaderBase::CreatePixelShaderBuffer(ID3D11Device* dev)
 {
+	HRESULT result;
 	D3D11_BUFFER_DESC bufferDesc;
 
-	ZeroMemory(&bufferDesc, sizeof(D3D11_BUFFER_DESC));
+	//ZeroMemory(&bufferDesc, sizeof(D3D11_BUFFER_DESC));
 
 	bufferDesc.Usage = D3D11_USAGE_DYNAMIC;                // write access access by CPU and GPU
 	bufferDesc.ByteWidth = sizeof(PSConstBuffer);             // size is the TEXVERTEX struct * 3
-	bufferDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;       // use as a vertex buffer
+	bufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;       // use as a vertex buffer
 	bufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;    // allow CPU to write in buffer
 	bufferDesc.MiscFlags = 0;
 	bufferDesc.StructureByteStride = 0;
 
-	dev->CreateBuffer(&bufferDesc, NULL, &IPxBuffer);       // create the buffer
+	result = dev->CreateBuffer(&bufferDesc, NULL, &IPxBuffer);       // create the buffer
 }
 
 void ShaderBase::SetShaderParameters(ID3D11DeviceContext* devcon, PSConstBuffer buffer)
@@ -133,11 +134,16 @@ void ShaderBase::SetShaderParameters(ID3D11DeviceContext* devcon, PSConstBuffer 
 	// Get a pointer to the data in the transparent constant buffer.
 	dataPtr = (PSConstBuffer*)mappedResource.pData;
 
-	// Copy the matrices into the constant buffer.
-	dataPtr->hasTexture = buffer.hasTexture;
-	dataPtr->hasColor = buffer.hasColor;
 	dataPtr->color = buffer.color;
 	dataPtr->transperency = buffer.transperency;
+	// Copy into the constant buffer.
+	dataPtr->hasTexture = buffer.hasTexture;
+	dataPtr->hasColor = buffer.hasColor;
+
+	bool hasTexture;
+	bool hasColor;
+	float3 color;
+	float transperency;
 
 	// Unlock the buffer.
 	devcon->Unmap(IPxBuffer, 0);
@@ -152,7 +158,6 @@ void ShaderBase::SetShaderParameters(ID3D11DeviceContext* deviceContext, D3DXMAT
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 	MatrixBufferTypeB* dataPtr;
 	unsigned int bufferNumber;
-
 
 	// Transpose the matrices to prepare them for the shader.
 	D3DXMatrixTranspose(&worldMatrix, &worldMatrix);

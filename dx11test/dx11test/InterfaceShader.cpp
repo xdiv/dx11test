@@ -35,25 +35,26 @@ void InterfaceShader::Init(ID3D11Device* dev, HWND hWnd, ID3D11DeviceContext * d
 	D3D11_BUFFER_DESC bufferDesc;
 	D3D11_SUBRESOURCE_DATA data;
 
-	mesh2d mesh[] =
+	mesh2d mesh[4] =
 	{
-		mesh2d(0, 0, 0, 0, 1),
+		mesh2d(0, 0, 0, 0, 0),
 		mesh2d(0, 1, 0, 0, 1),
-		mesh2d(1, 1, 0, 0, 1),
-		mesh2d(1, 0, 0, 0, 1)
+		mesh2d(1, 1, 0, 1, 1),
+		mesh2d(1, 0, 0, 1, 0)
 	};
 
 	UINT index[] = {0, 1, 2, 2, 3, 0 };
 
-	pVBuffer = CreateVertexBufferHelp(dev, (sizeof(meshv1) * vert_count), mesh);
+	pVBuffer = CreateVertexBufferHelp(dev, (sizeof(mesh2d) * vert_count), mesh);
 	pIBuffer = CreateIndexBufferHelp(dev, sizeof(unsigned long) * indexCount, index);
 }
 
 void InterfaceShader::Render(ID3D11DeviceContext* devcon, float4 cube, ID3D11ShaderResourceView* texture, PSConstBuffer settings)
 {
-	UINT stride = sizeof(mesh2d), offset=0;
+	UINT stride = sizeof(mesh2d);
+	UINT offset = 0;
 
-	//BuildSquare(devcon, cube);
+	BuildSquare(devcon, cube);
 
 	devcon->IASetVertexBuffers(0, 1, &pVBuffer, &stride, &offset);
 	devcon->IASetIndexBuffer(pIBuffer, DXGI_FORMAT_R32_UINT, 0);
@@ -63,12 +64,13 @@ void InterfaceShader::Render(ID3D11DeviceContext* devcon, float4 cube, ID3D11Sha
 	if (texture)
 		devcon->PSSetShaderResources(0, 1, &texture);
 
-	devcon->IASetInputLayout(pLayout);
-
 	// Set the vertex and pixel shaders that will be used to render this triangle.
 	devcon->VSSetShader(pVS, NULL, 0);
 	devcon->PSSetShader(pPS, NULL, 0);
-	devcon->Draw(indexCount, 0);
+
+	devcon->IASetInputLayout(pLayout);
+
+	devcon->DrawIndexed(indexCount, 0, 0);
 }
 
 void InterfaceShader::BuildSquare(ID3D11DeviceContext* devcon, float4 cube)
@@ -78,12 +80,10 @@ void InterfaceShader::BuildSquare(ID3D11DeviceContext* devcon, float4 cube)
 	mesh2d mesh[] =
 	{
 		mesh2d(cube.x, cube.y, 0, 0, 0),
-		mesh2d(cube.x + cube.z, cube.y, 0, 0, 1),
+		mesh2d(cube.x, cube.y + cube.w, 0, 0, 1),
 		mesh2d(cube.x + cube.z, cube.y + cube.w, 0, 1, 1),
-		mesh2d(cube.x, cube.y + cube.w, 0, 1, 0)
+		mesh2d(cube.x + cube.z, cube.y, 0, 1, 0),
 	};
-
-	//UINT index[] = {0, 3, 2, 0, 2, 1};
 
 	devcon->Map(pVBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource); // lock the instance buffer        
 	memcpy((mesh2d*)mappedResource.pData, mesh, sizeof(mesh2d) * vert_count); //overwrite instance buffer with new data

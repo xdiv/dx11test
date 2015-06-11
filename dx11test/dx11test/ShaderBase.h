@@ -24,10 +24,11 @@ struct MatrixBufferTypeA
 
 struct PSConstBuffer
 {
+	float3 color;
+	float transperency;
 	float hasTexture;
 	float hasColor;
-	float4 color;
-	float transperency;
+	float2 buffer;
 };
 
 struct MatrixBufferTypeB
