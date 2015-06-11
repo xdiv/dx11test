@@ -143,10 +143,13 @@ typedef struct meshv1{
 	int           WeightCount;
 } meshv1;
 
-typedef struct meshv2{
+typedef struct mesh2d{
+public:
+	mesh2d(){};
+	mesh2d(float px, float py, float pz, float tx, float ty);
 	float3   Pos;
 	float2   Tex0;
-} meshv2;
+} mesh2d;
 
 //--------------------------------------------------------------------------------------------------------------
 //meshes

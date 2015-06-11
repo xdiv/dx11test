@@ -28,14 +28,17 @@
     <Filter Include="Renderers">
       <UniqueIdentifier>{941f3afe-bcbf-43fd-8188-024da8877e78}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Renderers\Shader">
-      <UniqueIdentifier>{b998b14b-1b15-439d-bb11-dffea6a13781}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Renderers\models">
       <UniqueIdentifier>{ecd49a85-e2ad-43f7-aa16-b8ea5f7f91ba}</UniqueIdentifier>
     </Filter>
     <Filter Include="input">
       <UniqueIdentifier>{104ef39b-72da-4b0f-959b-ece9b4e08479}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderers\Shader 3D">
+      <UniqueIdentifier>{b998b14b-1b15-439d-bb11-dffea6a13781}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderers\Shader 2D">
+      <UniqueIdentifier>{2db5eb3f-05cb-4f05-82c1-7d7c1ce0830a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -73,22 +76,25 @@
       <Filter>Renderers\models</Filter>
     </ClCompile>
     <ClCompile Include="ColorShader.cpp">
-      <Filter>Renderers\Shader</Filter>
+      <Filter>Renderers\Shader 3D</Filter>
     </ClCompile>
     <ClCompile Include="InstanedShader.cpp">
-      <Filter>Renderers\Shader</Filter>
-    </ClCompile>
-    <ClCompile Include="ShaderBase.cpp">
-      <Filter>Renderers\Shader</Filter>
+      <Filter>Renderers\Shader 3D</Filter>
     </ClCompile>
     <ClCompile Include="TextureShader.cpp">
-      <Filter>Renderers\Shader</Filter>
+      <Filter>Renderers\Shader 3D</Filter>
     </ClCompile>
     <ClCompile Include="InputClass.cpp">
       <Filter>input</Filter>
     </ClCompile>
     <ClCompile Include="ButtonsActionMap.cpp">
       <Filter>input</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderBase.cpp">
+      <Filter>Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="InterfaceShader.cpp">
+      <Filter>Renderers\Shader 2D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -129,22 +135,25 @@
       <Filter>Renderers\models</Filter>
     </ClInclude>
     <ClInclude Include="ColorShader.h">
-      <Filter>Renderers\Shader</Filter>
+      <Filter>Renderers\Shader 3D</Filter>
     </ClInclude>
     <ClInclude Include="InstanedShader.h">
-      <Filter>Renderers\Shader</Filter>
-    </ClInclude>
-    <ClInclude Include="ShaderBase.h">
-      <Filter>Renderers\Shader</Filter>
+      <Filter>Renderers\Shader 3D</Filter>
     </ClInclude>
     <ClInclude Include="TextureShader.h">
-      <Filter>Renderers\Shader</Filter>
+      <Filter>Renderers\Shader 3D</Filter>
     </ClInclude>
     <ClInclude Include="InputClass.h">
       <Filter>input</Filter>
     </ClInclude>
     <ClInclude Include="ButtonsActionMap.h">
       <Filter>input</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderBase.h">
+      <Filter>Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="InterfaceShader.h">
+      <Filter>Renderers\Shader 2D</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -158,6 +167,12 @@
       <Filter>Resource Files\Pixel</Filter>
     </None>
     <None Include="VertexShader.hlsl">
+      <Filter>Resource Files\Vertex</Filter>
+    </None>
+    <None Include="2dPixShader.hlsl">
+      <Filter>Resource Files\Pixel</Filter>
+    </None>
+    <None Include="2dVertShader.hlsl">
       <Filter>Resource Files\Vertex</Filter>
     </None>
   </ItemGroup>

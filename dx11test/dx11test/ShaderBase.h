@@ -1,7 +1,7 @@
 #pragma once
 
 #include "DX_Global.h"
-
+#include "complex_types.h"
 
 #include <fstream>
 #include "PublicData.h"
@@ -20,6 +20,14 @@ struct MatrixBufferTypeA
 	D3DXMATRIX projection;
 };
 
+struct PSConstBuffer
+{
+	float hasTexture;
+	float hasColor;
+	float4 color;
+	float transperency;
+};
+
 struct MatrixBufferTypeB
 {
 	D3DXMATRIX world;
@@ -29,6 +37,7 @@ class ShaderBase
 {
 protected:
 	ID3D11Buffer* m_matrixBuffer;
+	ID3D11Buffer* IPxBuffer;
 	ID3D11VertexShader *pVS;    // the vertex shader
 	ID3D11PixelShader *pPS;     // the pixel shader
 	ID3D11InputLayout *pLayout;    // global
@@ -42,6 +51,8 @@ protected:
 	void Init(ID3D11Device*, HWND, WCHAR*, WCHAR*, ID3D11DeviceContext*, D3D11_INPUT_ELEMENT_DESC *, int);
 	void SetShaderParameters(ID3D11DeviceContext* deviceContext, D3DXMATRIX worldMatrix, D3DXMATRIX viewMatrix, D3DXMATRIX projectionMatrix);
 
+	void CreatePixelShaderBuffer(ID3D11Device* dev);
+	void SetShaderParameters(ID3D11DeviceContext* devcon, PSConstBuffer buffer);
 public:
 	ShaderBase();
 	~ShaderBase();

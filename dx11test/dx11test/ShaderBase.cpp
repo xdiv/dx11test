@@ -6,13 +6,12 @@ ShaderBase::ShaderBase()
 	pPS = 0;     // the pixel shader
 	pLayout = 0;    // global
 	m_matrixBuffer = 0;
+	IPxBuffer = 0;
 }
 
 ShaderBase::~ShaderBase()
 {
-	SAFE_RELEASE(pLayout);
-	SAFE_RELEASE(pVS);
-	SAFE_RELEASE(pPS);
+	Relese();
 }
 
 void ShaderBase::Relese()
@@ -21,6 +20,7 @@ void ShaderBase::Relese()
 	SAFE_RELEASE(pVS);
 	SAFE_RELEASE(pPS);
 	SAFE_RELEASE(m_matrixBuffer);
+	SAFE_RELEASE(IPxBuffer);
 }
 
 void ShaderBase::Init(ID3D11Device* dev, HWND hwnd, WCHAR* vsFilename, WCHAR* psFilename, ID3D11DeviceContext* devcon, D3D11_INPUT_ELEMENT_DESC * iedf, int desc_count)
@@ -40,17 +40,11 @@ void ShaderBase::Init(ID3D11Device* dev, HWND hwnd, WCHAR* vsFilename, WCHAR* ps
 	{
 		OutputShaderErrorMessage(errorMessage, hwnd, psFilename);
 	}
-	// encapsulate both shaders into shader objects
+
 	dev->CreateVertexShader(VS->GetBufferPointer(), VS->GetBufferSize(), NULL, &pVS);
 	dev->CreatePixelShader(PS->GetBufferPointer(), PS->GetBufferSize(), NULL, &pPS);
 
-	// set the shader objects
-	//devcon->VSSetShader(pVS, 0, 0);
-	///devcon->PSSetShader(pPS, 0, 0);
-	
-
 	dev->CreateInputLayout(iedf, desc_count, VS->GetBufferPointer(), VS->GetBufferSize(), &pLayout);
-	//devcon->IASetInputLayout(pLayout);
 
 	SAFE_RELEASE(VS);
 	SAFE_RELEASE(PS);
@@ -112,6 +106,44 @@ void ShaderBase::SetShaderParameters(ID3D11DeviceContext* deviceContext, D3DXMAT
 
 	// Finanly set the constant buffer in the vertex shader with the updated values.
 	deviceContext->VSSetConstantBuffers(bufferNumber, 1, &m_matrixBuffer);
+}
+
+void ShaderBase::CreatePixelShaderBuffer(ID3D11Device* dev)
+{
+	D3D11_BUFFER_DESC bufferDesc;
+
+	ZeroMemory(&bufferDesc, sizeof(D3D11_BUFFER_DESC));
+
+	bufferDesc.Usage = D3D11_USAGE_DYNAMIC;                // write access access by CPU and GPU
+	bufferDesc.ByteWidth = sizeof(PSConstBuffer);             // size is the TEXVERTEX struct * 3
+	bufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;       // use as a vertex buffer
+	bufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;    // allow CPU to write in buffer
+	bufferDesc.MiscFlags = 0;
+	bufferDesc.StructureByteStride = 0;
+
+	dev->CreateBuffer(&bufferDesc, NULL, &IPxBuffer);       // create the buffer
+}
+
+void ShaderBase::SetShaderParameters(ID3D11DeviceContext* devcon, PSConstBuffer buffer)
+{
+	D3D11_MAPPED_SUBRESOURCE mappedResource;
+	PSConstBuffer* dataPtr;
+	devcon->Map(IPxBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+
+	// Get a pointer to the data in the transparent constant buffer.
+	dataPtr = (PSConstBuffer*)mappedResource.pData;
+
+	// Copy the matrices into the constant buffer.
+	dataPtr->hasTexture = buffer.hasTexture;
+	dataPtr->hasColor = buffer.hasColor;
+	dataPtr->color = buffer.color;
+	dataPtr->transperency = buffer.transperency;
+
+	// Unlock the buffer.
+	devcon->Unmap(IPxBuffer, 0);
+
+	// Now set the texture translation constant buffer in the pixel shader with the updated values.
+	devcon->PSSetConstantBuffers(0, 1, &IPxBuffer);
 }
 
 void ShaderBase::SetShaderParameters(ID3D11DeviceContext* deviceContext, D3DXMATRIX worldMatrix)

@@ -11,6 +11,8 @@
 #include "InstanedShader.h"
 #include "itmr.h"
 #include "ButtonsActionMap.h"
+#include "InterfaceShader.h"
+#include "test.h"
 
 #pragma comment (lib, "d3d11.lib")
 #pragma comment (lib, "d3dx11.lib")
@@ -36,10 +38,13 @@ class GameWindow
 		ID3D11DepthStencilView* depthStencilView;
 		ID3D11RasterizerState* rasterState;
 
+		ID3D11BlendState *alphaEnableBlendingState, *alphaDisableBlendingState;
+
 		D3DXMATRIX viewMatrix, finalMatrix;
 		Camera* camera;
 		ButtonsActionMap *input;
 		itmr* insTest;
+		InterfaceShader* is;
 
 		char m_videoCardDescription[128];
 

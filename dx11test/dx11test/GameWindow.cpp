@@ -17,6 +17,9 @@ GameWindow::GameWindow(int& w, int& h, LPCWSTR t, float screenNear, float screen
 	depthStencilView = 0;
 	rasterState = 0;
 
+	alphaDisableBlendingState = 0;
+	alphaEnableBlendingState = 0;
+
 	this->screenNear = screenNear;
 	this->screenDepth = screenDepth;
 }
@@ -34,7 +37,9 @@ GameWindow::~GameWindow()
 
 void GameWindow::ShutDown()
 {
-	
+	SAFE_RELEASE(alphaDisableBlendingState);
+	SAFE_RELEASE(alphaEnableBlendingState);
+
 	swapchain->SetFullscreenState(false, NULL);
 
 	SAFE_RELEASE(rasterState);
@@ -112,6 +117,7 @@ void GameWindow::InitD3D()
 	D3D11_RASTERIZER_DESC rasterDesc;
 	float fieldOfView, screenAspect;
 	D3D_FEATURE_LEVEL featureLevel;
+	D3D11_BLEND_DESC blendStateDescription;
 	/*
 	IDXGIFactory* factory;
 	HRESULT result;
@@ -289,6 +295,28 @@ void GameWindow::InitD3D()
 	dev->CreateRasterizerState(&rasterDesc, &rasterState);
 	devcon->RSSetState(rasterState);
 
+	ZeroMemory(&blendStateDescription, sizeof(D3D11_BLEND_DESC));
+
+	// Create an alpha enabled blend state description.
+	blendStateDescription.RenderTarget[0].BlendEnable = TRUE;
+	//blendStateDescription.RenderTarget[0].SrcBlend = D3D11_BLEND_ONE;
+	blendStateDescription.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
+	blendStateDescription.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+	blendStateDescription.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+	blendStateDescription.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
+	blendStateDescription.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
+	blendStateDescription.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+	blendStateDescription.RenderTarget[0].RenderTargetWriteMask = 0x0f;
+
+	// Create the blend state using the description.
+	result = dev->CreateBlendState(&blendStateDescription, &alphaEnableBlendingState);
+
+	// Modify the description to create an alpha disabled blend state description.
+	blendStateDescription.RenderTarget[0].BlendEnable = FALSE;
+
+	// Create the blend state using the description.
+	//result = dev->CreateBlendState(&blendStateDescription, &alphaDisableBlendingState);
+
 	// Set the viewport
 	ZeroMemory(&viewport, sizeof(D3D11_VIEWPORT));
 
@@ -319,7 +347,7 @@ void GameWindow::InitD3D()
 void GameWindow::Run()
 {
 	MSG msg;
-	
+	//test * t = new test(dev, hWnd, devcon, D3DXVECTOR3(0, 0, 0));
 	GameInit();
 	while (TRUE)
 	{
@@ -337,9 +365,10 @@ void GameWindow::Run()
 		{
 			devcon->ClearRenderTargetView(backbuffer, D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f));
 			devcon->ClearDepthStencilView(depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
-
+			
 			Update();
 			Render();
+			//t->Render(devcon, worldMatrix, viewMatrix, projectionMatrix);
 			RenderInterface();
 			
 			swapchain->Present(1, 0);
@@ -371,6 +400,9 @@ void GameWindow::GameInit()
 
 	insTest = new itmr();
 	insTest->Init(dev, hWnd, devcon);
+
+	is = new InterfaceShader();
+	is->Init(dev, hWnd, devcon);
 }
 void GameWindow::GameShutDown()
 {
@@ -387,8 +419,8 @@ void GameWindow::Update()
 	finalMatrix = worldMatrix * viewMatrix * projectionMatrix;
 
 	insTest->AddInstance(InstanceType_A(0, 0, 0));
-	insTest->AddInstance(InstanceType_A(15, 0, 0));
-	insTest->AddInstance(InstanceType_A(-15, 0, 0));
+	insTest->AddInstance(InstanceType_A(15, 15, 0));
+	//insTest->AddInstance(InstanceType_A(-15, 0, 0));
 }
 void GameWindow::Render()
 {
@@ -396,7 +428,12 @@ void GameWindow::Render()
 }
 void GameWindow::RenderInterface()
 {
-
+	PSConstBuffer ps;
+	ps.color = float4(1, 0, 0, 1);
+	ps.hasColor = 0;
+	ps.hasTexture = 0;
+	ps.transperency = 1.0f;
+	is->Render(devcon, float4(0,0,1,1), NULL, ps);
 }
 
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)

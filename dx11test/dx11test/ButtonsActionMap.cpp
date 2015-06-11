@@ -11,7 +11,7 @@ ButtonsActionMap::ButtonsActionMap(HINSTANCE hInstance, HWND hWnd)
 	moveLeft  = KEY_A;
 	moveRigth = KEY_D;
 	moveUp	  = KEY_SPACE;
-	moveDow	  = KEY_LCONTROL;
+	moveDow	  = KEY_C;
 	exit	  = KEY_ESCAPE;
 }
 
@@ -41,36 +41,36 @@ void ButtonsActionMap::SetCamera(Camera* cam)
 
 void ButtonsActionMap::MoveForward()
 {
-	if(input->KeyPressedDown(KEY_W) || input->KeyHoldDown(KEY_W))
+	if (input->KeyPressedDown(moveForw) || input->KeyHoldDown(moveForw))
 		camera->MoveCamera(0.0f, 0.2f, 0.0f);
 }
 
 void ButtonsActionMap::MoveBack()
 {
-	if(input->KeyPressedDown(KEY_S) || input->KeyHoldDown(KEY_S))
+	if (input->KeyPressedDown(moveBack) || input->KeyHoldDown(moveBack))
 		camera->MoveCamera(0.0f, -0.2f, 0.0f);
 }
 
 void ButtonsActionMap::MoveLeft()
 {
-	if(input->KeyPressedDown(KEY_A) || input->KeyHoldDown(KEY_A))
+	if (input->KeyPressedDown(moveLeft) || input->KeyHoldDown(moveLeft))
 		camera->MoveCamera(0.2f, 0.0f, 0.0f);
 }
 
 void ButtonsActionMap::MoveRight()
 {
-	if(input->KeyPressedDown(KEY_D) || input->KeyHoldDown(KEY_D))
+	if (input->KeyPressedDown(moveRigth) || input->KeyHoldDown(moveRigth))
 		camera->MoveCamera(-0.2f, 0.0f, 0.0f);
 }
 
 void ButtonsActionMap::MoveUp()
 {
-	if(input->KeyPressedDown(KEY_SPACE) || input->KeyHoldDown(KEY_SPACE))
+	if (input->KeyPressedDown(moveUp) || input->KeyHoldDown(moveUp))
 		camera->MoveCamera(0.0f, 0.0f, 0.2f);
 }
 
 void ButtonsActionMap::MoveDown()
 {
-	if(input->KeyPressedDown(KEY_LCONTROL) || input->KeyHoldDown(KEY_LCONTROL))
+	if (input->KeyPressedDown(moveDow) || input->KeyHoldDown(moveDow))
 		camera->MoveCamera(0.0f, 0.0f, -0.2f);
 }
