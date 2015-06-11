@@ -60,6 +60,8 @@ class GameWindow
 		void Close();
 		void Run();
 		void ShutDown();
+		void TurnOnAlphaBlending();
+		void TurnOffAlphaBlending();
 
 		void GameInit();
 		void GameShutDown();

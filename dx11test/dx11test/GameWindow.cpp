@@ -399,6 +399,41 @@ void GameWindow::Close()
 	backbuffer->Release();
 }
 
+void GameWindow::TurnOnAlphaBlending()
+{
+	float blendFactor[4];
+
+	ZeroMemory(blendFactor, ARRAYSIZE(blendFactor));
+	// Setup the blend factor.
+	/*blendFactor[0] = 0.0f;
+	blendFactor[1] = 0.0f;
+	blendFactor[2] = 0.0f;
+	blendFactor[3] = 0.0f;*/
+
+	// Turn on the alpha blending.
+	devcon->OMSetBlendState(alphaEnableBlendingState, blendFactor, 0xffffffff);
+
+	return;
+}
+
+
+void GameWindow::TurnOffAlphaBlending()
+{
+	float blendFactor[4];
+
+	ZeroMemory(blendFactor, ARRAYSIZE(blendFactor));
+	// Setup the blend factor.
+	/*blendFactor[0] = 0.0f;
+	blendFactor[1] = 0.0f;
+	blendFactor[2] = 0.0f;
+	blendFactor[3] = 0.0f;*/
+
+	// Turn off the alpha blending.
+	devcon->OMSetBlendState(alphaDisableBlendingState, blendFactor, 0xffffffff);
+
+	return;
+}
+
 
 void GameWindow::GameInit()
 {
@@ -418,6 +453,8 @@ void GameWindow::GameInit()
 	tst = new test(dev, hWnd, devcon, D3DXVECTOR3(0, 0, 0));
 
 	devcon->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	TurnOnAlphaBlending();
 }
 void GameWindow::GameShutDown()
 {
@@ -441,15 +478,15 @@ void GameWindow::Render()
 {
 	insTest->Render(devcon, finalMatrix);
 }
+
 void GameWindow::RenderInterface()
 {
 	PSConstBuffer ps;
 	ps.color = float3(1, 1, 1);
 	ps.hasColor = 0;
 	ps.hasTexture = 0;
-	ps.transperency = 1.0f;
+	ps.transperency = 0.5f;
 	is->Render(devcon, float4(0,0,1,1), NULL, ps);
-
 	//tst->Render(devcon, worldMatrix, viewMatrix, projectionMatrix);
 }
 
