@@ -148,6 +148,7 @@
     <ClCompile Include="complex_types.cpp" />
     <ClCompile Include="dx11test.cpp" />
     <ClCompile Include="DXMath.cpp" />
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameWindow.cpp" />
     <ClCompile Include="InputClass.cpp" />
     <ClCompile Include="InstanedShader.cpp" />
@@ -168,6 +169,7 @@
     <ClInclude Include="ColorShader.h" />
     <ClInclude Include="DX_Global.h" />
     <ClInclude Include="DXMath.h" />
+    <ClInclude Include="Game.h" />
     <ClInclude Include="GameWindow.h" />
     <ClInclude Include="InputClass.h" />
     <ClInclude Include="InstanedShader.h" />

@@ -4,16 +4,6 @@
 
 #include "DX_Global.h"
 
-#include "Camera.h"
-#include "PublicData.h"
-#include "test.h"
-#include "TexturedModelBase.h"
-#include "InstanedShader.h"
-#include "itmr.h"
-#include "ButtonsActionMap.h"
-#include "InterfaceShader.h"
-#include "test.h"
-
 #pragma comment (lib, "d3d11.lib")
 #pragma comment (lib, "d3dx11.lib")
 #pragma comment (lib, "d3dx10.lib")
@@ -22,9 +12,9 @@ class GameWindow
 {
 	private:
 		int m_videoCardMemory;
-		int screenWidth, screenHeight;
+		static LONG screenWidth, screenHeight;
 		float screenNear, screenDepth;
-
+		bool vsync_enabled;
 		HWND hWnd;
 		HINSTANCE hInstance;
 
@@ -37,38 +27,37 @@ class GameWindow
 		ID3D11DepthStencilState* depthStencilState;
 		ID3D11DepthStencilView* depthStencilView;
 		ID3D11RasterizerState* rasterState;
-
 		ID3D11BlendState *alphaEnableBlendingState, *alphaDisableBlendingState;
-
-		D3DXMATRIX viewMatrix, finalMatrix;
-		Camera* camera;
-		ButtonsActionMap *input;
-		itmr* insTest;
-		InterfaceShader* is;
-		test *tst;
+		//renderTargetView
 
 		char m_videoCardDescription[128];
 
 		D3DXMATRIX projectionMatrix;
 		D3DXMATRIX worldMatrix;
 		D3DXMATRIX orthoMatrix;
+	protected:
+		GameWindow(GameWindow&){};
 	public:
-		GameWindow(int&, int&, LPCWSTR, float screenNear, float screenDepth);
+		GameWindow(LONG&, LONG&, LPCWSTR, float screenNear, float screenDepth);
 		~GameWindow();
 		void InitializeWindows();
 		void InitD3D();
-		void Close();
-		void Run();
 		void ShutDown();
 		void TurnOnAlphaBlending();
 		void TurnOffAlphaBlending();
 
-		void GameInit();
-		void GameShutDown();
-		void Update();
-		void Render();
-		void RenderInterface();
+		D3DXMATRIX GetWorlM();
+		D3DXMATRIX GetProjectionM();
+		ID3D11Device* GetDevice();
+		ID3D11DeviceContext* GetDeviceContext();
+		HWND GetHwnd();
+		HINSTANCE GetHinstance();
+
+		void BeginScene();
+		void EndScene();
+		void VSinc(bool state);
+		static void NewGameWindowSize(LONG width, LONG heigth);
 };
 
-LRESULT CALLBACK WindowProc(HWND hWnd, 	UINT message, WPARAM wParam, LPARAM lParam);
+LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 

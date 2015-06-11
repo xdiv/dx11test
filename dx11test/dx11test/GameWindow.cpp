@@ -1,7 +1,7 @@
 #include "GameWindow.h"
+#include "PublicData.h"
 
-
-GameWindow::GameWindow(int& w, int& h, LPCWSTR t, float screenNear, float screenDepth)
+GameWindow::GameWindow(LONG& w, LONG& h, LPCWSTR t, float screenNear, float screenDepth)
 {
 	title = t;
 	screenHeight = h;
@@ -19,7 +19,6 @@ GameWindow::GameWindow(int& w, int& h, LPCWSTR t, float screenNear, float screen
 
 	alphaDisableBlendingState = 0;
 	alphaEnableBlendingState = 0;
-	tst = 0;
 
 	this->screenNear = screenNear;
 	this->screenDepth = screenDepth;
@@ -38,33 +37,21 @@ GameWindow::~GameWindow()
 
 void GameWindow::ShutDown()
 {
+	if (swapchain)
+		swapchain->SetFullscreenState(false, NULL);
+	SAFE_RELEASE(swapchain);
+
 	SAFE_RELEASE(alphaDisableBlendingState);
 	SAFE_RELEASE(alphaEnableBlendingState);
 
-	swapchain->SetFullscreenState(false, NULL);
-
 	SAFE_RELEASE(rasterState);
+	SAFE_RELEASE(depthStencilView);
+	SAFE_RELEASE(depthStencilState);
+	SAFE_RELEASE(depthStencilBuffer);
 
-	depthStencilView->Release();
-	depthStencilView = 0;
-
-	depthStencilState->Release();
-	depthStencilState = 0;
-
-	depthStencilBuffer->Release();
-	depthStencilBuffer = 0;
-
-	backbuffer->Release();
-	backbuffer = 0;
-
-	devcon->Release();
-	devcon = 0;
-
-	dev->Release();
-	dev = 0;
-
-	swapchain->Release();
-	swapchain = 0;
+	SAFE_RELEASE(backbuffer);
+	SAFE_RELEASE(devcon);
+	SAFE_RELEASE(dev);
 }
 
 void GameWindow::InitializeWindows()
@@ -345,60 +332,6 @@ void GameWindow::InitD3D()
 	D3DXMatrixOrthoLH(&orthoMatrix, (float)screenWidth, (float)screenHeight, screenNear, screenDepth);
 }
 
-void GameWindow::Run()
-{
-	MSG msg;
-	//test * t = new test(dev, hWnd, devcon, D3DXVECTOR3(0, 0, 0));
-	GameInit();
-	while (TRUE)
-	{
-		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
-		{
-			TranslateMessage(&msg);
-			DispatchMessage(&msg);
-		}
-
-		if (msg.message == WM_SIZE)
-		{
-			RECT rect;
-			if (GetWindowRect(hWnd, &rect))
-			{
-				int width = rect.right - rect.left;
-				int height = rect.bottom - rect.top;
-			}
-		}
-
-		// If windows signals to end the application then exit out.
-		if (msg.message == WM_QUIT)
-		{
-			break;
-		}else
-		{
-			devcon->ClearRenderTargetView(backbuffer, D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f));
-			devcon->ClearDepthStencilView(depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
-			
-			Update();
-			Render();
-			//t->Render(devcon, worldMatrix, viewMatrix, projectionMatrix);
-			RenderInterface();
-			
-			swapchain->Present(1, 0);
-		}
-		
-	}
-
-	GameShutDown();
-}
-
-void GameWindow::Close()
-{
-	swapchain->Release();
-
-	dev->Release();
-	devcon->Release();
-	backbuffer->Release();
-}
-
 void GameWindow::TurnOnAlphaBlending()
 {
 	float blendFactor[4];
@@ -415,7 +348,6 @@ void GameWindow::TurnOnAlphaBlending()
 
 	return;
 }
-
 
 void GameWindow::TurnOffAlphaBlending()
 {
@@ -434,60 +366,61 @@ void GameWindow::TurnOffAlphaBlending()
 	return;
 }
 
-
-void GameWindow::GameInit()
+void GameWindow::BeginScene()
 {
-	//ShowCursor(FALSE);
-	camera = new Camera();
-	input = new ButtonsActionMap(hInstance, hWnd);
-
-	camera->SetPosition(0.0f, -50.0f, 3.0f);
-	input->SetCamera(camera);
-
-	insTest = new itmr();
-	insTest->Init(dev, hWnd, devcon);
-
-	is = new InterfaceShader();
-	is->Init(dev, hWnd, devcon);
-
-	tst = new test(dev, hWnd, devcon, D3DXVECTOR3(0, 0, 0));
-
-	devcon->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-	TurnOnAlphaBlending();
+	devcon->ClearRenderTargetView(backbuffer, D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f));
+	devcon->ClearDepthStencilView(depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 }
-void GameWindow::GameShutDown()
+void GameWindow::EndScene()
 {
-	SAFE_DELETE(camera);
-	SAFE_DELETE(input);
-	SAFE_DELETE(insTest);
+	if (vsync_enabled)
+		// Lock to screen refresh rate.
+		swapchain->Present(1, 0);
+	else
+		// Present as fast as possible.
+		swapchain->Present(0, 0);
+
 }
 
-void GameWindow::Update()
+D3DXMATRIX GameWindow::GetWorlM()
 {
-	camera->Render();
-	input->Update();
-	camera->GetViewMatrix(viewMatrix);
-	finalMatrix = worldMatrix * viewMatrix * projectionMatrix;
-
-	insTest->AddInstance(InstanceType_A(0, 0, 0));
-	insTest->AddInstance(InstanceType_A(15, 15, 0));
-	//insTest->AddInstance(InstanceType_A(-15, 0, 0));
-}
-void GameWindow::Render()
-{
-	insTest->Render(devcon, finalMatrix);
+	return worldMatrix;
 }
 
-void GameWindow::RenderInterface()
+D3DXMATRIX GameWindow::GetProjectionM()
 {
-	PSConstBuffer ps;
-	ps.color = float3(1, 1, 1);
-	ps.hasColor = 0;
-	ps.hasTexture = 0;
-	ps.transperency = 0.5f;
-	is->Render(devcon, float4(0,0,1,1), NULL, ps);
-	//tst->Render(devcon, worldMatrix, viewMatrix, projectionMatrix);
+	return projectionMatrix;
+}
+
+ID3D11Device* GameWindow::GetDevice()
+{
+	return dev;
+}
+
+ID3D11DeviceContext* GameWindow::GetDeviceContext()
+{
+	return devcon;
+}
+
+HWND GameWindow::GetHwnd()
+{
+	return hWnd;
+}
+
+void GameWindow::VSinc(bool state)
+{
+	vsync_enabled = state;
+}
+
+HINSTANCE GameWindow::GetHinstance()
+{
+	return hInstance;
+}
+
+void GameWindow::NewGameWindowSize(LONG width, LONG heigth)
+{
+	screenWidth = width;
+	screenHeight = heigth;
 }
 
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -507,8 +440,7 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 			RECT rect;
 			if (GetWindowRect(hWnd, &rect))
 			{
-				int width = rect.right - rect.left;
-				int height = rect.bottom - rect.top;
+				GameWindow::NewGameWindowSize(rect.right - rect.left, rect.bottom - rect.top);
 			}
 		} break;
 	}
