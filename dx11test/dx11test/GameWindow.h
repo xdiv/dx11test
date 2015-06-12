@@ -1,5 +1,7 @@
 #pragma once
 
+#ifndef __GAME_WINDOW__
+#define __GAME_WINDOW__
 #define WIN32_LEAN_AND_MEAN
 
 #include "DX_Global.h"
@@ -12,8 +14,8 @@ class GameWindow
 {
 	private:
 		int m_videoCardMemory;
-		static LONG screenWidth, screenHeight;
-		float screenNear, screenDepth;
+		LONG screenWidth, screenHeight;
+		float screenNear, screenDepth, aspectRatio;
 		bool vsync_enabled;
 		HWND hWnd;
 		HINSTANCE hInstance;
@@ -35,10 +37,12 @@ class GameWindow
 		D3DXMATRIX projectionMatrix;
 		D3DXMATRIX worldMatrix;
 		D3DXMATRIX orthoMatrix;
+
+		static GameWindow * sInst;
 	protected:
 		GameWindow(GameWindow&){};
 	public:
-		GameWindow(LONG&, LONG&, LPCWSTR, float screenNear, float screenDepth);
+		GameWindow(LONG&, LONG&, LPCWSTR, float screenNear, float screenDepth, float aspectRatio);
 		~GameWindow();
 		void InitializeWindows();
 		void InitD3D();
@@ -56,8 +60,15 @@ class GameWindow
 		void BeginScene();
 		void EndScene();
 		void VSinc(bool state);
-		static void NewGameWindowSize(LONG width, LONG heigth);
+		void BuildWorldMatrix();
+		void SetWindowSize(LONG width, LONG heigth);
+		void SetAspectRatio(float aspectRatio);
+
+		static void SetInstance(GameWindow * gw);
+		static GameWindow * GetInstance();
 };
 
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
+//GameWindow* pb;
+#endif

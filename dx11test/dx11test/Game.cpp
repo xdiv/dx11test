@@ -26,9 +26,11 @@ Game::~Game()
 
 void Game::Init()
 {
-	gw = new GameWindow(width, heigth, L"Hello world", 0.1F, 1000.0f);
+	gw = new GameWindow(width, heigth, L"Hello world", 0.1F, 1000.0f, 4.0f);
 	gw->InitializeWindows();
 	gw->InitD3D();
+
+	GameWindow::SetInstance(gw);
 }
 
 void Game::Run()

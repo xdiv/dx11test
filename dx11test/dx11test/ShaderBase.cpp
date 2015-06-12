@@ -140,11 +140,6 @@ void ShaderBase::SetShaderParameters(ID3D11DeviceContext* devcon, PSConstBuffer 
 	dataPtr->hasTexture = buffer.hasTexture;
 	dataPtr->hasColor = buffer.hasColor;
 
-	bool hasTexture;
-	bool hasColor;
-	float3 color;
-	float transperency;
-
 	// Unlock the buffer.
 	devcon->Unmap(IPxBuffer, 0);
 

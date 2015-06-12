@@ -32,9 +32,6 @@ void InterfaceShader::Init(ID3D11Device* dev, HWND hWnd, ID3D11DeviceContext * d
 	ShaderBase::Init(dev, hWnd, L"2dVertShader.hlsl", L"2dPixShader.hlsl", devcon, ied, sizeof(ied) / sizeof(D3D11_INPUT_ELEMENT_DESC));
 	ShaderBase::CreatePixelShaderBuffer(dev);
 
-	D3D11_BUFFER_DESC bufferDesc;
-	D3D11_SUBRESOURCE_DATA data;
-
 	mesh2d mesh[4] =
 	{
 		mesh2d(0, 0, 0, 0, 0),

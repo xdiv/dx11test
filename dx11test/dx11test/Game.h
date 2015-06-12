@@ -1,3 +1,6 @@
+#pragma once
+#ifndef __GAME__
+#define __GAME__
 #include "GameWindow.h"
 
 #include "Camera.h"
@@ -10,11 +13,10 @@
 #include "InterfaceShader.h"
 #include "test.h"
 
-#pragma once
 class Game
 {
 private:
-	UINT width, heigth;
+	LONG width, heigth;
 	GameWindow * gw;
 
 private:
@@ -39,5 +41,5 @@ public:
 	void Run();
 };
 
-//LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+#endif
 

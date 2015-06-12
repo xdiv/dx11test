@@ -1,7 +1,9 @@
 #include "GameWindow.h"
 #include "PublicData.h"
 
-GameWindow::GameWindow(LONG& w, LONG& h, LPCWSTR t, float screenNear, float screenDepth)
+GameWindow* GameWindow::sInst = 0;
+
+GameWindow::GameWindow(LONG& w, LONG& h, LPCWSTR t, float screenNear, float screenDepth, float aspectRatio)
 {
 	title = t;
 	screenHeight = h;
@@ -22,6 +24,9 @@ GameWindow::GameWindow(LONG& w, LONG& h, LPCWSTR t, float screenNear, float scre
 
 	this->screenNear = screenNear;
 	this->screenDepth = screenDepth;
+	this->aspectRatio = aspectRatio;
+
+	//pb = (this);
 }
 
 
@@ -103,7 +108,6 @@ void GameWindow::InitD3D()
 	D3D11_DEPTH_STENCIL_DESC depthStencilDesc;
 	D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc;
 	D3D11_RASTERIZER_DESC rasterDesc;
-	float fieldOfView, screenAspect;
 	D3D_FEATURE_LEVEL featureLevel;
 	D3D11_BLEND_DESC blendStateDescription;
 	/*
@@ -317,9 +321,14 @@ void GameWindow::InitD3D()
 
 	devcon->RSSetViewports(1, &viewport);
 
+	BuildWorldMatrix();
+}
 
+void GameWindow::BuildWorldMatrix()
+{
+	float fieldOfView, screenAspect;
 	// Setup the projection matrix.
-	fieldOfView = (float)D3DX_PI / 4.0f;
+	fieldOfView = (float)D3DX_PI / aspectRatio;
 	screenAspect = (float)screenWidth / (float)screenHeight;
 
 	// Create the projection matrix for 3D rendering.
@@ -330,6 +339,11 @@ void GameWindow::InitD3D()
 
 	// Create an orthographic projection matrix for 2D rendering.
 	D3DXMatrixOrthoLH(&orthoMatrix, (float)screenWidth, (float)screenHeight, screenNear, screenDepth);
+}
+
+void GameWindow::SetAspectRatio(float aspectRatio)
+{
+	this->aspectRatio = aspectRatio;
 }
 
 void GameWindow::TurnOnAlphaBlending()
@@ -371,6 +385,7 @@ void GameWindow::BeginScene()
 	devcon->ClearRenderTargetView(backbuffer, D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f));
 	devcon->ClearDepthStencilView(depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 }
+
 void GameWindow::EndScene()
 {
 	if (vsync_enabled)
@@ -417,10 +432,23 @@ HINSTANCE GameWindow::GetHinstance()
 	return hInstance;
 }
 
-void GameWindow::NewGameWindowSize(LONG width, LONG heigth)
+void GameWindow::SetWindowSize(LONG width, LONG heigth)
 {
 	screenWidth = width;
 	screenHeight = heigth;
+	BuildWorldMatrix();
+}
+
+void GameWindow::SetInstance(GameWindow * gw)
+{
+	if (sInst)
+		sInst = 0;
+	sInst = gw;
+}
+
+GameWindow * GameWindow::GetInstance()
+{
+	return sInst;
 }
 
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -440,7 +468,8 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 			RECT rect;
 			if (GetWindowRect(hWnd, &rect))
 			{
-				GameWindow::NewGameWindowSize(rect.right - rect.left, rect.bottom - rect.top);
+				if (GameWindow::GetInstance())
+					GameWindow::GetInstance()->SetWindowSize(rect.right - rect.left, rect.bottom - rect.top);
 			}
 		} break;
 	}
