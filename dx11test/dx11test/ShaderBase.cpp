@@ -7,6 +7,7 @@ ShaderBase::ShaderBase()
 	pLayout = 0;    // global
 	m_matrixBuffer = 0;
 	IPxBuffer = 0;
+	pSampleState = 0;
 }
 
 ShaderBase::~ShaderBase()
@@ -16,6 +17,7 @@ ShaderBase::~ShaderBase()
 
 void ShaderBase::Relese()
 {
+	SAFE_RELEASE(pSampleState);
 	SAFE_RELEASE(pLayout);
 	SAFE_RELEASE(pVS);
 	SAFE_RELEASE(pPS);
@@ -256,4 +258,41 @@ ID3D11Buffer* CreateD3D11BufferEmpty(ID3D11Device* dev, D3D11_USAGE usage, UINT 
 
 	dev->CreateBuffer(&bufferDesc, NULL, &buffer);       // create the buffer
 	return buffer;
+}
+
+void ShaderBase::CreateSampler(ID3D11Device* dev)
+{
+	D3D11_SAMPLER_DESC samplerDesc;
+
+	samplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+	samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+	samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+	samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+	samplerDesc.MipLODBias = 0.0f;
+	samplerDesc.MaxAnisotropy = 1;
+	samplerDesc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
+	samplerDesc.BorderColor[0] = 0;
+	samplerDesc.BorderColor[1] = 0;
+	samplerDesc.BorderColor[2] = 0;
+	samplerDesc.BorderColor[3] = 0;
+	samplerDesc.MinLOD = 0;
+	samplerDesc.MaxLOD = D3D11_FLOAT32_MAX;
+
+	dev->CreateSamplerState(&samplerDesc, &pSampleState);
+}
+
+void ShaderBase::RenderIIT(ID3D11DeviceContext* devcon, D3DXMATRIX worldMatrix, UINT indexCount, UINT instanceCount)
+{
+	SetShaderParameters(devcon, worldMatrix);
+	//devcon->PSSetShaderResources(0, 1, &texture); perkelti i modelRenderer
+
+	devcon->IASetInputLayout(pLayout);
+
+	// Set the vertex and pixel shaders that will be used to render this triangle.
+	devcon->VSSetShader(pVS, NULL, 0);
+	devcon->PSSetShader(pPS, NULL, 0);
+
+	devcon->PSSetSamplers(0, 1, &pSampleState);
+
+	devcon->DrawIndexedInstanced(indexCount, instanceCount, 0, 0, 0);
 }

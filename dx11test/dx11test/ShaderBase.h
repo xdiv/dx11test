@@ -44,6 +44,7 @@ protected:
 	ID3D11VertexShader *pVS;    // the vertex shader
 	ID3D11PixelShader *pPS;     // the pixel shader
 	ID3D11InputLayout *pLayout;    // global
+	ID3D11SamplerState* pSampleState;
 
 private:
 	void OutputShaderErrorMessage(ID3D10Blob* errorMessage, HWND hwnd, WCHAR* shaderFilename);
@@ -56,10 +57,13 @@ protected:
 
 	void CreatePixelShaderBuffer(ID3D11Device* dev);
 	void SetShaderParameters(ID3D11DeviceContext* devcon, PSConstBuffer buffer);
+	void CreateSampler(ID3D11Device* dev);
 public:
 	ShaderBase();
 	~ShaderBase();
 	void Relese();
+	//render indexd, instanced textured;
+	void RenderIIT(ID3D11DeviceContext* devcon, D3DXMATRIX worldMatrix, UINT indexCount, UINT instanceCount);
 };
 
 ID3D11Buffer* CreateD3D11Buffer(ID3D11Device* dev, D3D11_USAGE usage, UINT byteWidth, UINT bindFlags, UINT cpuAccesFlags, void * data);
