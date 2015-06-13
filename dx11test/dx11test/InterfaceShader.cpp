@@ -28,12 +28,13 @@ void InterfaceShader::Init(ID3D11Device* dev, HWND hWnd, ID3D11DeviceContext * d
 	pIBuffer = CreateIndexBufferHelp(dev, sizeof(unsigned long) * indexCount, index);
 }
 
-void InterfaceShader::Render(ID3D11DeviceContext* devcon, float4 cube, ID3D11ShaderResourceView* texture, PSConstBuffer settings)
+void InterfaceShader::Render(ID3D11DeviceContext* devcon, float4 cube, ID3D11ShaderResourceView* texture, PSConstBuffer settings, D3DXMATRIX world)
 {
 	UINT stride = sizeof(mesh2d);
 	UINT offset = 0;
 
 	BuildSquare(devcon, cube);
+	SetShaderParameters(devcon, world);
 
 	devcon->IASetVertexBuffers(0, 1, &pVBuffer, &stride, &offset);
 	devcon->IASetIndexBuffer(pIBuffer, DXGI_FORMAT_R32_UINT, 0);

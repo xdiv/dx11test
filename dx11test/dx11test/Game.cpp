@@ -119,33 +119,6 @@ void Game::RenderInterface()
 	ps.hasColor = 0;
 	ps.hasTexture = 0;
 	ps.transperency = 0.5f;
-	is->Render(gw->GetDeviceContext(), float4(0, 0, 1, 1), NULL, ps);
+	is->Render(gw->GetDeviceContext(), float4(0, 0, 100, 100), NULL, ps, gw->GetOrtoM());
 	gw->TurnOffAlphaBlending();
 }
-
-//LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
-//{
-//	// sort through and find what code to run for the message given
-//	switch (message)
-//	{
-//		// this message is read when the window is closed
-//	case WM_DESTROY:
-//	{
-//		// close the application entirely
-//		PostQuitMessage(0);
-//		return 0;
-//	} break;
-//	case WM_SIZE:
-//	{
-//		RECT rect;
-//		if (GetWindowRect(hWnd, &rect))
-//		{
-//			int width = rect.right - rect.left;
-//			int height = rect.bottom - rect.top;
-//		}
-//	} break;
-//	}
-//
-//	// Handle any messages the switch statement didn't
-//	return DefWindowProc(hWnd, message, wParam, lParam);
-//}

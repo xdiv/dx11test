@@ -402,6 +402,11 @@ D3DXMATRIX GameWindow::GetWorlM()
 	return worldMatrix;
 }
 
+D3DXMATRIX GameWindow::GetOrtoM()
+{
+	return orthoMatrix;
+}
+
 D3DXMATRIX GameWindow::GetProjectionM()
 {
 	return projectionMatrix;

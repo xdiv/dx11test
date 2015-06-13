@@ -52,6 +52,7 @@ class GameWindow
 
 		D3DXMATRIX GetWorlM();
 		D3DXMATRIX GetProjectionM();
+		D3DXMATRIX GetOrtoM();
 		ID3D11Device* GetDevice();
 		ID3D11DeviceContext* GetDeviceContext();
 		HWND GetHwnd();
