@@ -28,7 +28,6 @@ void itmr::Relese()
 	SAFE_DELETE(instances);
 	SAFE_RELEASE(texture);
 	SAFE_RELEASE(pInsBuffer);
-
 }
 
 void itmr::Init(ID3D11Device* dev, HWND hWnd, ID3D11DeviceContext * devcon)

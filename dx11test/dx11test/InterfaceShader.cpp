@@ -1,26 +1,5 @@
 #include "InterfaceShader.h"
 
-
-InterfaceShader::InterfaceShader()
-{
-	vert_count = 4;
-	indexCount = 6;
-	pVBuffer = 0;
-	pIBuffer = 0;
-}
-
-
-InterfaceShader::~InterfaceShader()
-{
-	ShutDown();
-}
-
-void InterfaceShader::ShutDown()
-{
-	SAFE_RELEASE(pVBuffer);
-	SAFE_RELEASE(pIBuffer);
-}
-
 void InterfaceShader::Init(ID3D11Device* dev, HWND hWnd, ID3D11DeviceContext * devcon)
 {
 	D3D11_INPUT_ELEMENT_DESC ied[] =
@@ -41,6 +20,9 @@ void InterfaceShader::Init(ID3D11Device* dev, HWND hWnd, ID3D11DeviceContext * d
 	};
 
 	UINT index[] = {0, 1, 2, 2, 3, 0 };
+
+	vert_count = sizeof(mesh) / sizeof(mesh2d);
+	indexCount = sizeof(index) / sizeof(UINT);
 
 	pVBuffer = CreateVertexBufferHelp(dev, (sizeof(mesh2d) * vert_count), mesh);
 	pIBuffer = CreateIndexBufferHelp(dev, sizeof(unsigned long) * indexCount, index);

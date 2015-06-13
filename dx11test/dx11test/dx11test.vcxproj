@@ -146,10 +146,12 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ColorShader.cpp" />
     <ClCompile Include="complex_types.cpp" />
+    <ClCompile Include="DataModelBase.cpp" />
     <ClCompile Include="dx11test.cpp" />
     <ClCompile Include="DXMath.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameWindow.cpp" />
+    <ClCompile Include="GUI_Base.cpp" />
     <ClCompile Include="InputClass.cpp" />
     <ClCompile Include="InstanedShader.cpp" />
     <ClCompile Include="InterfaceShader.cpp" />
@@ -167,10 +169,12 @@
     <ClInclude Include="complex_types.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="ColorShader.h" />
+    <ClInclude Include="DataModelBase.h" />
     <ClInclude Include="DX_Global.h" />
     <ClInclude Include="DXMath.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameWindow.h" />
+    <ClInclude Include="GUI_Base.h" />
     <ClInclude Include="InputClass.h" />
     <ClInclude Include="InstanedShader.h" />
     <ClInclude Include="InterfaceShader.h" />

@@ -14,6 +14,9 @@ private:
 	static TextureShader* _instance;
 	ID3D11SamplerState* pSampleState;
 
+	UINT vert_count;
+	UINT indexCount;
+
 	//functions
 	bool LoadTexture(ID3D11Device*, WCHAR*);
 	void ReleaseTexture();

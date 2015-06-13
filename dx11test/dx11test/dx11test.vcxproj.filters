@@ -28,9 +28,6 @@
     <Filter Include="Renderers">
       <UniqueIdentifier>{941f3afe-bcbf-43fd-8188-024da8877e78}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Renderers\models">
-      <UniqueIdentifier>{ecd49a85-e2ad-43f7-aa16-b8ea5f7f91ba}</UniqueIdentifier>
-    </Filter>
     <Filter Include="input">
       <UniqueIdentifier>{104ef39b-72da-4b0f-959b-ece9b4e08479}</UniqueIdentifier>
     </Filter>
@@ -39,6 +36,18 @@
     </Filter>
     <Filter Include="Renderers\Shader 2D">
       <UniqueIdentifier>{2db5eb3f-05cb-4f05-82c1-7d7c1ce0830a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="models">
+      <UniqueIdentifier>{ecd49a85-e2ad-43f7-aa16-b8ea5f7f91ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="models\data">
+      <UniqueIdentifier>{be425ad2-887a-4110-8df0-51c6660c6f6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="models\game">
+      <UniqueIdentifier>{300ff90a-c465-4066-bcb4-e63c3aa70ad8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI">
+      <UniqueIdentifier>{68a3cf8c-588b-438f-a262-b4433b3714f0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -49,13 +58,13 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="test.cpp">
-      <Filter>Renderers\models</Filter>
+      <Filter>models</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TexturedModelBase.cpp">
-      <Filter>Renderers\models</Filter>
+      <Filter>models</Filter>
     </ClCompile>
     <ClCompile Include="MD5Model.cpp">
       <Filter>ModelLoader</Filter>
@@ -73,7 +82,7 @@
       <Filter>Math</Filter>
     </ClCompile>
     <ClCompile Include="itmr.cpp">
-      <Filter>Renderers\models</Filter>
+      <Filter>models</Filter>
     </ClCompile>
     <ClCompile Include="ColorShader.cpp">
       <Filter>Renderers\Shader 3D</Filter>
@@ -99,13 +108,19 @@
     <ClCompile Include="Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="DataModelBase.cpp">
+      <Filter>models\data</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI_Base.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="test.h">
-      <Filter>Renderers\models</Filter>
+      <Filter>models</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>Header Files</Filter>
@@ -114,7 +129,7 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TexturedModelBase.h">
-      <Filter>Renderers\models</Filter>
+      <Filter>models</Filter>
     </ClInclude>
     <ClInclude Include="MD5Model.h">
       <Filter>ModelLoader</Filter>
@@ -135,7 +150,7 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="itmr.h">
-      <Filter>Renderers\models</Filter>
+      <Filter>models</Filter>
     </ClInclude>
     <ClInclude Include="ColorShader.h">
       <Filter>Renderers\Shader 3D</Filter>
@@ -160,6 +175,12 @@
     </ClInclude>
     <ClInclude Include="Game.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModelBase.h">
+      <Filter>models\data</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI_Base.h">
+      <Filter>GUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

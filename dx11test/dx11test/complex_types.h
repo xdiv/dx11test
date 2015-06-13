@@ -49,7 +49,7 @@ public:
 
 	bool operator!=(float3 a);
 	bool operator==(float3 a);
-} float3;
+} float3, color_rgb;
 
 typedef struct float4
 {
@@ -66,7 +66,7 @@ public:
 
 	bool operator!=(float4 a);
 	bool operator==(float4 a);
-} float4;
+} float4, color_rgba;
 
 typedef struct int3
 {
@@ -131,6 +131,13 @@ public:
 		_21, _22, _23,
 		_31, _32, _33;
 } Matrix3x3;
+
+typedef struct rect
+{
+public:
+	unsigned int x, y, width, heigth;
+	rect(){ x = y = width = heigth = 0; };
+} rect;
 
 //--------------------------------------------------------------------------------------------------------------
 //meshes
