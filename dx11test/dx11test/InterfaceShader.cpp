@@ -19,8 +19,8 @@ void InterfaceShader::Init(ID3D11Device* dev, HWND hWnd, ID3D11DeviceContext * d
 		mesh2d(1, 0, 0, 1, 0)
 	};
 
-	UINT index[] = {0, 1, 2, 2, 3, 0 };
-
+	//UINT index[] = {0, 1, 2, 2, 3, 0 };
+	UINT index[] = { 0, 3, 1, 3, 2, 1 };
 	vert_count = sizeof(mesh) / sizeof(mesh2d);
 	indexCount = sizeof(index) / sizeof(UINT);
 
@@ -60,8 +60,8 @@ void InterfaceShader::BuildSquare(ID3D11DeviceContext* devcon, float4 cube)
 	mesh2d mesh[] =
 	{
 		mesh2d(cube.x, cube.y, 0, 0, 0),
-		mesh2d(cube.x, cube.y + cube.w, 0, 0, 1),
-		mesh2d(cube.x + cube.z, cube.y + cube.w, 0, 1, 1),
+		mesh2d(cube.x, cube.y - cube.w, 0, 0, 1),
+		mesh2d(cube.x + cube.z, cube.y - cube.w, 0, 1, 1),
 		mesh2d(cube.x + cube.z, cube.y, 0, 1, 0),
 	};
 

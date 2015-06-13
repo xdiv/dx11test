@@ -68,7 +68,7 @@ void itmr::Render(ID3D11DeviceContext *devcon, D3DXMATRIX worldMatrix)
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 
 	devcon->Map(pInsBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource); // lock the instance buffer        
-	memcpy((InstanceType_A*)mappedResource.pData, instances, sizeof(InstanceType_A) * instanceCount + 1); //overwrite instance buffer with new data
+	memcpy((InstanceType_A*)mappedResource.pData, instances, sizeof(InstanceType_A) * instanceCount); //overwrite instance buffer with new data
 	devcon->Unmap(pInsBuffer, 0);
 
 	ID3D11Buffer* bufferPointers[] = { pVBuffer, pInsBuffer };

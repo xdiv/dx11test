@@ -19,6 +19,11 @@ Label::Label(string text, rect position, int margin, float4 color)
 	this->text = text;
 }
 
+void Label::Render()
+{
+
+}
+
 //-------------------------------------------------------------------------------
 //			Frame
 //-------------------------------------------------------------------------------
@@ -29,6 +34,14 @@ Frame::Frame()
 
 Frame::~Frame()
 {
+}
+
+void Frame::Render()
+{
+	for (size_t i = 0; i < childList.size(); i++)
+	{
+		childList[i].Render();
+	}
 }
 
 void Frame::OnClick()

@@ -52,6 +52,8 @@ private:
 public:
 	Label(string text, rect position, int margin, float4 color);
 	~Label() {};
+
+	void Render();
 };
 
 //-------------------------------------------------------------------------------
@@ -68,6 +70,8 @@ protected:
 public:
 	Frame();
 	~Frame();
+
+	void Render();
 
 	void OnClick();
 	void OnMouseEnter();
