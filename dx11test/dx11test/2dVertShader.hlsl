@@ -22,7 +22,7 @@ PixelInputType VShader(VertexInputType input)
 
 	ret.position = mul(input.position, worldMatrix);
 
-	ret.position.z = 0.0f;
+	//ret.position.z = 0.0f;
 	ret.position.w = 1.0f;
 
 

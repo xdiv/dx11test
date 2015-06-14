@@ -263,6 +263,7 @@ mesh2d::mesh2d(float px, float py, float pz, float tx, float ty)
 	Pos.x = px;
 	Pos.y = py;
 	Pos.z = pz;
+	Pos.w = 0;
 
 	Tex0.x = tx;
 	Tex0.y = ty;

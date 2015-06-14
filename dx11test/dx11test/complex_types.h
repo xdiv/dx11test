@@ -154,7 +154,7 @@ typedef struct mesh2d{
 public:
 	mesh2d(){};
 	mesh2d(float px, float py, float pz, float tx, float ty);
-	float3   Pos;
+	float4   Pos;
 	float2   Tex0;
 } mesh2d;
 

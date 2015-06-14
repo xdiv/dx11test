@@ -49,6 +49,9 @@
     <Filter Include="GUI">
       <UniqueIdentifier>{68a3cf8c-588b-438f-a262-b4433b3714f0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Perf Counters">
+      <UniqueIdentifier>{4d5df622-275f-4278-a3dd-595a60d921b1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dx11test.cpp">

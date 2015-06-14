@@ -1,4 +1,4 @@
-#include "Game.h"
+﻿#include "Game.h"
 
 Game::Game()
 {
@@ -97,10 +97,20 @@ void Game::GameShutDown()
 
 void Game::Update()
 {
-	camera->Render();
+	camera->Render3DCamera();
+	camera->Render2DCamera();
 	input->Update();
-	camera->GetViewMatrix(viewMatrix);
-	finalMatrix = gw->GetWorlM() * viewMatrix * gw->GetProjectionM();
+
+	/*3d pasaulio kameros renderinimas*/
+	camera->GetView3DMatrix(viewMatrix);
+	world3DMatrix = gw->GetWorl3DMatrix() * viewMatrix * gw->GetProjectionM();
+
+	/*2d pasaulio cameros renderinimas, tikriausiai 
+	dar reikia nustatye identity matricą į 2d*/
+	camera->GetView2DMatrix(viewMatrix);
+	world2Dmatrix = viewMatrix * gw->GetOrtoM();
+
+	interfaceMatrix = gw->GetWorl2DMatrix() * gw->GetOrtoM();
 
 	insTest->AddInstance(InstanceType_A(0, 0, 0));
 	insTest->AddInstance(InstanceType_A(15, 15, 0));
@@ -108,7 +118,7 @@ void Game::Update()
 }
 void Game::Render()
 {
-	insTest->Render(gw->GetDeviceContext(), finalMatrix);
+	insTest->Render(gw->GetDeviceContext(), world3DMatrix);
 }
 
 void Game::RenderInterface()
@@ -119,6 +129,12 @@ void Game::RenderInterface()
 	ps.hasColor = 0;
 	ps.hasTexture = 0;
 	ps.transperency = 0.5f;
-	is->Render(gw->GetDeviceContext(), float4(0, 0, 100, 100), NULL, ps, gw->GetOrtoM());
+
+	/*pvz renderinti statini objektą*/
+	is->Render(gw->GetDeviceContext(), float4(0, 0, 100, 100), NULL, ps, interfaceMatrix);
+	/*
+	pvz renderinti objektą priklausoma nuo cameros pozicijos
+	is->Render(gw->GetDeviceContext(), float4(0, 0, 100, 100), NULL, ps, world2Dmatrix);
+	*/
 	gw->TurnOffAlphaBlending();
 }

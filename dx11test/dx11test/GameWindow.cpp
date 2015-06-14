@@ -335,8 +335,10 @@ void GameWindow::BuildWorldMatrix()
 	D3DXMatrixPerspectiveFovLH(&projectionMatrix, fieldOfView, screenAspect, screenNear, screenDepth);
 
 	// Initialize the world matrix to the identity matrix.
-	D3DXMatrixIdentity(&worldMatrix);
-
+	D3DXMatrixIdentity(&world3DMatrix);
+	world2DMatrix = world3DMatrix;
+	world2DMatrix.m[2][2] = 0;
+	world2DMatrix.m[3][3] = 0;
 	// Create an orthographic projection matrix for 2D rendering.
 	D3DXMatrixOrthoLH(&orthoMatrix, (float)screenWidth, (float)screenHeight, screenNear, screenDepth);
 }
@@ -397,9 +399,14 @@ void GameWindow::EndScene()
 
 }
 
-D3DXMATRIX GameWindow::GetWorlM()
+D3DXMATRIX GameWindow::GetWorl3DMatrix()
 {
-	return worldMatrix;
+	return world3DMatrix;
+}
+
+D3DXMATRIX GameWindow::GetWorl2DMatrix()
+{
+	return world2DMatrix;
 }
 
 D3DXMATRIX GameWindow::GetOrtoM()

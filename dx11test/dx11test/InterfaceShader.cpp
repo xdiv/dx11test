@@ -21,6 +21,8 @@ void InterfaceShader::Init(ID3D11Device* dev, HWND hWnd, ID3D11DeviceContext * d
 
 	//UINT index[] = {0, 1, 2, 2, 3, 0 };
 	UINT index[] = { 0, 3, 1, 3, 2, 1 };
+
+	//UINT index[] = { 0, 1, 3, 2, 1, 3 };
 	vert_count = sizeof(mesh) / sizeof(mesh2d);
 	indexCount = sizeof(index) / sizeof(UINT);
 

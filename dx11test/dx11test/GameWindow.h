@@ -35,7 +35,7 @@ class GameWindow
 		char m_videoCardDescription[128];
 
 		D3DXMATRIX projectionMatrix;
-		D3DXMATRIX worldMatrix;
+		D3DXMATRIX world3DMatrix, world2DMatrix;
 		D3DXMATRIX orthoMatrix;
 
 		static GameWindow * sInst;
@@ -50,7 +50,8 @@ class GameWindow
 		void TurnOnAlphaBlending();
 		void TurnOffAlphaBlending();
 
-		D3DXMATRIX GetWorlM();
+		D3DXMATRIX GetWorl3DMatrix();
+		D3DXMATRIX GetWorl2DMatrix();
 		D3DXMATRIX GetProjectionM();
 		D3DXMATRIX GetOrtoM();
 		ID3D11Device* GetDevice();

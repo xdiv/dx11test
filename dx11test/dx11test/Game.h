@@ -27,7 +27,8 @@ private:
 	void RenderInterface();
 	
 
-	D3DXMATRIX viewMatrix, finalMatrix;
+	D3DXMATRIX viewMatrix, world3DMatrix,
+		world2Dmatrix, interfaceMatrix;
 	Camera* camera;
 	ButtonsActionMap *input;
 	itmr* insTest;
