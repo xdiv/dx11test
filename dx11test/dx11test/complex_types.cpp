@@ -263,7 +263,6 @@ mesh2d::mesh2d(float px, float py, float pz, float tx, float ty)
 	Pos.x = px;
 	Pos.y = py;
 	Pos.z = pz;
-	Pos.w = 0;
 
 	Tex0.x = tx;
 	Tex0.y = ty;
@@ -281,7 +280,23 @@ InstanceType_A::InstanceType_A(float x, float y, float z)
 	position.z = z;
 }
 
-InstanceType_A::InstanceType_A(float3 p)
+//===========================================================================
+//    InstanceType_A
+//===========================================================================
+InstanceType_B::InstanceType_B(float3 p)
 {
 	position = p;
+}
+
+InstanceType_B::InstanceType_B(float x, float y, float z)
+{
+	position.x = x;
+	position.y = y;
+	position.z = z;
+}
+
+InstanceType_B::InstanceType_B(float3 p, color_rgba c)
+{
+	position = p;
+	color = c;
 }

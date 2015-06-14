@@ -60,14 +60,8 @@
     <ClCompile Include="GameWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="test.cpp">
-      <Filter>models</Filter>
-    </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TexturedModelBase.cpp">
-      <Filter>models</Filter>
     </ClCompile>
     <ClCompile Include="MD5Model.cpp">
       <Filter>ModelLoader</Filter>
@@ -87,13 +81,7 @@
     <ClCompile Include="itmr.cpp">
       <Filter>models</Filter>
     </ClCompile>
-    <ClCompile Include="ColorShader.cpp">
-      <Filter>Renderers\Shader 3D</Filter>
-    </ClCompile>
     <ClCompile Include="InstanedShader.cpp">
-      <Filter>Renderers\Shader 3D</Filter>
-    </ClCompile>
-    <ClCompile Include="TextureShader.cpp">
       <Filter>Renderers\Shader 3D</Filter>
     </ClCompile>
     <ClCompile Include="InputClass.cpp">
@@ -117,22 +105,19 @@
     <ClCompile Include="GUI_Base.cpp">
       <Filter>GUI</Filter>
     </ClCompile>
+    <ClCompile Include="NormalShader.cpp">
+      <Filter>Renderers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameWindow.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="test.h">
-      <Filter>models</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PublicData.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TexturedModelBase.h">
-      <Filter>models</Filter>
     </ClInclude>
     <ClInclude Include="MD5Model.h">
       <Filter>ModelLoader</Filter>
@@ -155,13 +140,7 @@
     <ClInclude Include="itmr.h">
       <Filter>models</Filter>
     </ClInclude>
-    <ClInclude Include="ColorShader.h">
-      <Filter>Renderers\Shader 3D</Filter>
-    </ClInclude>
     <ClInclude Include="InstanedShader.h">
-      <Filter>Renderers\Shader 3D</Filter>
-    </ClInclude>
-    <ClInclude Include="TextureShader.h">
       <Filter>Renderers\Shader 3D</Filter>
     </ClInclude>
     <ClInclude Include="InputClass.h">
@@ -184,6 +163,12 @@
     </ClInclude>
     <ClInclude Include="GUI_Base.h">
       <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="NormalShader.h">
+      <Filter>Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="ShadersIncludes.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -210,5 +195,13 @@
     <Image Include="texttest.dds">
       <Filter>Resource Files</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="NormalPixelShader.hlsl">
+      <Filter>Resource Files\Pixel</Filter>
+    </FxCompile>
+    <FxCompile Include="NormalVertexShader.hlsl">
+      <Filter>Resource Files\Vertex</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

@@ -5,7 +5,7 @@ ShaderBase::ShaderBase()
 	pVS = 0;    // the vertex shader
 	pPS = 0;     // the pixel shader
 	pLayout = 0;    // global
-	m_matrixBuffer = 0;
+	IVsBuffer = 0;
 	IPxBuffer = 0;
 	pSampleState = 0;
 }
@@ -21,7 +21,7 @@ void ShaderBase::Relese()
 	SAFE_RELEASE(pLayout);
 	SAFE_RELEASE(pVS);
 	SAFE_RELEASE(pPS);
-	SAFE_RELEASE(m_matrixBuffer);
+	SAFE_RELEASE(IVsBuffer);
 	SAFE_RELEASE(IPxBuffer);
 }
 
@@ -59,7 +59,7 @@ void ShaderBase::Init(ID3D11Device* dev, HWND hwnd, WCHAR* vsFilename, WCHAR* ps
 	matrixBufferDesc.MiscFlags = 0;
 	matrixBufferDesc.StructureByteStride = 0;
 
-	dev->CreateBuffer(&matrixBufferDesc, NULL, &m_matrixBuffer);
+	dev->CreateBuffer(&matrixBufferDesc, NULL, &IVsBuffer);
 }
 
 void ShaderBase::RenderShader(ID3D11DeviceContext* deviceContext, int indexCount)
@@ -75,39 +75,6 @@ void ShaderBase::RenderShader(ID3D11DeviceContext* deviceContext, int indexCount
 
 	// Render the triangle.
 	deviceContext->DrawIndexed(indexCount, 0, 0);
-}
-
-void ShaderBase::SetShaderParameters(ID3D11DeviceContext* deviceContext, D3DXMATRIX worldMatrix, D3DXMATRIX viewMatrix,	D3DXMATRIX projectionMatrix)
-{
-	D3D11_MAPPED_SUBRESOURCE mappedResource;
-	MatrixBufferTypeA* dataPtr;
-	unsigned int bufferNumber;
-
-
-	// Transpose the matrices to prepare them for the shader.
-	D3DXMatrixTranspose(&worldMatrix, &worldMatrix);
-	D3DXMatrixTranspose(&viewMatrix, &viewMatrix);
-	D3DXMatrixTranspose(&projectionMatrix, &projectionMatrix);
-
-	// Lock the constant buffer so it can be written to.
-	deviceContext->Map(m_matrixBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
-
-	// Get a pointer to the data in the constant buffer.
-	dataPtr = (MatrixBufferTypeA*)mappedResource.pData;
-
-	// Copy the matrices into the constant buffer.
-	dataPtr->world = worldMatrix;
-	dataPtr->view = viewMatrix;
-	dataPtr->projection = projectionMatrix;
-
-	// Unlock the constant buffer.
-	deviceContext->Unmap(m_matrixBuffer, 0);
-
-	// Set the position of the constant buffer in the vertex shader.
-	bufferNumber = 0;
-
-	// Finanly set the constant buffer in the vertex shader with the updated values.
-	deviceContext->VSSetConstantBuffers(bufferNumber, 1, &m_matrixBuffer);
 }
 
 void ShaderBase::CreatePixelShaderBuffer(ID3D11Device* dev)
@@ -127,56 +94,56 @@ void ShaderBase::CreatePixelShaderBuffer(ID3D11Device* dev)
 	result = dev->CreateBuffer(&bufferDesc, NULL, &IPxBuffer);       // create the buffer
 }
 
-void ShaderBase::SetShaderParameters(ID3D11DeviceContext* devcon, PSConstBuffer buffer)
-{
-	D3D11_MAPPED_SUBRESOURCE mappedResource;
-	PSConstBuffer* dataPtr;
-	devcon->Map(IPxBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
-
-	// Get a pointer to the data in the transparent constant buffer.
-	dataPtr = (PSConstBuffer*)mappedResource.pData;
-
-	dataPtr->color = buffer.color;
-	dataPtr->transperency = buffer.transperency;
-	// Copy into the constant buffer.
-	dataPtr->hasTexture = buffer.hasTexture;
-	dataPtr->hasColor = buffer.hasColor;
-
-	// Unlock the buffer.
-	devcon->Unmap(IPxBuffer, 0);
-
-	// Now set the texture translation constant buffer in the pixel shader with the updated values.
-	devcon->PSSetConstantBuffers(0, 1, &IPxBuffer);
-}
-
-void ShaderBase::SetShaderParameters(ID3D11DeviceContext* deviceContext, D3DXMATRIX worldMatrix)
-{
-//	HRESULT result;
-	D3D11_MAPPED_SUBRESOURCE mappedResource;
-	MatrixBufferTypeB* dataPtr;
-	unsigned int bufferNumber;
-
-	// Transpose the matrices to prepare them for the shader.
-	D3DXMatrixTranspose(&worldMatrix, &worldMatrix);
-
-	// Lock the constant buffer so it can be written to.
-	deviceContext->Map(m_matrixBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
-
-	// Get a pointer to the data in the constant buffer.
-	dataPtr = (MatrixBufferTypeB*)mappedResource.pData;
-
-	// Copy the matrices into the constant buffer.
-	dataPtr->world = worldMatrix;
-
-	// Unlock the constant buffer.
-	deviceContext->Unmap(m_matrixBuffer, 0);
-
-	// Set the position of the constant buffer in the vertex shader.
-	bufferNumber = 0;
-
-	// Finanly set the constant buffer in the vertex shader with the updated values.
-	deviceContext->VSSetConstantBuffers(bufferNumber, 1, &m_matrixBuffer);
-}
+//void ShaderBase::SetShaderParameters(ID3D11DeviceContext* devcon, PSConstBuffer buffer)
+//{
+//	D3D11_MAPPED_SUBRESOURCE mappedResource;
+//	PSConstBuffer* dataPtr;
+//	devcon->Map(IPxBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+//
+//	// Get a pointer to the data in the transparent constant buffer.
+//	dataPtr = (PSConstBuffer*)mappedResource.pData;
+//
+//	dataPtr->color = buffer.color;
+//	dataPtr->transperency = buffer.transperency;
+//	// Copy into the constant buffer.
+//	dataPtr->hasTexture = buffer.hasTexture;
+//	dataPtr->hasColor = buffer.hasColor;
+//
+//	// Unlock the buffer.
+//	devcon->Unmap(IPxBuffer, 0);
+//
+//	// Now set the texture translation constant buffer in the pixel shader with the updated values.
+//	devcon->PSSetConstantBuffers(0, 1, &IPxBuffer);
+//}
+//
+//void ShaderBase::SetShaderParameters(ID3D11DeviceContext* deviceContext, D3DXMATRIX worldMatrix)
+//{
+////	HRESULT result;
+//	D3D11_MAPPED_SUBRESOURCE mappedResource;
+//	MatrixBufferTypeB* dataPtr;
+//	unsigned int bufferNumber;
+//
+//	// Transpose the matrices to prepare them for the shader.
+//	D3DXMatrixTranspose(&worldMatrix, &worldMatrix);
+//
+//	// Lock the constant buffer so it can be written to.
+//	deviceContext->Map(IVsBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+//
+//	// Get a pointer to the data in the constant buffer.
+//	dataPtr = (MatrixBufferTypeB*)mappedResource.pData;
+//
+//	// Copy the matrices into the constant buffer.
+//	dataPtr->world = worldMatrix;
+//
+//	// Unlock the constant buffer.
+//	deviceContext->Unmap(IVsBuffer, 0);
+//
+//	// Set the position of the constant buffer in the vertex shader.
+//	bufferNumber = 0;
+//
+//	// Finanly set the constant buffer in the vertex shader with the updated values.
+//	deviceContext->VSSetConstantBuffers(bufferNumber, 1, &IVsBuffer);
+//}
 
 void ShaderBase::OutputShaderErrorMessage(ID3D10Blob* errorMessage, HWND hwnd, WCHAR* shaderFilename)
 {
@@ -211,6 +178,94 @@ void ShaderBase::OutputShaderErrorMessage(ID3D10Blob* errorMessage, HWND hwnd, W
 	MessageBox(hwnd, L"Error compiling shader.  Check shader-error.txt for message.", shaderFilename, MB_OK);
 
 	return;
+}
+
+void ShaderBase::CreateSampler(ID3D11Device* dev)
+{
+	D3D11_SAMPLER_DESC samplerDesc;
+
+	samplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+	samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+	samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+	samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+	samplerDesc.MipLODBias = 0.0f;
+	samplerDesc.MaxAnisotropy = 1;
+	samplerDesc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
+	samplerDesc.BorderColor[0] = 0;
+	samplerDesc.BorderColor[1] = 0;
+	samplerDesc.BorderColor[2] = 0;
+	samplerDesc.BorderColor[3] = 0;
+	samplerDesc.MinLOD = 0;
+	samplerDesc.MaxLOD = D3D11_FLOAT32_MAX;
+
+	dev->CreateSamplerState(&samplerDesc, &pSampleState);
+}
+
+void ShaderBase::SetVertexShaderBuffers(ID3D11DeviceContext* devcon, D3DXMATRIX * data)
+{
+	//	HRESULT result;
+	D3D11_MAPPED_SUBRESOURCE mappedResource;
+	MatrixBufferTypeB* dataPtr;
+	unsigned int bufferNumber;
+
+	// Transpose the matrices to prepare them for the shader.
+	D3DXMatrixTranspose(data, data);
+
+	// Lock the constant buffer so it can be written to.
+	devcon->Map(IVsBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+
+	// Get a pointer to the data in the constant buffer.
+	dataPtr = (MatrixBufferTypeB*)mappedResource.pData;
+
+	// Copy the matrices into the constant buffer.
+	dataPtr->world = *data;
+
+	// Unlock the constant buffer.
+	devcon->Unmap(IVsBuffer, 0);
+
+	// Set the position of the constant buffer in the vertex shader.
+	bufferNumber = 0;
+
+	// Finanly set the constant buffer in the vertex shader with the updated values.
+	devcon->VSSetConstantBuffers(bufferNumber, 1, &IVsBuffer);
+}
+
+void ShaderBase::SetPixelShaderBuffers(ID3D11DeviceContext* devcon, PSConstBuffer * data)
+{
+	D3D11_MAPPED_SUBRESOURCE mappedResource;
+	PSConstBuffer* dataPtr;
+	devcon->Map(IPxBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+
+	// Get a pointer to the data in the transparent constant buffer.
+	dataPtr = (PSConstBuffer*)mappedResource.pData;
+
+	dataPtr->color = data->color;
+	dataPtr->transperency = data->transperency;
+	// Copy into the constant buffer.
+	dataPtr->hasTexture = data->hasTexture;
+	dataPtr->hasColor = data->hasColor;
+
+	// Unlock the buffer.
+	devcon->Unmap(IPxBuffer, 0);
+
+	// Now set the texture translation constant buffer in the pixel shader with the updated values.
+	devcon->PSSetConstantBuffers(0, 1, &IPxBuffer);
+}
+
+void ShaderBase::RenderIIT(ID3D11DeviceContext* devcon, D3DXMATRIX worldMatrix, UINT indexCount, UINT instanceCount)
+{
+	SetVertexShaderBuffers(devcon, &worldMatrix);
+	//devcon->PSSetShaderResources(0, 1, &texture); perkelti i modelRenderer
+
+	devcon->IASetInputLayout(pLayout);
+
+	// Set the vertex and pixel shaders that will be used to render this triangle.
+	devcon->VSSetShader(pVS, NULL, 0);
+	devcon->PSSetShader(pPS, NULL, 0);
+
+	devcon->PSSetSamplers(0, 1, &pSampleState);
+
+	devcon->DrawIndexedInstanced(indexCount, instanceCount, 0, 0, 0);
 }
 
 ID3D11Buffer* CreateD3D11Buffer(ID3D11Device* dev, D3D11_USAGE usage, UINT byteWidth, UINT bindFlags, UINT cpuAccesFlags, void * data)
@@ -258,41 +313,4 @@ ID3D11Buffer* CreateD3D11BufferEmpty(ID3D11Device* dev, D3D11_USAGE usage, UINT 
 
 	dev->CreateBuffer(&bufferDesc, NULL, &buffer);       // create the buffer
 	return buffer;
-}
-
-void ShaderBase::CreateSampler(ID3D11Device* dev)
-{
-	D3D11_SAMPLER_DESC samplerDesc;
-
-	samplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
-	samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
-	samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
-	samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
-	samplerDesc.MipLODBias = 0.0f;
-	samplerDesc.MaxAnisotropy = 1;
-	samplerDesc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
-	samplerDesc.BorderColor[0] = 0;
-	samplerDesc.BorderColor[1] = 0;
-	samplerDesc.BorderColor[2] = 0;
-	samplerDesc.BorderColor[3] = 0;
-	samplerDesc.MinLOD = 0;
-	samplerDesc.MaxLOD = D3D11_FLOAT32_MAX;
-
-	dev->CreateSamplerState(&samplerDesc, &pSampleState);
-}
-
-void ShaderBase::RenderIIT(ID3D11DeviceContext* devcon, D3DXMATRIX worldMatrix, UINT indexCount, UINT instanceCount)
-{
-	SetShaderParameters(devcon, worldMatrix);
-	//devcon->PSSetShaderResources(0, 1, &texture); perkelti i modelRenderer
-
-	devcon->IASetInputLayout(pLayout);
-
-	// Set the vertex and pixel shaders that will be used to render this triangle.
-	devcon->VSSetShader(pVS, NULL, 0);
-	devcon->PSSetShader(pPS, NULL, 0);
-
-	devcon->PSSetSamplers(0, 1, &pSampleState);
-
-	devcon->DrawIndexedInstanced(indexCount, instanceCount, 0, 0, 0);
 }

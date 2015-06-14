@@ -144,7 +144,6 @@
   <ItemGroup>
     <ClCompile Include="ButtonsActionMap.cpp" />
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="ColorShader.cpp" />
     <ClCompile Include="complex_types.cpp" />
     <ClCompile Include="DataModelBase.cpp" />
     <ClCompile Include="dx11test.cpp" />
@@ -159,16 +158,13 @@
     <ClCompile Include="MD5Animation.cpp" />
     <ClCompile Include="MD5Model.cpp" />
     <ClCompile Include="MD5ModelBinary.cpp" />
-    <ClCompile Include="TexturedModelBase.cpp" />
+    <ClCompile Include="NormalShader.cpp" />
     <ClCompile Include="ShaderBase.cpp" />
-    <ClCompile Include="test.cpp" />
-    <ClCompile Include="TextureShader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ButtonsActionMap.h" />
     <ClInclude Include="complex_types.h" />
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="ColorShader.h" />
     <ClInclude Include="DataModelBase.h" />
     <ClInclude Include="DX_Global.h" />
     <ClInclude Include="DXMath.h" />
@@ -182,11 +178,10 @@
     <ClInclude Include="MD5Animation.h" />
     <ClInclude Include="MD5Model.h" />
     <ClInclude Include="MD5ModelBinary.h" />
-    <ClInclude Include="TexturedModelBase.h" />
+    <ClInclude Include="NormalShader.h" />
+    <ClInclude Include="ShadersIncludes.h" />
     <ClInclude Include="PublicData.h" />
     <ClInclude Include="ShaderBase.h" />
-    <ClInclude Include="test.h" />
-    <ClInclude Include="TextureShader.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ColorShader.hlsl">
@@ -238,6 +233,22 @@
       <FileType>Document</FileType>
     </None>
     <None Include="2dVertShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='DebugW7|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='DebugW8|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <FileType>Document</FileType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="NormalPixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='DebugW7|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='DebugW8|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <FileType>Document</FileType>
+    </None>
+    <None Include="NormalVertexShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='DebugW7|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='DebugW8|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>

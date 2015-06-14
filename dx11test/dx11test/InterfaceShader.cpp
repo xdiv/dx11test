@@ -10,24 +10,6 @@ void InterfaceShader::Init(ID3D11Device* dev, HWND hWnd, ID3D11DeviceContext * d
 
 	ShaderBase::Init(dev, hWnd, L"2dVertShader.hlsl", L"2dPixShader.hlsl", devcon, ied, sizeof(ied) / sizeof(D3D11_INPUT_ELEMENT_DESC));
 	ShaderBase::CreatePixelShaderBuffer(dev);
-
-	mesh2d mesh[4] =
-	{
-		mesh2d(0, 0, 0, 0, 0),
-		mesh2d(0, 1, 0, 0, 1),
-		mesh2d(1, 1, 0, 1, 1),
-		mesh2d(1, 0, 0, 1, 0)
-	};
-
-	//UINT index[] = {0, 1, 2, 2, 3, 0 };
-	UINT index[] = { 0, 3, 1, 3, 2, 1 };
-
-	//UINT index[] = { 0, 1, 3, 2, 1, 3 };
-	vert_count = sizeof(mesh) / sizeof(mesh2d);
-	indexCount = sizeof(index) / sizeof(UINT);
-
-	pVBuffer = CreateVertexBufferHelp(dev, (sizeof(mesh2d) * vert_count), mesh);
-	pIBuffer = CreateIndexBufferHelp(dev, sizeof(unsigned long) * indexCount, index);
 }
 
 void InterfaceShader::Render(ID3D11DeviceContext* devcon, float4 cube, ID3D11ShaderResourceView* texture, PSConstBuffer settings, D3DXMATRIX world)
@@ -36,12 +18,12 @@ void InterfaceShader::Render(ID3D11DeviceContext* devcon, float4 cube, ID3D11Sha
 	UINT offset = 0;
 
 	BuildSquare(devcon, cube);
-	SetShaderParameters(devcon, world);
+	SetVertexShaderBuffers(devcon, &world);
 
 	devcon->IASetVertexBuffers(0, 1, &pVBuffer, &stride, &offset);
 	devcon->IASetIndexBuffer(pIBuffer, DXGI_FORMAT_R32_UINT, 0);
 
-	ShaderBase::SetShaderParameters(devcon, settings);
+	SetPixelShaderBuffers(devcon, &settings);
 
 	if (texture)
 		devcon->PSSetShaderResources(0, 1, &texture);

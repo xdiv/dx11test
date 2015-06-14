@@ -1,9 +1,11 @@
 #pragma once
 
+#ifndef __BASE_MODELS__
+#define __BASE_MODELS__
+
 #include "DX_Global.h"
 #include "complex_types.h"
 #include "InstanedShader.h"
-UINT IdGenerator = 0;
 
 class DMBdata
 {
@@ -17,8 +19,10 @@ public:
 	UINT indexCount;
 	UINT maxInstanceCount;
 	UINT instanceCount;
+	UINT stride[2];
+	UINT offset[2];
 
-	InstanceType_A* instances;
+	InstanceType_B* instances;
 	DMBdata();
 	~DMBdata();
 };
@@ -38,8 +42,14 @@ public:
 	DataModelBase();
 	~DataModelBase();
 
-	void Init(DMBdata data);
-	void AddInstance(InstanceType_A &);
-	void UpdateInstanceBuffer();
+	void AddInstance(InstanceType_B &);
+	void UpdateInstanceBuffer(ID3D11DeviceContext * devcon);
+
+	void LoadTestModel1(ID3D11Device * dev);
+	void LoadTestModel2(ID3D11Device * dev);
+
+	DMBdata* GetData();
 };
+
+#endif
 

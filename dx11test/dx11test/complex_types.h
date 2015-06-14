@@ -154,7 +154,7 @@ typedef struct mesh2d{
 public:
 	mesh2d(){};
 	mesh2d(float px, float py, float pz, float tx, float ty);
-	float4   Pos;
+	float3   Pos;
 	float2   Tex0;
 } mesh2d;
 
@@ -169,5 +169,16 @@ public:
 	InstanceType_A(float3 p);
 	float3 position;
 }InstanceType_A;
+
+typedef struct InstanceType_B
+{
+public:
+	InstanceType_B(){};
+	InstanceType_B(float x, float y, float z);
+	InstanceType_B(float3 p);
+	InstanceType_B(float3 p, color_rgba c);
+	float3 position;
+	color_rgba color;
+}InstanceType_B;
 
 #endif

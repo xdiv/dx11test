@@ -5,7 +5,6 @@ Game::Game()
 	gw = 0;
 	width = 800;
 	heigth = 600;
-	tst = 0;
 }
 
 
@@ -21,7 +20,6 @@ Game::~Game()
 	SAFE_DELETE(input);
 	SAFE_DELETE(insTest);
 	SAFE_DELETE(is);
-	SAFE_DELETE(tst);
 }
 
 void Game::Init()
@@ -82,11 +80,16 @@ void Game::GameInit()
 	is = new InterfaceShader();
 	is->Init(gw->GetDevice(), gw->GetHwnd(), gw->GetDeviceContext());
 
-	tst = new test(gw->GetDevice(), gw->GetHwnd(), gw->GetDeviceContext(), D3DXVECTOR3(0, 0, 0));
+	nshad = new NormalShader();
+	nshad->Init(gw->GetDevice(), gw->GetHwnd(), gw->GetDeviceContext());
 
 	gw->GetDeviceContext()->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	gw->TurnOnAlphaBlending();
 	gw->VSinc(true);
+
+	dmb = 0;
+	dmb = new DataModelBase();
+	dmb->LoadTestModel1(gw->GetDevice());
 }
 void Game::GameShutDown()
 {
@@ -115,6 +118,8 @@ void Game::Update()
 	insTest->AddInstance(InstanceType_A(0, 0, 0));
 	insTest->AddInstance(InstanceType_A(15, 15, 0));
 	//insTest->AddInstance(InstanceType_A(-15, 0, 0));
+
+	dmb->AddInstance(InstanceType_B(float3(0, 0, 0), color_rgba(0, 0, 0, 0)));
 }
 void Game::Render()
 {
@@ -124,14 +129,19 @@ void Game::Render()
 void Game::RenderInterface()
 {
 	gw->TurnOnAlphaBlending();
+
 	PSConstBuffer ps;
 	ps.color = float3(1, 1, 1);
 	ps.hasColor = 0;
 	ps.hasTexture = 0;
 	ps.transperency = 0.5f;
 
+	nshad->SetVertexShaderBuffers(gw->GetDeviceContext(), &interfaceMatrix);
+	nshad->SetPixelShaderBuffers(gw->GetDeviceContext(), &ps);
+
 	/*pvz renderinti statini objektą*/
-	is->Render(gw->GetDeviceContext(), float4(0, 0, 100, 100), NULL, ps, interfaceMatrix);
+	//is->Render(gw->GetDeviceContext(), float4(0, 0, 100, 100), NULL, ps, interfaceMatrix);
+	nshad->Render(gw->GetDeviceContext(), dmb->GetData(), NULL);
 	/*
 	pvz renderinti objektą priklausoma nuo cameros pozicijos
 	is->Render(gw->GetDeviceContext(), float4(0, 0, 100, 100), NULL, ps, world2Dmatrix);

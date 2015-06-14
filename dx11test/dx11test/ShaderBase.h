@@ -39,7 +39,7 @@ struct MatrixBufferTypeB
 class ShaderBase
 {
 protected:
-	ID3D11Buffer* m_matrixBuffer;
+	ID3D11Buffer* IVsBuffer;
 	ID3D11Buffer* IPxBuffer;
 	ID3D11VertexShader *pVS;    // the vertex shader
 	ID3D11PixelShader *pPS;     // the pixel shader
@@ -51,12 +51,11 @@ private:
 
 protected:
 	void RenderShader(ID3D11DeviceContext* deviceContext, int indexCount);
-	void SetShaderParameters(ID3D11DeviceContext* deviceContext, D3DXMATRIX worldMatrix);
+	//void SetShaderParameters(ID3D11DeviceContext* deviceContext, D3DXMATRIX worldMatrix);
 	void Init(ID3D11Device*, HWND, WCHAR*, WCHAR*, ID3D11DeviceContext*, D3D11_INPUT_ELEMENT_DESC *, int);
-	void SetShaderParameters(ID3D11DeviceContext* deviceContext, D3DXMATRIX worldMatrix, D3DXMATRIX viewMatrix, D3DXMATRIX projectionMatrix);
 
 	void CreatePixelShaderBuffer(ID3D11Device* dev);
-	void SetShaderParameters(ID3D11DeviceContext* devcon, PSConstBuffer buffer);
+	//void SetShaderParameters(ID3D11DeviceContext* devcon, PSConstBuffer buffer);
 	void CreateSampler(ID3D11Device* dev);
 public:
 	ShaderBase();
@@ -64,6 +63,8 @@ public:
 	void Relese();
 	//render indexd, instanced textured;
 	void RenderIIT(ID3D11DeviceContext* devcon, D3DXMATRIX worldMatrix, UINT indexCount, UINT instanceCount);
+	void SetVertexShaderBuffers(ID3D11DeviceContext* devcon, D3DXMATRIX * data);
+	void SetPixelShaderBuffers(ID3D11DeviceContext* devcon, PSConstBuffer * data);
 };
 
 ID3D11Buffer* CreateD3D11Buffer(ID3D11Device* dev, D3D11_USAGE usage, UINT byteWidth, UINT bindFlags, UINT cpuAccesFlags, void * data);

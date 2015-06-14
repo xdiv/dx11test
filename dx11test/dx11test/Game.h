@@ -5,13 +5,8 @@
 
 #include "Camera.h"
 #include "PublicData.h"
-#include "test.h"
-#include "TexturedModelBase.h"
-#include "InstanedShader.h"
-#include "itmr.h"
 #include "ButtonsActionMap.h"
-#include "InterfaceShader.h"
-#include "test.h"
+#include "ShadersIncludes.h"
 
 class Game
 {
@@ -33,7 +28,9 @@ private:
 	ButtonsActionMap *input;
 	itmr* insTest;
 	InterfaceShader* is;
-	test *tst;
+	NormalShader * nshad;
+
+	DataModelBase* dmb;
 
 public:
 	Game();
