@@ -119,6 +119,7 @@ void Game::Update()
 	insTest->AddInstance(InstanceType_A(15, 15, 0));
 	//insTest->AddInstance(InstanceType_A(-15, 0, 0));
 
+	dmb->AddInstance(InstanceType_B(float3( -50, -50, 0), color_rgba(0, 0, 0, 0)));
 	dmb->AddInstance(InstanceType_B(float3(0, 0, 0), color_rgba(0, 0, 0, 0)));
 }
 void Game::Render()
@@ -141,6 +142,7 @@ void Game::RenderInterface()
 
 	/*pvz renderinti statini objektą*/
 	//is->Render(gw->GetDeviceContext(), float4(0, 0, 100, 100), NULL, ps, interfaceMatrix);
+	dmb->UpdateInstanceBuffer(gw->GetDeviceContext());
 	nshad->Render(gw->GetDeviceContext(), dmb->GetData(), NULL);
 	/*
 	pvz renderinti objektą priklausoma nuo cameros pozicijos

@@ -7,6 +7,7 @@ struct VertexInputType
 {
 	float4 position : POSITION;
 	float2 tex		: TEXCOORD0;
+	float4 intsPosition : INSTANCEPOS0;
 };
 
 struct PixelInputType
@@ -17,10 +18,19 @@ struct PixelInputType
 
 PixelInputType VShader(VertexInputType input)
 {
-	PixelInputType ret;
-	ret.position = input.position;
-	ret.position = mul(input.position, worldMatrix);
-	ret.position.w = 1.0f;
-	ret.tex = input.tex;
-	return ret;
+	PixelInputType output;
+	
+	input.position.w = 1.0f;
+	
+	output.position = input.position;
+	output.position += input.intsPosition;
+	
+	output.position = mul(output.position, worldMatrix);
+	output.tex = input.tex;
+	
+	output.position.z = 0;
+	output.position.w = 1;
+	
+
+	return output;
 }
