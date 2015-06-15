@@ -90,6 +90,10 @@ void Game::GameInit()
 	dmb = 0;
 	dmb = new DataModelBase();
 	dmb->LoadTestModel1(gw->GetDevice());
+
+	xxf = 0;
+	xxf = new DataModelBase();
+	xxf->LoadTestModel2(gw->GetDevice());
 }
 void Game::GameShutDown()
 {
@@ -119,21 +123,39 @@ void Game::Update()
 	insTest->AddInstance(InstanceType_A(15, 15, 0));
 	//insTest->AddInstance(InstanceType_A(-15, 0, 0));
 
-	dmb->AddInstance(InstanceType_B(float3( -50, -50, 0), color_rgba(0, 0, 0, 0)));
-	dmb->AddInstance(InstanceType_B(float3(0, 0, 0), color_rgba(0, 0, 0, 0)));
+	dmb->AddInstance(InstanceType_B(float3( -150, -150, 0), color_rgba(1, 0, 0, 1)));
+	dmb->AddInstance(InstanceType_B(float3(0, 0, 0), color_rgba(0, 1, 0, 0.5)));
+	dmb->AddInstance(InstanceType_B(float3(50, 50, 0), color_rgba(0, 0, 1, 0.5)));
+
+	//xxf
+	xxf->AddInstance(InstanceType_B(float3(-15, -15, 0), color_rgba(1, 0, 0, 1)));
+	xxf->AddInstance(InstanceType_B(float3(0, 0, 0), color_rgba(0, 1, 0, 0.5)));
+	xxf->AddInstance(InstanceType_B(float3(15, 15, 0), color_rgba(0, 0, 1, 0.5)));
 }
 void Game::Render()
 {
-	insTest->Render(gw->GetDeviceContext(), world3DMatrix);
+	PSConstBuffer ps;
+	ps.color = float3(1, 1, 1);
+	ps.hasColor = 0;
+	ps.hasTexture = 1;
+	ps.transperency = 1.0f;
+
+	nshad->SetVertexShaderBuffers(gw->GetDeviceContext(), &world3DMatrix);
+	nshad->SetPixelShaderBuffers(gw->GetDeviceContext(), &ps);
+
+	//insTest->Render(gw->GetDeviceContext(), world3DMatrix);
+	xxf->UpdateInstanceBuffer(gw->GetDeviceContext());
+	nshad->Render(gw->GetDeviceContext(), xxf->GetData());
 }
 
 void Game::RenderInterface()
 {
+	gw->TurnZBufferOff();
 	gw->TurnOnAlphaBlending();
 
 	PSConstBuffer ps;
 	ps.color = float3(1, 1, 1);
-	ps.hasColor = 0;
+	ps.hasColor = 1;
 	ps.hasTexture = 0;
 	ps.transperency = 0.5f;
 
@@ -143,10 +165,11 @@ void Game::RenderInterface()
 	/*pvz renderinti statini objektą*/
 	//is->Render(gw->GetDeviceContext(), float4(0, 0, 100, 100), NULL, ps, interfaceMatrix);
 	dmb->UpdateInstanceBuffer(gw->GetDeviceContext());
-	nshad->Render(gw->GetDeviceContext(), dmb->GetData(), NULL);
+	nshad->Render(gw->GetDeviceContext(), dmb->GetData());
 	/*
 	pvz renderinti objektą priklausoma nuo cameros pozicijos
 	is->Render(gw->GetDeviceContext(), float4(0, 0, 100, 100), NULL, ps, world2Dmatrix);
 	*/
 	gw->TurnOffAlphaBlending();
+	gw->TurnZBufferOn();
 }

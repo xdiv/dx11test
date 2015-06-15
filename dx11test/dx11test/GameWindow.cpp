@@ -15,6 +15,7 @@ GameWindow::GameWindow(LONG& w, LONG& h, LPCWSTR t, float screenNear, float scre
 	devcon = 0;
 	backbuffer = 0;
 	depthStencilBuffer = 0;
+	depthDisabledStencilState = 0;
 	depthStencilState = 0;
 	depthStencilView = 0;
 	rasterState = 0;
@@ -52,6 +53,7 @@ void GameWindow::ShutDown()
 	SAFE_RELEASE(rasterState);
 	SAFE_RELEASE(depthStencilView);
 	SAFE_RELEASE(depthStencilState);
+	SAFE_RELEASE(depthDisabledStencilState);
 	SAFE_RELEASE(depthStencilBuffer);
 
 	SAFE_RELEASE(backbuffer);
@@ -105,7 +107,7 @@ void GameWindow::InitD3D()
 	DXGI_SWAP_CHAIN_DESC scd;
 	D3D11_VIEWPORT viewport;
 	D3D11_TEXTURE2D_DESC depthBufferDesc;
-	D3D11_DEPTH_STENCIL_DESC depthStencilDesc;
+	D3D11_DEPTH_STENCIL_DESC depthStencilDesc, depthDisabledStencilDesc;
 	D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc;
 	D3D11_RASTERIZER_DESC rasterDesc;
 	D3D_FEATURE_LEVEL featureLevel;
@@ -257,6 +259,27 @@ void GameWindow::InitD3D()
 
 	// Create the depth stencil state.
 	dev->CreateDepthStencilState(&depthStencilDesc, &depthStencilState);
+
+	ZeroMemory(&depthDisabledStencilDesc, sizeof(depthDisabledStencilDesc));
+
+	depthDisabledStencilDesc.DepthEnable = false;
+	depthDisabledStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+	depthDisabledStencilDesc.DepthFunc = D3D11_COMPARISON_LESS;
+	depthDisabledStencilDesc.StencilEnable = true;
+	depthDisabledStencilDesc.StencilReadMask = 0xFF;
+	depthDisabledStencilDesc.StencilWriteMask = 0xFF;
+	depthDisabledStencilDesc.FrontFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+	depthDisabledStencilDesc.FrontFace.StencilDepthFailOp = D3D11_STENCIL_OP_INCR;
+	depthDisabledStencilDesc.FrontFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+	depthDisabledStencilDesc.FrontFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+	depthDisabledStencilDesc.BackFace.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+	depthDisabledStencilDesc.BackFace.StencilDepthFailOp = D3D11_STENCIL_OP_DECR;
+	depthDisabledStencilDesc.BackFace.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+	depthDisabledStencilDesc.BackFace.StencilFunc = D3D11_COMPARISON_ALWAYS;
+
+	// Create the state using the device.
+	result = dev->CreateDepthStencilState(&depthDisabledStencilDesc, &depthDisabledStencilState);
+
 	// Set the depth stencil state.
 	devcon->OMSetDepthStencilState(depthStencilState, 1);
 
@@ -303,9 +326,6 @@ void GameWindow::InitD3D()
 	// Create the blend state using the description.
 	result = dev->CreateBlendState(&blendStateDescription, &alphaEnableBlendingState);
 
-	// Modify the description to create an alpha disabled blend state description.
-	blendStateDescription.RenderTarget[0].BlendEnable = FALSE;
-
 	// Create the blend state using the description.
 	//result = dev->CreateBlendState(&blendStateDescription, &alphaDisableBlendingState);
 
@@ -338,9 +358,9 @@ void GameWindow::BuildWorldMatrix()
 	D3DXMatrixIdentity(&world3DMatrix);
 	world2DMatrix = world3DMatrix;
 	world2DMatrix.m[2][2] = 0;
-	world2DMatrix.m[3][3] = 0;
+	world2DMatrix.m[3][3] = 1;
 	// Create an orthographic projection matrix for 2D rendering.
-	D3DXMatrixOrthoLH(&orthoMatrix, (float)screenWidth, (float)screenHeight, screenNear, screenDepth);
+	D3DXMatrixOrthoLH(&orthoMatrix, (float)screenWidth, (float)screenHeight, +0.0f, 1);
 }
 
 void GameWindow::SetAspectRatio(float aspectRatio)
@@ -352,12 +372,12 @@ void GameWindow::TurnOnAlphaBlending()
 {
 	float blendFactor[4];
 
-	ZeroMemory(blendFactor, ARRAYSIZE(blendFactor));
+	//ZeroMemory(blendFactor, ARRAYSIZE(blendFactor));
 	// Setup the blend factor.
-	/*blendFactor[0] = 0.0f;
+	blendFactor[0] = 0.0f;
 	blendFactor[1] = 0.0f;
 	blendFactor[2] = 0.0f;
-	blendFactor[3] = 0.0f;*/
+	blendFactor[3] = 0.0f;
 
 	// Turn on the alpha blending.
 	devcon->OMSetBlendState(alphaEnableBlendingState, blendFactor, 0xffffffff);
@@ -369,12 +389,12 @@ void GameWindow::TurnOffAlphaBlending()
 {
 	float blendFactor[4];
 
-	ZeroMemory(blendFactor, ARRAYSIZE(blendFactor));
+	//ZeroMemory(blendFactor, ARRAYSIZE(blendFactor));
 	// Setup the blend factor.
-	/*blendFactor[0] = 0.0f;
+	blendFactor[0] = 0.0f;
 	blendFactor[1] = 0.0f;
 	blendFactor[2] = 0.0f;
-	blendFactor[3] = 0.0f;*/
+	blendFactor[3] = 0.0f;
 
 	// Turn off the alpha blending.
 	devcon->OMSetBlendState(alphaDisableBlendingState, blendFactor, 0xffffffff);
@@ -461,6 +481,16 @@ void GameWindow::SetInstance(GameWindow * gw)
 GameWindow * GameWindow::GetInstance()
 {
 	return sInst;
+}
+
+void GameWindow::TurnZBufferOn()
+{
+	devcon->OMSetDepthStencilState(depthStencilState, 1);
+}
+
+void GameWindow::TurnZBufferOff()
+{
+	devcon->OMSetDepthStencilState(depthDisabledStencilState, 1);
 }
 
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)

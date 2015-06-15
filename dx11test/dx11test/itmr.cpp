@@ -39,7 +39,7 @@ void itmr::Init(ID3D11Device* dev, HWND hWnd, ID3D11DeviceContext * devcon)
 	int* list = NULL;
 
 	mod->LoadModel(0);
-	mod->PrepareMesh(mesh, list, 0);
+//	mod->PrepareMesh(mesh, list, 0);
 
 	vert_count = mod->GetMeshSize();
 	indexCount = mod->GetIntSize();

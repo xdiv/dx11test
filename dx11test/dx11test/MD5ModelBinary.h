@@ -27,7 +27,7 @@ public:
 	MD5ModelBinary(const string &file);
 	~MD5ModelBinary();
 
-	bool	PrepareMesh(meshv1 *& mesh, int *& list, int);
+	bool	PrepareMesh(mesh2d *& mesh, int *& list, int);
 	void	SafeDelete();
 	void	LoadModel(int modelPart);
 
@@ -38,6 +38,6 @@ public:
 	static void	WriteModelToFile(const string &file, size_t numMeshes, size_t numJoints, Mesh * Meshes, Joint * Joints);
 
 private:
-	void CopyMeshInfo(meshv1 *mesh, int indice, int nr);
+	void CopyMeshInfo(mesh2d * mesh, int indice, int nr);
 };
 

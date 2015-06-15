@@ -27,6 +27,7 @@ class GameWindow
 		ID3D11RenderTargetView *backbuffer;
 		ID3D11Texture2D* depthStencilBuffer;
 		ID3D11DepthStencilState* depthStencilState;
+		ID3D11DepthStencilState* depthDisabledStencilState;
 		ID3D11DepthStencilView* depthStencilView;
 		ID3D11RasterizerState* rasterState;
 		ID3D11BlendState *alphaEnableBlendingState, *alphaDisableBlendingState;
@@ -65,6 +66,9 @@ class GameWindow
 		void BuildWorldMatrix();
 		void SetWindowSize(LONG width, LONG heigth);
 		void SetAspectRatio(float aspectRatio);
+
+		void TurnZBufferOn();
+		void TurnZBufferOff();
 
 		static void SetInstance(GameWindow * gw);
 		static GameWindow * GetInstance();

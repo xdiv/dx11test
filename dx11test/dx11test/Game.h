@@ -30,7 +30,7 @@ private:
 	InterfaceShader* is;
 	NormalShader * nshad;
 
-	DataModelBase* dmb;
+	DataModelBase* dmb, *xxf;
 
 public:
 	Game();

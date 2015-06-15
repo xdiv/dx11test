@@ -178,10 +178,10 @@ size_t	MD5ModelBinary::GetIntSize()
 	return Meshes[0].TrianglesCount *3;
 }
 
-bool MD5ModelBinary::PrepareMesh(meshv1 *& mesh, int *& list, int nr)
+bool MD5ModelBinary::PrepareMesh(mesh2d *& mesh, int *& list, int nr)
 {
 	list = new int[Meshes[nr].TrianglesCount*3];
-	mesh = new meshv1[Meshes[nr].VerticesCount];
+	mesh = new mesh2d[Meshes[nr].VerticesCount];
 
 	bool * calc = new bool[Meshes[nr].VerticesCount];
 	fill_n(calc, Meshes[nr].VerticesCount, false);
@@ -204,7 +204,7 @@ bool MD5ModelBinary::PrepareMesh(meshv1 *& mesh, int *& list, int nr)
 
 		float3 normal = CalcNormals(mesh[a].Pos, mesh[b].Pos, mesh[c].Pos);
 
-		if (!calc[a])
+		/*if (!calc[a])
 		{
 			mesh[a].Normal = normal;
 			calc[a] = true;
@@ -218,18 +218,18 @@ bool MD5ModelBinary::PrepareMesh(meshv1 *& mesh, int *& list, int nr)
 		{
 			mesh[c].Normal = normal;
 			calc[c] = true;
-		}
+		}*/
 	}
 	delete calc;
 	calc = 0;
 	return true;
 }
 
-void MD5ModelBinary::CopyMeshInfo(meshv1 *mesh, int indice, int nr)
+void MD5ModelBinary::CopyMeshInfo(mesh2d *mesh, int indice, int nr)
 {
 	mesh[indice].Tex0 = Meshes[nr].Vertices[indice].Tex;
-	mesh[indice].StartWeight = Meshes[nr].Vertices[indice].StartWeight;
-	mesh[indice].WeightCount = Meshes[nr].Vertices[indice].WeightCount;
+	//mesh[indice].StartWeight = Meshes[nr].Vertices[indice].StartWeight;
+	//mesh[indice].WeightCount = Meshes[nr].Vertices[indice].WeightCount;
 	mesh[indice].Pos = float3(0, 0, 0);
 	for (_Uint32t i = 0; i < Meshes[nr].Vertices[indice].WeightCount; i++)
 	{

@@ -190,18 +190,16 @@
     <None Include="2dVertShader.hlsl">
       <Filter>Resource Files\Vertex</Filter>
     </None>
+    <None Include="NormalPixelShader.hlsl">
+      <Filter>Resource Files\Pixel</Filter>
+    </None>
+    <None Include="NormalVertexShader.hlsl">
+      <Filter>Resource Files\Vertex</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="texttest.dds">
       <Filter>Resource Files</Filter>
     </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="NormalPixelShader.hlsl">
-      <Filter>Resource Files\Pixel</Filter>
-    </FxCompile>
-    <FxCompile Include="NormalVertexShader.hlsl">
-      <Filter>Resource Files\Vertex</Filter>
-    </FxCompile>
   </ItemGroup>
 </Project>

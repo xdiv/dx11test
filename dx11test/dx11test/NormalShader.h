@@ -17,6 +17,6 @@ public:
 	~NormalShader() {};
 
 	void Init(ID3D11Device* dev, HWND hWnd, ID3D11DeviceContext * devcon);
-	void Render(ID3D11DeviceContext* deviceContext, DMBdata* data, ID3D11ShaderResourceView* texture);
+	void Render(ID3D11DeviceContext* deviceContext, DMBdata* data);
 };
 

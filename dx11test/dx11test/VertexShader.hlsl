@@ -23,12 +23,16 @@ struct PixelInputType
 PixelInputType VShader(VertexInputType input)
 {
 	PixelInputType output;
-	
+
 	input.position.w = 1.0f;
-	output.position = mul(input.position, worldMatrix);
+
+	output.position = input.position;
+	output.position.xyz += input.intsPosition;
+
+	output.position = mul(output.position, worldMatrix);
 	output.tex = input.tex;
 
-	output.position.xyz += input.intsPosition;
+	//output.position.xyz += input.intsPosition;
 
 	return output;
 }

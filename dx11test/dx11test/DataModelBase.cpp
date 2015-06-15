@@ -59,7 +59,7 @@ void DataModelBase::UpdateInstanceBuffer(ID3D11DeviceContext * devcon)
 {
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 	devcon->Map(data->pInsBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource); // lock the instance buffer        
-	memcpy((InstanceType_A*)mappedResource.pData, data->instances, sizeof(InstanceType_A) * data->instanceCount); //overwrite instance buffer with new data
+	memcpy((InstanceType_B*)mappedResource.pData, data->instances, sizeof(InstanceType_B) * data->instanceCount); //overwrite instance buffer with new data
 	devcon->Unmap(data->pInsBuffer, 0);
 }
 
@@ -93,7 +93,7 @@ void DataModelBase::LoadTestModel1(ID3D11Device * dev)
 void DataModelBase::LoadTestModel2(ID3D11Device * dev)
 {
 	MD5ModelBinary * mod = new MD5ModelBinary("test.txt");
-	meshv1 * mesh = NULL;
+	mesh2d * mesh = NULL;
 	int* list = NULL;
 
 	mod->LoadModel(0);
@@ -107,7 +107,7 @@ void DataModelBase::LoadTestModel2(ID3D11Device * dev)
 	data->stride[0] = sizeof(mesh2d);
 	data->stride[1] = sizeof(InstanceType_B);
 
-	data->pVBuffer = CreateVertexBufferHelp(dev, (sizeof(meshv1) * data->vert_count), mesh);
+	data->pVBuffer = CreateVertexBufferHelp(dev, (sizeof(mesh2d) * data->vert_count), mesh);
 	data->pIBuffer = CreateIndexBufferHelp(dev, sizeof(unsigned long) * data->indexCount, list);
 	data->pInsBuffer = CreateInstanceBufferHelp(dev, sizeof(InstanceType_A) * data->maxInstanceCount, data->instances);
 
