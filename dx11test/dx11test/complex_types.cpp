@@ -312,3 +312,11 @@ InstanceType_B::InstanceType_B(float3 p, color_rgba c, float3 s)
 	color = c;
 	scale = s;
 }
+
+InstanceType_B::InstanceType_B(float3 p, color_rgba c, float3 s, float3 r)
+{
+	position = p;
+	color = c;
+	scale = s;
+	rotation = r;
+}

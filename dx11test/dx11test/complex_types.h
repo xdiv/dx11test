@@ -178,6 +178,7 @@ public:
 	InstanceType_B(float3 p);
 	InstanceType_B(float3 p, color_rgba c);
 	InstanceType_B(float3 p, color_rgba c, float3 s);
+	InstanceType_B(float3 p, color_rgba c, float3 s, float3 r);
 	float3 position;
 	color_rgba color;
 	float3 scale;

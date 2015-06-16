@@ -112,10 +112,14 @@ void Game::Update()
 
 	interfaceMatrix = gw->GetWorl2DMatrix() * gw->GetOrtoM();
 
-	dmb->AddInstance(InstanceType_B(float3( -150, -150, 0),		color_rgba(1, 0, 0, 1),		float3(100, 50, 1)));
-	dmb->AddInstance(InstanceType_B(float3(	0,		0,	0),		color_rgba(0, 1, 0, 0.5),	float3(50,  100, 1)));
-	dmb->AddInstance(InstanceType_B(float3(50,		50, 0),		color_rgba(0, 0, 1, 0.5),	float3(100, 100, 1)));
+	//dmb->AddInstance(InstanceType_B(float3( -150, -150, 0),		color_rgba(1, 0, 0, 1),		float3(100, 50, 1)));
+	//dmb->AddInstance(InstanceType_B(float3(	0,		0,	0),		color_rgba(0, 1, 0, 0.5),	float3(50,  100, 1)));
+	zz += 0.01f;
+	dmb->AddInstance(InstanceType_B(float3(50, 50, 0), color_rgba(0, 0, 1, 0.5), float3(100, 100, 1), float3(0.0f, 0.0f, zz) ));
 
+	
+	if (zz > 1.0f)
+		zz = -1.0f;
 	//xxf
 	xxf->AddInstance(InstanceType_B(float3(-15, 15, 0), color_rgba(1, 0, 0, 1),		float3(2)));
 	xxf->AddInstance(InstanceType_B(float3(0,	0,	0),	color_rgba(0, 1, 0, 0.5),	float3(1, 1, 0.5)));

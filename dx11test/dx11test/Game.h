@@ -32,6 +32,8 @@ private:
 
 	DataModelBase* dmb, *xxf;
 
+	float zz = -1.0f;
+
 public:
 	Game();
 	~Game();
