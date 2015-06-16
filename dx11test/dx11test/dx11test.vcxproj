@@ -152,9 +152,6 @@
     <ClCompile Include="GameWindow.cpp" />
     <ClCompile Include="GUI_Base.cpp" />
     <ClCompile Include="InputClass.cpp" />
-    <ClCompile Include="InstanedShader.cpp" />
-    <ClCompile Include="InterfaceShader.cpp" />
-    <ClCompile Include="itmr.cpp" />
     <ClCompile Include="MD5Animation.cpp" />
     <ClCompile Include="MD5Model.cpp" />
     <ClCompile Include="MD5ModelBinary.cpp" />
@@ -172,9 +169,6 @@
     <ClInclude Include="GameWindow.h" />
     <ClInclude Include="GUI_Base.h" />
     <ClInclude Include="InputClass.h" />
-    <ClInclude Include="InstanedShader.h" />
-    <ClInclude Include="InterfaceShader.h" />
-    <ClInclude Include="itmr.h" />
     <ClInclude Include="MD5Animation.h" />
     <ClInclude Include="MD5Model.h" />
     <ClInclude Include="MD5ModelBinary.h" />
@@ -184,61 +178,7 @@
     <ClInclude Include="ShaderBase.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ColorShader.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='DebugW8|Win32'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='DebugW7|Win32'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugW8|Win32'">false</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='DebugW7|Win32'">false</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
-      <FileType>Document</FileType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <Image Include="texttest.dds" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="TextureShader.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='DebugW8|Win32'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='DebugW7|Win32'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
-      <FileType>Document</FileType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="PixelShader.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='DebugW7|Win32'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='DebugW8|Win32'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
-      <FileType>Document</FileType>
-    </None>
-    <None Include="VertexShader.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='DebugW7|Win32'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='DebugW8|Win32'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
-      <FileType>Document</FileType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="2dPixShader.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='DebugW7|Win32'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='DebugW8|Win32'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
-      <FileType>Document</FileType>
-    </None>
-    <None Include="2dVertShader.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='DebugW7|Win32'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='DebugW8|Win32'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
-      <FileType>Document</FileType>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="NormalPixelShader.hlsl">

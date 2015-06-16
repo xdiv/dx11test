@@ -31,12 +31,6 @@
     <Filter Include="input">
       <UniqueIdentifier>{104ef39b-72da-4b0f-959b-ece9b4e08479}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Renderers\Shader 3D">
-      <UniqueIdentifier>{b998b14b-1b15-439d-bb11-dffea6a13781}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Renderers\Shader 2D">
-      <UniqueIdentifier>{2db5eb3f-05cb-4f05-82c1-7d7c1ce0830a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="models">
       <UniqueIdentifier>{ecd49a85-e2ad-43f7-aa16-b8ea5f7f91ba}</UniqueIdentifier>
     </Filter>
@@ -78,12 +72,6 @@
     <ClCompile Include="complex_types.cpp">
       <Filter>Math</Filter>
     </ClCompile>
-    <ClCompile Include="itmr.cpp">
-      <Filter>models</Filter>
-    </ClCompile>
-    <ClCompile Include="InstanedShader.cpp">
-      <Filter>Renderers\Shader 3D</Filter>
-    </ClCompile>
     <ClCompile Include="InputClass.cpp">
       <Filter>input</Filter>
     </ClCompile>
@@ -92,9 +80,6 @@
     </ClCompile>
     <ClCompile Include="ShaderBase.cpp">
       <Filter>Renderers</Filter>
-    </ClCompile>
-    <ClCompile Include="InterfaceShader.cpp">
-      <Filter>Renderers\Shader 2D</Filter>
     </ClCompile>
     <ClCompile Include="Game.cpp">
       <Filter>Source Files</Filter>
@@ -137,12 +122,6 @@
     <ClInclude Include="DX_Global.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="itmr.h">
-      <Filter>models</Filter>
-    </ClInclude>
-    <ClInclude Include="InstanedShader.h">
-      <Filter>Renderers\Shader 3D</Filter>
-    </ClInclude>
     <ClInclude Include="InputClass.h">
       <Filter>input</Filter>
     </ClInclude>
@@ -151,9 +130,6 @@
     </ClInclude>
     <ClInclude Include="ShaderBase.h">
       <Filter>Renderers</Filter>
-    </ClInclude>
-    <ClInclude Include="InterfaceShader.h">
-      <Filter>Renderers\Shader 2D</Filter>
     </ClInclude>
     <ClInclude Include="Game.h">
       <Filter>Header Files</Filter>
@@ -172,24 +148,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="ColorShader.hlsl">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="TextureShader.hlsl">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="PixelShader.hlsl">
-      <Filter>Resource Files\Pixel</Filter>
-    </None>
-    <None Include="VertexShader.hlsl">
-      <Filter>Resource Files\Vertex</Filter>
-    </None>
-    <None Include="2dPixShader.hlsl">
-      <Filter>Resource Files\Pixel</Filter>
-    </None>
-    <None Include="2dVertShader.hlsl">
-      <Filter>Resource Files\Vertex</Filter>
-    </None>
     <None Include="NormalPixelShader.hlsl">
       <Filter>Resource Files\Pixel</Filter>
     </None>
