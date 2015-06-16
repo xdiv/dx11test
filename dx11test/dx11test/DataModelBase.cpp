@@ -67,10 +67,10 @@ void DataModelBase::LoadTestModel1(ID3D11Device * dev)
 {
 	mesh2d mesh[4] =
 	{
-		mesh2d(0,	0,	 0, 0, 0),
-		mesh2d(0,	100, 0, 0, 1),
-		mesh2d(100, 100, 0, 1, 1),
-		mesh2d(100, 0,	 0, 1, 0)
+		mesh2d(0, 0, 0, 0, 0),
+		mesh2d(0, 1, 0, 0, 1),
+		mesh2d(1, 1, 0, 1, 1),
+		mesh2d(1, 0, 0, 1, 0)
 	};
 
 	UINT index[] = {0, 1, 2, 2, 3, 0 };

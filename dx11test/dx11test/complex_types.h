@@ -23,7 +23,7 @@ public:
 
 	float x, y, z;
 
-	float3() {};
+	float3();
 	float3(float f);
 	float3(float x, float y, float z);
 
@@ -177,8 +177,11 @@ public:
 	InstanceType_B(float x, float y, float z);
 	InstanceType_B(float3 p);
 	InstanceType_B(float3 p, color_rgba c);
+	InstanceType_B(float3 p, color_rgba c, float3 s);
 	float3 position;
 	color_rgba color;
+	float3 scale;
+	float3 rotation;
 }InstanceType_B;
 
 #endif

@@ -37,6 +37,11 @@ bool float2::operator==(float2 a) {
 //    float3
 //
 //===========================================================================
+float3::float3()
+{
+	x = y = z = 0;
+}
+
 float3::float3(float nx)
 {
 	x = nx;
@@ -299,4 +304,11 @@ InstanceType_B::InstanceType_B(float3 p, color_rgba c)
 {
 	position = p;
 	color = c;
+}
+
+InstanceType_B::InstanceType_B(float3 p, color_rgba c, float3 s)
+{
+	position = p;
+	color = c;
+	scale = s;
 }

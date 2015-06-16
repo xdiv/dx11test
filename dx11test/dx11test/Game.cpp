@@ -18,8 +18,6 @@ Game::~Game()
 	SAFE_DELETE(gw);
 	SAFE_DELETE(camera);
 	SAFE_DELETE(input);
-	SAFE_DELETE(insTest);
-	SAFE_DELETE(is);
 }
 
 void Game::Init()
@@ -74,12 +72,6 @@ void Game::GameInit()
 	camera->SetPosition(0.0f, -50.0f, 3.0f);
 	input->SetCamera(camera);
 
-	insTest = new itmr();
-	insTest->Init(gw->GetDevice(), gw->GetHwnd(), gw->GetDeviceContext());
-
-	is = new InterfaceShader();
-	is->Init(gw->GetDevice(), gw->GetHwnd(), gw->GetDeviceContext());
-
 	nshad = new NormalShader();
 	nshad->Init(gw->GetDevice(), gw->GetHwnd(), gw->GetDeviceContext());
 
@@ -99,7 +91,8 @@ void Game::GameShutDown()
 {
 	SAFE_DELETE(camera);
 	SAFE_DELETE(input);
-	SAFE_DELETE(insTest);
+	SAFE_DELETE(xxf);
+	SAFE_DELETE(dmb);
 }
 
 void Game::Update()
@@ -119,18 +112,14 @@ void Game::Update()
 
 	interfaceMatrix = gw->GetWorl2DMatrix() * gw->GetOrtoM();
 
-	insTest->AddInstance(InstanceType_A(0, 0, 0));
-	insTest->AddInstance(InstanceType_A(15, 15, 0));
-	//insTest->AddInstance(InstanceType_A(-15, 0, 0));
-
-	dmb->AddInstance(InstanceType_B(float3( -150, -150, 0), color_rgba(1, 0, 0, 1)));
-	dmb->AddInstance(InstanceType_B(float3(0, 0, 0), color_rgba(0, 1, 0, 0.5)));
-	dmb->AddInstance(InstanceType_B(float3(50, 50, 0), color_rgba(0, 0, 1, 0.5)));
+	dmb->AddInstance(InstanceType_B(float3( -150, -150, 0),		color_rgba(1, 0, 0, 1),		float3(100, 50, 1)));
+	dmb->AddInstance(InstanceType_B(float3(	0,		0,	0),		color_rgba(0, 1, 0, 0.5),	float3(50,  100, 1)));
+	dmb->AddInstance(InstanceType_B(float3(50,		50, 0),		color_rgba(0, 0, 1, 0.5),	float3(100, 100, 1)));
 
 	//xxf
-	xxf->AddInstance(InstanceType_B(float3(-15, -15, 0), color_rgba(1, 0, 0, 1)));
-	xxf->AddInstance(InstanceType_B(float3(0, 0, 0), color_rgba(0, 1, 0, 0.5)));
-	xxf->AddInstance(InstanceType_B(float3(15, 15, 0), color_rgba(0, 0, 1, 0.5)));
+	xxf->AddInstance(InstanceType_B(float3(-15, 15, 0), color_rgba(1, 0, 0, 1),		float3(2)));
+	xxf->AddInstance(InstanceType_B(float3(0,	0,	0),	color_rgba(0, 1, 0, 0.5),	float3(1, 1, 0.5)));
+	xxf->AddInstance(InstanceType_B(float3(15,	15, 0),	color_rgba(0, 0, 1, 0.5),	float3(1, 1, 1)));
 }
 void Game::Render()
 {
@@ -143,7 +132,7 @@ void Game::Render()
 	nshad->SetVertexShaderBuffers(gw->GetDeviceContext(), &world3DMatrix);
 	nshad->SetPixelShaderBuffers(gw->GetDeviceContext(), &ps);
 
-	//insTest->Render(gw->GetDeviceContext(), world3DMatrix);
+
 	xxf->UpdateInstanceBuffer(gw->GetDeviceContext());
 	nshad->Render(gw->GetDeviceContext(), xxf->GetData());
 }
@@ -163,13 +152,9 @@ void Game::RenderInterface()
 	nshad->SetPixelShaderBuffers(gw->GetDeviceContext(), &ps);
 
 	/*pvz renderinti statini objektą*/
-	//is->Render(gw->GetDeviceContext(), float4(0, 0, 100, 100), NULL, ps, interfaceMatrix);
 	dmb->UpdateInstanceBuffer(gw->GetDeviceContext());
 	nshad->Render(gw->GetDeviceContext(), dmb->GetData());
-	/*
-	pvz renderinti objektą priklausoma nuo cameros pozicijos
-	is->Render(gw->GetDeviceContext(), float4(0, 0, 100, 100), NULL, ps, world2Dmatrix);
-	*/
+
 	gw->TurnOffAlphaBlending();
 	gw->TurnZBufferOn();
 }
