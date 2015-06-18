@@ -26,6 +26,8 @@ void Game::Init()
 	gw->InitializeWindows();
 	gw->InitD3D();
 
+	time.Initialize();
+
 	GameWindow::SetInstance(gw);
 }
 
@@ -97,6 +99,8 @@ void Game::GameShutDown()
 
 void Game::Update()
 {
+	time.Frame();
+	time.GetTime();
 	camera->Render3DCamera();
 	camera->Render2DCamera();
 	input->Update();

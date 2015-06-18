@@ -28,7 +28,10 @@ float4 ComputeQuatW(float3 quat)
 	float t = 1.0f - (quat.x * quat.x) - (quat.y * quat.y) - (quat.z * quat.z);
 
 	if (t < 0.0f)
+	{
 		q.w = 0.0f;
+		q.xyz = normalize(q.xyz);
+	}
 	else
 		q.w = -sqrt(t);
 

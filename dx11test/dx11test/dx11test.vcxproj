@@ -151,12 +151,14 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameWindow.cpp" />
     <ClCompile Include="GUI_Base.cpp" />
+    <ClCompile Include="GUI_Parts.cpp" />
     <ClCompile Include="InputClass.cpp" />
     <ClCompile Include="MD5Animation.cpp" />
     <ClCompile Include="MD5Model.cpp" />
     <ClCompile Include="MD5ModelBinary.cpp" />
     <ClCompile Include="NormalShader.cpp" />
     <ClCompile Include="ShaderBase.cpp" />
+    <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ButtonsActionMap.h" />
@@ -168,6 +170,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameWindow.h" />
     <ClInclude Include="GUI_Base.h" />
+    <ClInclude Include="GUI_Parts.h" />
     <ClInclude Include="InputClass.h" />
     <ClInclude Include="MD5Animation.h" />
     <ClInclude Include="MD5Model.h" />
@@ -176,6 +179,7 @@
     <ClInclude Include="ShadersIncludes.h" />
     <ClInclude Include="PublicData.h" />
     <ClInclude Include="ShaderBase.h" />
+    <ClInclude Include="Timer.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="texttest.dds" />

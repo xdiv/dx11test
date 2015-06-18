@@ -8,6 +8,8 @@
 #include "ButtonsActionMap.h"
 #include "ShadersIncludes.h"
 
+#include "Timer.h"
+
 class Game
 {
 private:
@@ -31,6 +33,8 @@ private:
 	NormalShader * nshad;
 
 	DataModelBase* dmb, *xxf;
+
+	Timer time;
 
 	float zz = -1.0f;
 
