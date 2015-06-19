@@ -1,5 +1,5 @@
+#include "stdafx.h"
 #include "MD5Model.h"
-#include "DXMath.h"
 
 MD5Model::MD5Model()
 {
@@ -73,7 +73,7 @@ bool MD5Model::LoadModel(const std::string& filename)
 		}
 		else if (param == "joints")
 		{
-		
+
 			string name;
 			Joint joint;
 
@@ -96,28 +96,6 @@ bool MD5Model::LoadModel(const std::string& filename)
 			file >> param;
 			while (param != "}")  // Read until we get to the '}' character
 			{
-				//mesh pavadininimas
-				//if (param == "shader")
-				//{
-				//	file >> mesh.Shader;
-				//	RemoveQuotes(mesh.Shader);
-				//	fs::path shaderPath(mesh.m_Shader);
-				//	fs::path texturePath;
-				//	if (shaderPath.has_parent_path())
-				//	{
-				//		texturePath = shaderPath;
-				//	}
-				//	else
-				//	{
-				//		texturePath = parent_path / shaderPath;
-				//	}
-				//	if (!texturePath.has_extension())
-				//	{
-				//		texturePath.replace_extension(".tga");
-				//	}
-				//	mesh.TexID = SOIL_load_OGL_texture(texturePath.string().c_str(), SOIL_LOAD_AUTO, SOIL_CREATE_NEW_ID, SOIL_FLAG_MIPMAPS);
-				//	file.ignore(fileLength, '\n'); // Ignore everything else on the line
-				//}else
 				if (param == "numverts")
 				{
 					file >> Meshes[meshid].VerticesCount;               // Read in the vertices
@@ -180,22 +158,22 @@ bool MD5Model::LoadModel(const std::string& filename)
 	return true;
 }
 
-size_t MD5Model::GetMeshSize(size_t nr)
+UINT MD5Model::GetMeshSize(UINT nr)
 {
 	return Meshes[nr].VerticesCount;
 }
 
-size_t MD5Model::GetIntSize(size_t nr)
+UINT MD5Model::GetIntSize(UINT nr)
 {
 	return  Meshes[nr].TrianglesCount * 3;
 }
 
-size_t  MD5Model::GetMeshSize()
+UINT  MD5Model::GetMeshSize()
 {
 	return iNumMeshes;
 }
 
-size_t MD5Model::GetJointsSize()
+UINT MD5Model::GetJointsSize()
 {
 	return iNumJoints;
 }
@@ -209,13 +187,18 @@ Joint*  MD5Model::GetBones()
 	return Joints;
 }
 
-bool MD5Model::PrepareMesh(meshv1 *& mesh, int *& list, int nr)
+bool MD5Model::PrepareMesh(meshv1 *& mesh, UINT *& list, UINT nr)
 {
-	list = new int[GetIntSize(nr)];
+	list = new UINT[GetIntSize(nr)];
 	mesh = new meshv1[GetMeshSize(nr)];
 
 	bool * calc = new bool[Meshes[nr].VerticesCount];
-	fill_n(calc, Meshes[nr].VerticesCount, false);
+
+	for (size_t i = 0; i < Meshes[nr].VerticesCount; i++)
+	{
+		calc[i] = false;
+	}
+
 	for (_Uint32t i = 0; i < Meshes[nr].TrianglesCount; i++)
 	{
 		int in = i * 3;
@@ -223,8 +206,8 @@ bool MD5Model::PrepareMesh(meshv1 *& mesh, int *& list, int nr)
 		int b = Meshes[nr].Triangles[i].y;
 		int c = Meshes[nr].Triangles[i].z;
 		list[in] = c;
-		list[in+1] = b;
-		list[in+2] = a;
+		list[in + 1] = b;
+		list[in + 2] = a;
 
 		if (!calc[a])
 			CopyMeshInfo(mesh, a, nr);
@@ -256,7 +239,7 @@ bool MD5Model::PrepareMesh(meshv1 *& mesh, int *& list, int nr)
 	return true;
 }
 
-void MD5Model::CopyMeshInfo(meshv1 *mesh, int indice, int nr)
+void MD5Model::CopyMeshInfo(meshv1 *mesh, UINT indice, UINT nr)
 {
 	mesh[indice].Tex0 = Meshes[nr].Vertices[indice].Tex;
 	mesh[indice].StartWeight = Meshes[nr].Vertices[indice].StartWeight;
@@ -267,8 +250,6 @@ void MD5Model::CopyMeshInfo(meshv1 *mesh, int indice, int nr)
 		int weigthId = Meshes[nr].Vertices[indice].StartWeight + i;
 		int jointId = Meshes[nr].Weights[weigthId].JointId;
 		float bias = Meshes[nr].Weights[weigthId].Bias;
-		//D3DXVECTOR3 root_pos = Multiply(Joints[jointId].Orient, Joints[jointId].Pos);
-		//mesh[indice].Pos +=  (root_pos + Weights[weigthId].Pos);
 
 		float3 root_pos = Multiply(Joints[jointId].Orient, Meshes[nr].Weights[weigthId].Pos);
 		mesh[indice].Pos += bias * (root_pos + Joints[jointId].Pos);

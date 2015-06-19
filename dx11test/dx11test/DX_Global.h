@@ -33,6 +33,9 @@
 
 #include "../cdxml/complex_types.h"
 #include "../cdxml/math.h"
+
+#define GML_EXPORTS
+#define CDXML_EXPORTS
 //project settings -> configuation propertes -> c\c++ -> processor -> processor definitions
 
 #endif

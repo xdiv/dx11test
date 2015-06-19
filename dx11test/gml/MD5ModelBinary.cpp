@@ -1,14 +1,14 @@
+#include "stdafx.h"
 #include "MD5ModelBinary.h"
-#include "PublicData.h"
 
-MD5ModelBinary::MD5ModelBinary(const string &_file)
+MD5ModelBinary::MD5ModelBinary(char * _file)
 {
+	file = 0;
 	file = _file;
 	Joints = 0;
 	Meshes = 0;
 	meshStarLocations = 0;
 }
-
 
 MD5ModelBinary::~MD5ModelBinary()
 {
@@ -18,7 +18,7 @@ MD5ModelBinary::~MD5ModelBinary()
 
 void MD5ModelBinary::SafeDelete()
 {
-	
+
 	SAFE_DELETE(Joints);
 
 	size_t i = 0;
@@ -78,7 +78,7 @@ void MD5ModelBinary::LoadModel(int modelPart)
 		Meshes = new Mesh[1];
 
 		myfile.seekg(meshStarLocations[modelPart]);
-		
+
 		myfile.read((char *)&Meshes[j].VerticesCount, sizeof(long));
 
 		Meshes[j].Vertices = new Vertice[Meshes[j].VerticesCount];
@@ -107,7 +107,7 @@ void MD5ModelBinary::LoadModel(int modelPart)
 	}
 }
 
-void MD5ModelBinary::WriteModelToFile(const string &file, size_t numMeshes, size_t numJoints, Mesh * Meshes, Joint * Joints)
+void MD5ModelBinary::WriteModelToFile(const string &file, UINT numMeshes, UINT numJoints, Mesh * Meshes, Joint * Joints)
 {
 	const unsigned int length = 2048;
 	char buffer[length];
@@ -163,27 +163,31 @@ void MD5ModelBinary::WriteModelToFile(const string &file, size_t numMeshes, size
 	}
 }
 
-size_t	MD5ModelBinary::GetMeshSize()
+UINT	MD5ModelBinary::GetMeshSize()
 {
 	return Meshes[0].VerticesCount;
 }
-size_t	MD5ModelBinary::GetJointsSize()
+UINT	MD5ModelBinary::GetJointsSize()
 {
 	return numJoints;
 }
 
-size_t	MD5ModelBinary::GetIntSize()
+UINT	MD5ModelBinary::GetIntSize()
 {
-	return Meshes[0].TrianglesCount *3;
+	return Meshes[0].TrianglesCount * 3;
 }
 
-bool MD5ModelBinary::PrepareMesh(mesh2d *& mesh, int *& list, int nr)
+bool MD5ModelBinary::PrepareMesh(mesh2d *& mesh, UINT *& list, UINT nr)
 {
-	list = new int[Meshes[nr].TrianglesCount*3];
+	list = new UINT[Meshes[nr].TrianglesCount * 3];
 	mesh = new mesh2d[Meshes[nr].VerticesCount];
 
 	bool * calc = new bool[Meshes[nr].VerticesCount];
-	fill_n(calc, Meshes[nr].VerticesCount, false);
+	for (size_t i = 0; i < Meshes[nr].VerticesCount; i++)
+	{
+		calc[i] = false;
+	}
+
 	for (_Uint32t i = 0; i < Meshes[nr].TrianglesCount; i++)
 	{
 		int in = i * 3;
@@ -202,33 +206,15 @@ bool MD5ModelBinary::PrepareMesh(mesh2d *& mesh, int *& list, int nr)
 			CopyMeshInfo(mesh, c, nr);
 
 		float3 normal = CalcNormals(mesh[a].Pos, mesh[b].Pos, mesh[c].Pos);
-
-		/*if (!calc[a])
-		{
-			mesh[a].Normal = normal;
-			calc[a] = true;
-		}
-		if (!calc[b])
-		{
-			mesh[b].Normal = normal;
-			calc[b] = true;
-		}
-		if (!calc[c])
-		{
-			mesh[c].Normal = normal;
-			calc[c] = true;
-		}*/
 	}
 	delete calc;
 	calc = 0;
 	return true;
 }
 
-void MD5ModelBinary::CopyMeshInfo(mesh2d *mesh, int indice, int nr)
+void MD5ModelBinary::CopyMeshInfo(mesh2d *mesh, UINT indice, UINT nr)
 {
 	mesh[indice].Tex0 = Meshes[nr].Vertices[indice].Tex;
-	//mesh[indice].StartWeight = Meshes[nr].Vertices[indice].StartWeight;
-	//mesh[indice].WeightCount = Meshes[nr].Vertices[indice].WeightCount;
 	mesh[indice].Pos = float3(0, 0, 0);
 	for (_Uint32t i = 0; i < Meshes[nr].Vertices[indice].WeightCount; i++)
 	{

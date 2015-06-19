@@ -4,7 +4,7 @@
 #define __BASE_MODELS__
 
 #include "DX_Global.h"
-#include "complex_types.h"
+#include "..\cdxml\complex_types.h"
 #include "InstanedShader.h"
 
 class DMBdata

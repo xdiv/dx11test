@@ -1,5 +1,5 @@
 #include "DataModelBase.h"
-#include "MD5ModelBinary.h"
+#include "../gml/MD5ModelBinary.h"
 
 DMBdata::DMBdata()
 {
@@ -94,7 +94,7 @@ void DataModelBase::LoadTestModel2(ID3D11Device * dev)
 {
 	MD5ModelBinary * mod = new MD5ModelBinary("test.txt");
 	mesh2d * mesh = NULL;
-	int* list = NULL;
+	UINT * list = NULL;
 
 	mod->LoadModel(0);
 	mod->PrepareMesh(mesh, list, 0);

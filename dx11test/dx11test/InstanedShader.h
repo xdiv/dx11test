@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ShaderBase.h"
-#include "complex_types.h"
+#include "../cdxml/complex_types.h"
 
 class InstanedShader: protected ShaderBase
 {

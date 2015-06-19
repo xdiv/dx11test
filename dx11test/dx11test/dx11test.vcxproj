@@ -123,7 +123,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>../Debug/cdxml.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>../DebugW7/cdxml.lib;../DebugW7/gml.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -146,37 +146,27 @@
   <ItemGroup>
     <ClCompile Include="ButtonsActionMap.cpp" />
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="complex_types.cpp" />
     <ClCompile Include="DataModelBase.cpp" />
     <ClCompile Include="dx11test.cpp" />
-    <ClCompile Include="DXMath.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameWindow.cpp" />
     <ClCompile Include="GUI_Base.cpp" />
     <ClCompile Include="GUI_Parts.cpp" />
     <ClCompile Include="InputClass.cpp" />
-    <ClCompile Include="MD5Animation.cpp" />
-    <ClCompile Include="MD5Model.cpp" />
-    <ClCompile Include="MD5ModelBinary.cpp" />
     <ClCompile Include="NormalShader.cpp" />
     <ClCompile Include="ShaderBase.cpp" />
     <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ButtonsActionMap.h" />
-    <ClInclude Include="complex_types.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="DataModelBase.h" />
     <ClInclude Include="DX_Global.h" />
-    <ClInclude Include="DXMath.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameWindow.h" />
     <ClInclude Include="GUI_Base.h" />
     <ClInclude Include="GUI_Parts.h" />
     <ClInclude Include="InputClass.h" />
-    <ClInclude Include="MD5Animation.h" />
-    <ClInclude Include="MD5Model.h" />
-    <ClInclude Include="MD5ModelBinary.h" />
     <ClInclude Include="NormalShader.h" />
     <ClInclude Include="ShadersIncludes.h" />
     <ClInclude Include="PublicData.h" />

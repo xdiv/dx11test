@@ -3,7 +3,7 @@
 #ifndef __SHADER_BASE__
 #define __SHADER_BASE__
 #include "DX_Global.h"
-#include "complex_types.h"
+#include "../cdxml/complex_types.h"
 
 #include <fstream>
 #include "PublicData.h"

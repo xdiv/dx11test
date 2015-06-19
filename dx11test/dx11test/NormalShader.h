@@ -2,7 +2,7 @@
 
 #include "DataModelBase.h"
 #include "ShaderBase.h"
-#include "DXMath.h"
+#include "../cdxml/math.h"
 
 class NormalShader : public ShaderBase
 {

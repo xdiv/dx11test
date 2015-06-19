@@ -13,12 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="ModelLoader">
-      <UniqueIdentifier>{421b7f88-2cdc-4574-8192-259b93b6be05}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Math">
-      <UniqueIdentifier>{a85dcf77-5779-4613-bae7-9562da5829ce}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resource Files\Vertex">
       <UniqueIdentifier>{e2904232-35f3-4068-931b-660d945d4877}</UniqueIdentifier>
     </Filter>
@@ -31,20 +25,20 @@
     <Filter Include="input">
       <UniqueIdentifier>{104ef39b-72da-4b0f-959b-ece9b4e08479}</UniqueIdentifier>
     </Filter>
-    <Filter Include="models">
-      <UniqueIdentifier>{ecd49a85-e2ad-43f7-aa16-b8ea5f7f91ba}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="models\data">
-      <UniqueIdentifier>{be425ad2-887a-4110-8df0-51c6660c6f6f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="models\game">
-      <UniqueIdentifier>{300ff90a-c465-4066-bcb4-e63c3aa70ad8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GUI">
       <UniqueIdentifier>{68a3cf8c-588b-438f-a262-b4433b3714f0}</UniqueIdentifier>
     </Filter>
     <Filter Include="Perf Counters">
       <UniqueIdentifier>{4d5df622-275f-4278-a3dd-595a60d921b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Models">
+      <UniqueIdentifier>{ecd49a85-e2ad-43f7-aa16-b8ea5f7f91ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Models\data">
+      <UniqueIdentifier>{be425ad2-887a-4110-8df0-51c6660c6f6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Models\game">
+      <UniqueIdentifier>{300ff90a-c465-4066-bcb4-e63c3aa70ad8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -56,21 +50,6 @@
     </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MD5Model.cpp">
-      <Filter>ModelLoader</Filter>
-    </ClCompile>
-    <ClCompile Include="MD5Animation.cpp">
-      <Filter>ModelLoader</Filter>
-    </ClCompile>
-    <ClCompile Include="MD5ModelBinary.cpp">
-      <Filter>ModelLoader</Filter>
-    </ClCompile>
-    <ClCompile Include="DXMath.cpp">
-      <Filter>Math</Filter>
-    </ClCompile>
-    <ClCompile Include="complex_types.cpp">
-      <Filter>Math</Filter>
     </ClCompile>
     <ClCompile Include="InputClass.cpp">
       <Filter>input</Filter>
@@ -85,7 +64,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DataModelBase.cpp">
-      <Filter>models\data</Filter>
+      <Filter>Models\data</Filter>
     </ClCompile>
     <ClCompile Include="GUI_Base.cpp">
       <Filter>GUI</Filter>
@@ -110,21 +89,6 @@
     <ClInclude Include="PublicData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MD5Model.h">
-      <Filter>ModelLoader</Filter>
-    </ClInclude>
-    <ClInclude Include="MD5ModelBinary.h">
-      <Filter>ModelLoader</Filter>
-    </ClInclude>
-    <ClInclude Include="MD5Animation.h">
-      <Filter>ModelLoader</Filter>
-    </ClInclude>
-    <ClInclude Include="DXMath.h">
-      <Filter>Math</Filter>
-    </ClInclude>
-    <ClInclude Include="complex_types.h">
-      <Filter>Math</Filter>
-    </ClInclude>
     <ClInclude Include="DX_Global.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -141,7 +105,7 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DataModelBase.h">
-      <Filter>models\data</Filter>
+      <Filter>Models\data</Filter>
     </ClInclude>
     <ClInclude Include="GUI_Base.h">
       <Filter>GUI</Filter>
