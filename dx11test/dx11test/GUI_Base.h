@@ -4,7 +4,7 @@
 #include <cstring>
 #include <vector>
 #include <assert.h>
-#include "complex_types.h"
+#include "../cdxml/complex_types.h"
 #include "PublicData.h"
 
 using namespace std;

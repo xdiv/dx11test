@@ -1,5 +1,4 @@
 #include "MD5ModelBinary.h"
-#include "complex_types.h"
 #include "PublicData.h"
 
 MD5ModelBinary::MD5ModelBinary(const string &_file)

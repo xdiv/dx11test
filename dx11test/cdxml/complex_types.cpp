@@ -1,4 +1,5 @@
 #include "complex_types.h"
+#include "stdafx.h"
 
 //===========================================================================
 //
@@ -109,9 +110,9 @@ float3 float3::operator-(const float3& a) const
 	return float3(x - a.x, y - a.y, z - a.z);
 }
 
-float3 float3::operator * (float a) const
+CDXML_API float3 float3::operator * (float a) const
 {
-	return float3 (x * a, y * a, z * a);
+	return float3(x * a, y * a, z * a);
 }
 
 float3 float3::operator / (float a) const
@@ -119,7 +120,7 @@ float3 float3::operator / (float a) const
 	return float3(x / a, y / a, z / a);
 }
 
-float3 operator*(float f, const float3& v)
+CDXML_API float3 operator*(float f, const float3& v)
 {
 	return float3(f* v.x, f * v.y, f * v.z);
 }

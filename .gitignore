@@ -8,3 +8,5 @@ dx11test/ssh/*
 *.v12.suo
 dx11test/ssh/*.*
 ssh/
+dx11test/cdxml/Debug*/
+dx11test/ipch/

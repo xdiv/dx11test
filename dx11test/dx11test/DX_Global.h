@@ -29,6 +29,10 @@
 
 #endif
 
+//#define CDXML_EXPORTS
+
+#include "../cdxml/complex_types.h"
+#include "../cdxml/math.h"
 //project settings -> configuation propertes -> c\c++ -> processor -> processor definitions
 
 #endif

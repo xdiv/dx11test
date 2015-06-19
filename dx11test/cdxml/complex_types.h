@@ -1,23 +1,21 @@
-#pragma once
-
-//#include <crtdefs.h>
+#include "stdafx.h"
 
 #ifndef __BASE_TYPES__
 #define __BASE_TYPES__
 
-typedef struct float2
+typedef struct CDXML_API float2
 {
 	float x, y;
 	float2(){};
 	float2(float f);
 	float2(float fx, float fy);
-	const void Zero() { x = y = 0;};
+	const void Zero() { x = y = 0; };
 
 	bool operator!=(float2 a);
 	bool operator==(float2 a);
 } float2;
 
-typedef struct float3
+typedef struct CDXML_API float3
 {
 public:
 
@@ -27,7 +25,7 @@ public:
 	float3(float f);
 	float3(float x, float y, float z);
 
-	static float3 Zero() { float3(0); };
+	static float3 Zero() { return float3(0); };
 
 	// assignment operators
 	float3& operator += (const float3&);
@@ -45,13 +43,13 @@ public:
 	float3 operator * (float a) const;
 	float3 operator / (float a) const;
 
-	friend float3 operator * (float a, const float3 &);
+	CDXML_API friend float3 operator * (float a, const float3 &);
 
 	bool operator!=(float3 a);
 	bool operator==(float3 a);
 } float3, color_rgb;
 
-typedef struct float4
+typedef struct CDXML_API float4
 {
 public:
 	float x, y, z, w;
@@ -68,7 +66,7 @@ public:
 	bool operator==(float4 a);
 } float4, color_rgba;
 
-typedef struct int3
+typedef struct CDXML_API int3
 {
 public:
 	int x, y, z;
@@ -77,7 +75,7 @@ public:
 	bool operator==(int3 a);
 } int3;
 
-typedef struct Joint
+typedef struct CDXML_API Joint
 {
 	int Parent;
 	float3 Pos;
@@ -87,7 +85,7 @@ typedef struct Joint
 	bool operator==(Joint a);
 } Joint;
 
-typedef struct Vertice
+typedef struct CDXML_API Vertice
 {
 	float2 Tex;
 	unsigned int StartWeight;
@@ -97,7 +95,7 @@ typedef struct Vertice
 	bool operator==(Vertice a);
 } Vertice;
 
-typedef struct  Weight
+typedef struct CDXML_API Weight
 {
 	unsigned int JointId;
 	float Bias;
@@ -107,15 +105,16 @@ typedef struct  Weight
 	bool operator==(Weight a);
 } Weight;
 
-struct Mesh
+struct CDXML_API Mesh
 {
 public:
 	unsigned long VerticesCount,
-		TrianglesCount, 
+		TrianglesCount,
 		WeightCount;
 
-	Mesh() { Vertices = 0;  
-		Triangles = 0;  
+	Mesh() {
+		Vertices = 0;
+		Triangles = 0;
 		Weights = 0;
 	};
 	Vertice * Vertices;
@@ -123,7 +122,7 @@ public:
 	Weight * Weights;
 };
 
-typedef struct Matrix3x3
+typedef struct CDXML_API Matrix3x3
 {
 public:
 	float
@@ -132,7 +131,7 @@ public:
 		_31, _32, _33;
 } Matrix3x3;
 
-typedef struct rect
+typedef struct CDXML_API rect
 {
 public:
 	unsigned int x, y, width, heigth;
@@ -142,7 +141,7 @@ public:
 //--------------------------------------------------------------------------------------------------------------
 //meshes
 //--------------------------------------------------------------------------------------------------------------
-typedef struct meshv1{
+typedef struct CDXML_API meshv1{
 	float3   Pos;
 	float2   Tex0;
 	float3   Normal;
@@ -150,7 +149,7 @@ typedef struct meshv1{
 	int           WeightCount;
 } meshv1;
 
-typedef struct mesh2d{
+typedef struct CDXML_API mesh2d{
 public:
 	mesh2d(){};
 	mesh2d(float px, float py, float pz, float tx, float ty);
@@ -159,9 +158,9 @@ public:
 } mesh2d;
 
 //--------------------------------------------------------------------------------------------------------------
-//meshes
+//InstanceType
 //--------------------------------------------------------------------------------------------------------------
-typedef struct InstanceType_A
+typedef struct CDXML_API InstanceType_A
 {
 public:
 	InstanceType_A(){};
@@ -170,7 +169,7 @@ public:
 	float3 position;
 }InstanceType_A;
 
-typedef struct InstanceType_B
+typedef struct CDXML_API InstanceType_B
 {
 public:
 	InstanceType_B(){};

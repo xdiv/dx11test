@@ -7,10 +7,11 @@
 #include <fstream>
 #include <string>
 #include <assert.h>
+
 using namespace std;
 
-#include "complex_types.h"
-#include "DXMath.h"
+#include "../cdxml/complex_types.h"
+#include "../cdxml/math.h"
 
 class MD5ModelBinary
 {
