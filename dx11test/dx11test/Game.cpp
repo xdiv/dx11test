@@ -1,4 +1,5 @@
 ﻿#include "Game.h"
+#include <math.h>
 
 Game::Game()
 {
@@ -88,6 +89,8 @@ void Game::GameInit()
 	xxf = 0;
 	xxf = new DataModelBase();
 	xxf->LoadTestModel2(gw->GetDevice());
+
+	zz = 0;
 }
 void Game::GameShutDown()
 {
@@ -105,6 +108,7 @@ void Game::Update()
 	camera->Render2DCamera();
 	input->Update();
 
+	
 	/*3d pasaulio kameros renderinimas*/
 	camera->GetView3DMatrix(viewMatrix);
 	world3DMatrix = gw->GetWorl3DMatrix() * viewMatrix * gw->GetProjectionM();
@@ -118,12 +122,68 @@ void Game::Update()
 
 	//dmb->AddInstance(InstanceType_B(float3( -150, -150, 0),		color_rgba(1, 0, 0, 1),		float3(100, 50, 1)));
 	//dmb->AddInstance(InstanceType_B(float3(	0,		0,	0),		color_rgba(0, 1, 0, 0.5),	float3(50,  100, 1)));
-	zz += 0.01f;
-	dmb->AddInstance(InstanceType_B(float3(50, 50, 0), color_rgba(0, 0, 1, 0.5), float3(100, 100, 1), float3(0.0f, 0.0f, zz) ));
+	//ff += 0.1 * time.GetTime();
+	ff = 200;
+	for (size_t i = 0; i < 15; i++)
+	//while (zz < 1)
+	{
+		if (alpha > 2)
+		{
+			alpha -= 2;
+		}
 
+		if (zz > 2)
+			zz -= 2;
+
+		float rr = alpha +zz;
+		if (rr > 2)
+			rr = rr -2;
+
+		float rot = PI * 0.5 + PI*rr * 0.5;// +PI * zz * 0.5;
+
+		float tt = 0;
+		tt = sin(rot);
+		float4 q = float4(0, 0, tt, 0);
+		float3 a = float3(ff, 0, 0);
+		ComputeQuatW(q);
+		a = Multiply(q, a);
+		dmb->AddInstance(InstanceType_B(a, color_rgba(1, 0, 0, 1), float3(5, 5, 1)));
+		zz += 0.01f;
+	}
+	zz = 0;
+	//for (size_t i = 0; i < 2; i++)
+	////while (zz < 1)
+	//{
+	//	float4 q = float4(0, 0, zz, 0);
+	//	float3 a = float3(ff, 0, 0);
+	//	ComputeQuatW(q);
+	//	a = Multiply(q, a);
+	//	dmb->AddInstance(InstanceType_B(a, color_rgba(1, 1, 0, 1), float3(5, 5, 1)));
+	//	zz += 0.5f;
+	//}
+
+	//zz = -1;
+	//for (size_t i = 0; i < 2; i++)
+	//	//while (zz < 1)
+	//{
+	//	float4 q = float4(0, 0, zz, 0);
+	//	float3 a = float3(ff, 0, 0);
+	//	ComputeQuatW(q);
+	//	a = Multiply(q, a);
+	//	dmb->AddInstance(InstanceType_B(a, color_rgba(0, 1, 1, 1), float3(5, 5, 1)));
+	//	zz += 0.5f;
+	//}
+
+	//zz = -1;
+	if (ff > 400)
+		ff = -1;
+	//dmb->AddInstance(InstanceType_B(float3(-50, 50, 0), color_rgba(1, 0, 0, 1), float3(200, 1, 1)));
+	dmb->AddInstance(InstanceType_B(float3(-250, 0, 0), color_rgba(0, 1, 0, 1), float3(500, 2, 1), float3(0.0f, 0.0f, 0) ));
+	dmb->AddInstance(InstanceType_B(float3(0, -250, 0), color_rgba(0, 1, 0, 1), float3(2, 500, 1), float3(0.0f, 0.0f, 0)));
+
+	alpha += 0.004; //* time.GetTime();
 	
-	if (zz > 1.0f)
-		zz = -1.0f;
+	
 	//xxf
 	xxf->AddInstance(InstanceType_B(float3(-15, 15, 0), color_rgba(1, 0, 0, 1),		float3(2)));
 	xxf->AddInstance(InstanceType_B(float3(0,	0,	0),	color_rgba(0, 1, 0, 0.5),	float3(1, 1, 0.5)));
@@ -147,8 +207,8 @@ void Game::Render()
 
 void Game::RenderInterface()
 {
-	gw->TurnZBufferOff();
 	gw->TurnOnAlphaBlending();
+	gw->TurnZBufferOff();
 
 	PSConstBuffer ps;
 	ps.color = float3(1, 1, 1);
@@ -163,6 +223,7 @@ void Game::RenderInterface()
 	dmb->UpdateInstanceBuffer(gw->GetDeviceContext());
 	nshad->Render(gw->GetDeviceContext(), dmb->GetData());
 
-	gw->TurnOffAlphaBlending();
+	
 	gw->TurnZBufferOn();
+	gw->TurnOffAlphaBlending();
 }

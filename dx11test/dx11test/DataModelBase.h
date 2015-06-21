@@ -42,7 +42,7 @@ public:
 	DataModelBase();
 	~DataModelBase();
 
-	void AddInstance(InstanceType_B &);
+	void AddInstance(InstanceType_B );
 	void UpdateInstanceBuffer(ID3D11DeviceContext * devcon);
 
 	void LoadTestModel1(ID3D11Device * dev);

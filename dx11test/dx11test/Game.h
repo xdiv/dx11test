@@ -10,6 +10,8 @@
 
 #include "Timer.h"
 
+const float PI = 3.14159265;
+
 class Game
 {
 private:
@@ -37,6 +39,8 @@ private:
 	Timer time;
 
 	float zz = -1.0f;
+	float ff = 0;
+	float alpha = 0;
 
 public:
 	Game();

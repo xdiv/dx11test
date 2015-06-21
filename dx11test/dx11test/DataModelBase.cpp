@@ -41,7 +41,7 @@ DataModelBase::~DataModelBase()
 	SAFE_DELETE(data);
 }
 
-void DataModelBase::AddInstance(InstanceType_B& a)
+void DataModelBase::AddInstance(InstanceType_B a)
 {
 	if (data->maxInstanceCount > data->instanceCount)
 	{
@@ -59,7 +59,7 @@ void DataModelBase::UpdateInstanceBuffer(ID3D11DeviceContext * devcon)
 {
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 	devcon->Map(data->pInsBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource); // lock the instance buffer        
-	memcpy((InstanceType_B*)mappedResource.pData, data->instances, sizeof(InstanceType_B) * data->instanceCount); //overwrite instance buffer with new data
+	memcpy((InstanceType_B*)mappedResource.pData, data->instances, sizeof(InstanceType_B) * data->maxInstanceCount); //overwrite instance buffer with new data
 	devcon->Unmap(data->pInsBuffer, 0);
 }
 
@@ -87,7 +87,7 @@ void DataModelBase::LoadTestModel1(ID3D11Device * dev)
 
 	data->pVBuffer = CreateVertexBufferHelp(dev, (sizeof(mesh2d) * data->vert_count), mesh);
 	data->pIBuffer = CreateIndexBufferHelp(dev, sizeof(unsigned long) * data->indexCount, index);
-	data->pInsBuffer = CreateInstanceBufferHelp(dev, sizeof(InstanceType_A) * data->maxInstanceCount, data->instances);
+	data->pInsBuffer = CreateInstanceBufferHelp(dev, sizeof(InstanceType_B) * data->maxInstanceCount, data->instances);
 }
 
 void DataModelBase::LoadTestModel2(ID3D11Device * dev)
@@ -109,7 +109,7 @@ void DataModelBase::LoadTestModel2(ID3D11Device * dev)
 
 	data->pVBuffer = CreateVertexBufferHelp(dev, (sizeof(mesh2d) * data->vert_count), mesh);
 	data->pIBuffer = CreateIndexBufferHelp(dev, sizeof(unsigned long) * data->indexCount, list);
-	data->pInsBuffer = CreateInstanceBufferHelp(dev, sizeof(InstanceType_A) * data->maxInstanceCount, data->instances);
+	data->pInsBuffer = CreateInstanceBufferHelp(dev, sizeof(InstanceType_B) * data->maxInstanceCount, data->instances);
 
 	SAFE_DELETE(mesh);
 	SAFE_DELETE(list);
