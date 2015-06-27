@@ -38,6 +38,7 @@ private:
 	bool ReadKeyboard();
 	bool ReadMouse();
 	void ProcessInput();
+
 public:
 	InputClass();
 	InputClass(const InputClass&);
@@ -56,5 +57,8 @@ public:
 	bool MouseKeyPressedDown(UINT key);
 	bool MouseKeyReleased(UINT key);
 	bool MouseKeyHoldDown(UINT key);
+
+	LONG MouseGetMovementX();
+	LONG MouseGetMovementY();
 };
 #endif

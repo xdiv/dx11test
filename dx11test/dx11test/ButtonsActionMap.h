@@ -143,6 +143,12 @@ const UINT KEY_LWIN			= 0xDB;//	130	 /* Left Windows key */
 const UINT KEY_RWIN			= 0xDC;//	131	 /* Right Windows key */
 #pragma endregion
 
+#pragma region Mouse codes
+const UINT M_LEFT = 0x00; //0
+const UINT M_RIGTH = 0x01;//1
+const UINT M_MIDLE = 0x02;//2
+#pragma endregion
+
 class ButtonsActionMap
 {
 
@@ -165,6 +171,7 @@ private:
 	void MoveRight();
 	void MoveUp();
 	void MoveDown();
+	void Rotate();
 	
 public:
 	ButtonsActionMap(HINSTANCE, HWND);

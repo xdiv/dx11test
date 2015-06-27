@@ -31,6 +31,7 @@ void ButtonsActionMap::Update()
 	MoveRight();
 	MoveUp();
 	MoveDown();
+	Rotate();
 }
 
 
@@ -73,4 +74,12 @@ void ButtonsActionMap::MoveDown()
 {
 	if (input->KeyPressedDown(moveDow) || input->KeyHoldDown(moveDow))
 		camera->MoveCamera(0.0f, 0.0f, -0.2f);
+}
+
+void ButtonsActionMap::Rotate()
+{
+	if (input->MouseKeyHoldDown(M_RIGTH))
+	{
+		camera->SetRotation(input->MouseGetMovementX() * 0.1, input->MouseGetMovementY() * -0.1, 0);
+	}
 }

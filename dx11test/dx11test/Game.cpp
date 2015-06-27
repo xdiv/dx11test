@@ -123,8 +123,8 @@ void Game::Update()
 	//dmb->AddInstance(InstanceType_B(float3( -150, -150, 0),		color_rgba(1, 0, 0, 1),		float3(100, 50, 1)));
 	//dmb->AddInstance(InstanceType_B(float3(	0,		0,	0),		color_rgba(0, 1, 0, 0.5),	float3(50,  100, 1)));
 	//ff += 0.1 * time.GetTime();
-	ff = 200;
-	for (size_t i = 0; i < 15; i++)
+	ff = 20;
+	for (size_t i = 0; i < 20; i++)
 	//while (zz < 1)
 	{
 		if (alpha > 2)
@@ -147,8 +147,8 @@ void Game::Update()
 		float3 a = float3(ff, 0, 0);
 		ComputeQuatW(q);
 		a = Multiply(q, a);
-		dmb->AddInstance(InstanceType_B(a, color_rgba(1, 0, 0, 1), float3(5, 5, 1)));
-		zz += 0.01f;
+		dmb->AddInstance(InstanceType_B(a, color_rgba(1, 0, 0, 1), float3(2, 2, 1)));
+		zz += 0.1f;
 	}
 	zz = 0;
 	//for (size_t i = 0; i < 2; i++)
@@ -178,8 +178,8 @@ void Game::Update()
 	if (ff > 400)
 		ff = -1;
 	//dmb->AddInstance(InstanceType_B(float3(-50, 50, 0), color_rgba(1, 0, 0, 1), float3(200, 1, 1)));
-	dmb->AddInstance(InstanceType_B(float3(-250, 0, 0), color_rgba(0, 1, 0, 1), float3(500, 2, 1), float3(0.0f, 0.0f, 0) ));
-	dmb->AddInstance(InstanceType_B(float3(0, -250, 0), color_rgba(0, 1, 0, 1), float3(2, 500, 1), float3(0.0f, 0.0f, 0)));
+	dmb->AddInstance(InstanceType_B(float3(-250, 0, 0), color_rgba(0, 1, 0, 1), float3(500, 1, 1), float3(0.0f, 0.0f, 0) ));
+	dmb->AddInstance(InstanceType_B(float3(0, -250, 0), color_rgba(0, 1, 0, 1), float3(1, 500, 1), float3(0.0f, 0.0f, 0)));
 
 	alpha += 0.004; //* time.GetTime();
 	
