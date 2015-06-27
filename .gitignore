@@ -1,7 +1,6 @@
 dx11test/Debug*/
 dx11test/cdxml/Debug*/
 dx11test/gml/Debug*/
-*.dll
 dx11test/dx11test/Debug*/
 shader-error.txt
 dx11test.opensdf
