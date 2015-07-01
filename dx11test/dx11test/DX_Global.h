@@ -33,6 +33,7 @@
 
 #include "../cdxml/complex_types.h"
 #include "../cdxml/math.h"
+#include "../includes/tinyxml2/tinyxml2.h"
 
 #define GML_EXPORTS
 #define CDXML_EXPORTS

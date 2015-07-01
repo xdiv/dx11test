@@ -123,7 +123,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>../DebugW7/cdxml.lib;../DebugW7/gml.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>../DebugW7/cdxml.lib;../DebugW7/gml.lib;../includes/tinyxml2/tinyxml2.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
