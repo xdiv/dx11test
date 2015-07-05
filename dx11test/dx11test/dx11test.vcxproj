@@ -149,6 +149,7 @@
     <ClCompile Include="DataModelBase.cpp" />
     <ClCompile Include="dx11test.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameModelBase.cpp" />
     <ClCompile Include="GameWindow.cpp" />
     <ClCompile Include="GUI_Base.cpp" />
     <ClCompile Include="GUI_Parts.cpp" />
@@ -163,6 +164,7 @@
     <ClInclude Include="DataModelBase.h" />
     <ClInclude Include="DX_Global.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameModelBase.h" />
     <ClInclude Include="GameWindow.h" />
     <ClInclude Include="GUI_Base.h" />
     <ClInclude Include="GUI_Parts.h" />

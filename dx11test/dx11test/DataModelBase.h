@@ -47,6 +47,7 @@ public:
 
 	void LoadTestModel1(ID3D11Device * dev);
 	void LoadTestModel2(ID3D11Device * dev);
+	void LoadTestModel3(ID3D11Device * dev);
 
 	DMBdata* GetData();
 };

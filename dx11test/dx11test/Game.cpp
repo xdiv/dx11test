@@ -84,7 +84,7 @@ void Game::GameInit()
 
 	dmb = 0;
 	dmb = new DataModelBase();
-	dmb->LoadTestModel1(gw->GetDevice());
+	dmb->LoadTestModel3(gw->GetDevice());
 
 	xxf = 0;
 	xxf = new DataModelBase();
@@ -178,8 +178,8 @@ void Game::Update()
 	if (ff > 400)
 		ff = -1;
 	//dmb->AddInstance(InstanceType_B(float3(-50, 50, 0), color_rgba(1, 0, 0, 1), float3(200, 1, 1)));
-	dmb->AddInstance(InstanceType_B(float3(-250, 0, 0), color_rgba(0, 1, 0, 1), float3(500, 1, 1), float3(0.0f, 0.0f, 0) ));
-	dmb->AddInstance(InstanceType_B(float3(0, -250, 0), color_rgba(0, 1, 0, 1), float3(1, 500, 1), float3(0.0f, 0.0f, 0)));
+	dmb->AddInstance(InstanceType_B(float3(0, 0, 0), color_rgba(0, 1, 0, 1), float3(500, 1, 1), float3(0.0f, 0.0f, 0) ));
+	dmb->AddInstance(InstanceType_B(float3(0, 0, 0), color_rgba(0, 1, 0, 1), float3(1, 500, 1), float3(0.0f, 0.0f, 0)));
 
 	alpha += 0.004; //* time.GetTime();
 	

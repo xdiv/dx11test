@@ -1,6 +1,8 @@
 #pragma once
 
 #include <windows.h>
+#include <iostream>
+#include <sstream>
 
 class Timer
 {
@@ -9,6 +11,8 @@ private:
 	float ticksPerMs;
 	INT64 startTime;
 	float frameTime;
+
+	std::ostringstream os_;
 
 private:
 	Timer(Timer&) {};

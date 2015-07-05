@@ -78,6 +78,9 @@
     <ClCompile Include="Timer.cpp">
       <Filter>Perf Counters</Filter>
     </ClCompile>
+    <ClCompile Include="GameModelBase.cpp">
+      <Filter>Models\game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameWindow.h">
@@ -121,6 +124,9 @@
     </ClInclude>
     <ClInclude Include="Timer.h">
       <Filter>Perf Counters</Filter>
+    </ClInclude>
+    <ClInclude Include="GameModelBase.h">
+      <Filter>Models\game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -117,3 +117,27 @@ void DataModelBase::LoadTestModel2(ID3D11Device * dev)
 
 	D3DX11CreateShaderResourceViewFromFile(dev, L"bob_body.dds", NULL, NULL, &(data->texture), NULL);
 }
+
+void DataModelBase::LoadTestModel3(ID3D11Device * dev)
+{
+	mesh2d mesh[4] =
+	{
+		mesh2d(-0.5, -0.5, 0, 0, 0),
+		mesh2d(-0.5, 0.5, 0, 0, 1),
+		mesh2d(0.5, 0.5, 0, 1, 1),
+		mesh2d(0.5, -0.5, 0, 1, 0)
+	};
+
+	UINT index[] = { 0, 1, 2, 2, 3, 0 };
+	data->vert_count = sizeof(mesh) / sizeof(mesh2d);
+	data->indexCount = sizeof(index) / sizeof(UINT);
+
+	data->instances = new InstanceType_B[data->maxInstanceCount];
+
+	data->stride[0] = sizeof(mesh2d);
+	data->stride[1] = sizeof(InstanceType_B);
+
+	data->pVBuffer = CreateVertexBufferHelp(dev, (sizeof(mesh2d) * data->vert_count), mesh);
+	data->pIBuffer = CreateIndexBufferHelp(dev, sizeof(unsigned long) * data->indexCount, index);
+	data->pInsBuffer = CreateInstanceBufferHelp(dev, sizeof(InstanceType_B) * data->maxInstanceCount, data->instances);
+}

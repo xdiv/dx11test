@@ -9,7 +9,7 @@ typedef struct CDXML_API float2
 	float2(){};
 	float2(float f);
 	float2(float fx, float fy);
-	const void Zero() { x = y = 0; };
+	static float2 Zero() { return float2(0); };
 
 	bool operator!=(float2 a);
 	bool operator==(float2 a);
@@ -55,8 +55,9 @@ public:
 	float x, y, z, w;
 
 	float4() {};
+	float4(const float f) { x = y = z = w = f; }
 	float4(float x, float y, float z, float w);
-	const void Zero() { x = y = z = w = 0; };
+	static float4 Zero() { return float4(0); };
 
 	// binary operators
 	float4 operator * (float a) const;
