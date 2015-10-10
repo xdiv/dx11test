@@ -5,7 +5,7 @@
 
 #include "DX_Global.h"
 #include "..\cdxml\complex_types.h"
-#include "InstanedShader.h"
+#include "ShaderBase.h"
 
 class DMBdata
 {

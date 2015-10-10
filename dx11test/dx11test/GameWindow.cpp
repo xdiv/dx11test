@@ -348,19 +348,19 @@ void GameWindow::BuildWorldMatrix()
 {
 	float fieldOfView, screenAspect;
 	// Setup the projection matrix.
-	fieldOfView = (float)D3DX_PI / aspectRatio;
+	fieldOfView = (float)XM_PI / aspectRatio;
 	screenAspect = (float)screenWidth / (float)screenHeight;
 
 	// Create the projection matrix for 3D rendering.
-	D3DXMatrixPerspectiveFovLH(&projectionMatrix, fieldOfView, screenAspect, screenNear, screenDepth);
+	projectionMatrix = XMMatrixPerspectiveFovLH(fieldOfView, screenAspect, screenNear, screenDepth);
 
 	// Initialize the world matrix to the identity matrix.
-	D3DXMatrixIdentity(&world3DMatrix);
+	world3DMatrix = XMMatrixIdentity();
 	world2DMatrix = world3DMatrix;
-	world2DMatrix.m[2][2] = 0;
-	world2DMatrix.m[3][3] = 1;
+	world2DMatrix.r[2] = XMVectorZero();
+	world2DMatrix.r[3] = XMVectorSet(0,0,1,0);
 	// Create an orthographic projection matrix for 2D rendering.
-	D3DXMatrixOrthoLH(&orthoMatrix, (float)screenWidth, (float)screenHeight, +0.0f, 1);
+	orthoMatrix = XMMatrixOrthographicLH((float)screenWidth, (float)screenHeight, +0.0f, 1);
 }
 
 void GameWindow::SetAspectRatio(float aspectRatio)
@@ -404,7 +404,8 @@ void GameWindow::TurnOffAlphaBlending()
 
 void GameWindow::BeginScene()
 {
-	devcon->ClearRenderTargetView(backbuffer, D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f));
+	const float color[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
+	devcon->ClearRenderTargetView(backbuffer, color);
 	devcon->ClearDepthStencilView(depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 }
 
@@ -419,22 +420,22 @@ void GameWindow::EndScene()
 
 }
 
-D3DXMATRIX GameWindow::GetWorl3DMatrix()
+XMMATRIX GameWindow::GetWorl3DMatrix()
 {
 	return world3DMatrix;
 }
 
-D3DXMATRIX GameWindow::GetWorl2DMatrix()
+XMMATRIX GameWindow::GetWorl2DMatrix()
 {
 	return world2DMatrix;
 }
 
-D3DXMATRIX GameWindow::GetOrtoM()
+XMMATRIX GameWindow::GetOrtoM()
 {
 	return orthoMatrix;
 }
 
-D3DXMATRIX GameWindow::GetProjectionM()
+XMMATRIX GameWindow::GetProjectionM()
 {
 	return projectionMatrix;
 }

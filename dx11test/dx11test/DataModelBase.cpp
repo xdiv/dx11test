@@ -115,7 +115,9 @@ void DataModelBase::LoadTestModel2(ID3D11Device * dev)
 	SAFE_DELETE(list);
 	SAFE_DELETE(mod);
 
-	D3DX11CreateShaderResourceViewFromFile(dev, L"bob_body.dds", NULL, NULL, &(data->texture), NULL);
+	//D3DCreateShaderResourceViewFromFile(dev, L"bob_body.dds", NULL, NULL, &(data->texture), NULL);
+	//D3DCreateShaderResourceViewFromFile(dev, L"bob_body.dds", NULL, NULL, &(data->texture), NULL);
+	DirectX::C
 }
 
 void DataModelBase::LoadTestModel3(ID3D11Device * dev)

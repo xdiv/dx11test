@@ -26,7 +26,7 @@ private:
 	void RenderInterface();
 	
 
-	D3DXMATRIX viewMatrix, 
+	XMMATRIX viewMatrix,
 		world3DMatrix, world2Dmatrix, 
 		interfaceMatrix;
 

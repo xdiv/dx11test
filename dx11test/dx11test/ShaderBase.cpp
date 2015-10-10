@@ -28,15 +28,15 @@ void ShaderBase::Relese()
 void ShaderBase::Init(ID3D11Device* dev, HWND hwnd, WCHAR* vsFilename, WCHAR* psFilename, ID3D11DeviceContext* devcon, D3D11_INPUT_ELEMENT_DESC * iedf, int desc_count)
 {
 	HRESULT result;
-	ID3D10Blob *VS, *PS, *errorMessage;
+	ID3DBlob *VS, *PS, *errorMessage;
 
-	result = D3DX11CompileFromFile(vsFilename, 0, 0, "VShader", "vs_5_0", 0, 0, 0, &VS, &errorMessage, 0);
+	result = D3DCompileFromFile(vsFilename, 0, 0, "VShader", "vs_5_0", 0, 0, &VS, &errorMessage);
 	if (FAILED(result))
 	{
 		OutputShaderErrorMessage(errorMessage, hwnd, vsFilename);
 	}
 
-	result = D3DX11CompileFromFile(psFilename, 0, 0, "PShader", "ps_5_0", 0, 0, 0, &PS, &errorMessage, 0);
+	result = D3DCompileFromFile(psFilename, 0, 0, "PShader", "ps_5_0", 0, 0, &PS, &errorMessage);
 
 	if (FAILED(result))
 	{
@@ -201,7 +201,7 @@ void ShaderBase::CreateSampler(ID3D11Device* dev)
 	dev->CreateSamplerState(&samplerDesc, &pSampleState);
 }
 
-void ShaderBase::SetVertexShaderBuffers(ID3D11DeviceContext* devcon, D3DXMATRIX * data)
+void ShaderBase::SetVertexShaderBuffers(ID3D11DeviceContext* devcon, XMMATRIX * data)
 {
 	//	HRESULT result;
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
@@ -209,7 +209,7 @@ void ShaderBase::SetVertexShaderBuffers(ID3D11DeviceContext* devcon, D3DXMATRIX 
 	unsigned int bufferNumber;
 
 	// Transpose the matrices to prepare them for the shader.
-	D3DXMatrixTranspose(data, data);
+	data = &XMMatrixTranspose(*data);
 
 	// Lock the constant buffer so it can be written to.
 	devcon->Map(IVsBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
@@ -252,7 +252,7 @@ void ShaderBase::SetPixelShaderBuffers(ID3D11DeviceContext* devcon, PSConstBuffe
 	devcon->PSSetConstantBuffers(0, 1, &IPxBuffer);
 }
 
-void ShaderBase::RenderIIT(ID3D11DeviceContext* devcon, D3DXMATRIX worldMatrix, UINT indexCount, UINT instanceCount)
+void ShaderBase::RenderIIT(ID3D11DeviceContext* devcon, XMMATRIX &worldMatrix, UINT indexCount, UINT instanceCount)
 {
 	SetVertexShaderBuffers(devcon, &worldMatrix);
 	//devcon->PSSetShaderResources(0, 1, &texture); perkelti i modelRenderer

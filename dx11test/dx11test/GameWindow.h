@@ -6,9 +6,20 @@
 
 #include "DX_Global.h"
 
+#if defined(DEBUGW8)
 #pragma comment (lib, "d3d11.lib")
-#pragma comment (lib, "d3dx11.lib")
+//#pragma comment (lib, "d3dx11.lib")
+//#pragma comment (lib, "d3dx10.lib")
+#endif
+
+#if defined(DEBUGW10)
+#pragma comment (lib, "d3d12.lib")
+#pragma comment (lib, "d3d11.lib")
+//#pragma comment (lib, "d3dx11.lib")
 #pragma comment (lib, "d3dx10.lib")
+#endif
+
+using namespace DirectX;
 
 class GameWindow
 {
@@ -35,9 +46,9 @@ class GameWindow
 
 		char m_videoCardDescription[128];
 
-		D3DXMATRIX projectionMatrix;
-		D3DXMATRIX world3DMatrix, world2DMatrix;
-		D3DXMATRIX orthoMatrix;
+		XMMATRIX projectionMatrix;
+		XMMATRIX world3DMatrix, world2DMatrix;
+		XMMATRIX orthoMatrix;
 
 		static GameWindow * sInst;
 	protected:
@@ -51,10 +62,10 @@ class GameWindow
 		void TurnOnAlphaBlending();
 		void TurnOffAlphaBlending();
 
-		D3DXMATRIX GetWorl3DMatrix();
-		D3DXMATRIX GetWorl2DMatrix();
-		D3DXMATRIX GetProjectionM();
-		D3DXMATRIX GetOrtoM();
+		XMMATRIX GetWorl3DMatrix();
+		XMMATRIX GetWorl2DMatrix();
+		XMMATRIX GetProjectionM();
+		XMMATRIX GetOrtoM();
 		ID3D11Device* GetDevice();
 		ID3D11DeviceContext* GetDeviceContext();
 		HWND GetHwnd();
