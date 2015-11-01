@@ -12,7 +12,7 @@ private:
 	INT64 startTime;
 	float frameTime;
 
-	std::ostringstream os_;
+	//std::ostringstream os_;
 
 private:
 	Timer(Timer&) {};

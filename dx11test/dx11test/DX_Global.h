@@ -40,13 +40,14 @@
 
 #if defined(DEBUGW10)
 
-	#include <c:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\um\d3d12.h>
-	#include <c:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\shared\dxgi1_2.h>
-	#include <c:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\shared\dxgi1_3.h>
-	#include <c:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\shared\dxgi1_4.h>
-	#include <c:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\um\d3dcommon.h>
-	#include <c:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\um\D3Dcompiler.h>
-	#include <c:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\um\DirectXMath.h>
+	#include <d3d12.h>
+	#include <d3d11.h>
+	#include <d3d10.h>
+	#include <dxgi1_4.h>
+	#include <d3dcommon.h>
+	#include <D3Dcompiler.h>
+	#include <DirectXMath.h>
+	#include <DirectXCollision.h>
 	//#include <c:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\um\dxg>
 //D3DDECLTYPE, D3DFORMAT, and DXGI_FORMAT 
 

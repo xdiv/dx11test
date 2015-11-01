@@ -43,8 +43,8 @@ void Timer::Frame()
 
 	startTime = currentTime;
 
-	os_ << frameTime << "\n";
-	OutputDebugStringA(os_.str().c_str());
+	//os_ << frameTime << "\n";
+	//OutputDebugStringA(os_.str().c_str());
 	return;
 }
 

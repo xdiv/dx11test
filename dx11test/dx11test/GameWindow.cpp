@@ -357,8 +357,8 @@ void GameWindow::BuildWorldMatrix()
 	// Initialize the world matrix to the identity matrix.
 	world3DMatrix = XMMatrixIdentity();
 	world2DMatrix = world3DMatrix;
-	world2DMatrix.r[2] = XMVectorZero();
-	world2DMatrix.r[3] = XMVectorSet(0,0,1,0);
+	world2DMatrix.r[2] = DirectX::XMVectorZero();
+	//world2DMatrix.r[3] = DirectX::XMVectorZero();
 	// Create an orthographic projection matrix for 2D rendering.
 	orthoMatrix = XMMatrixOrthographicLH((float)screenWidth, (float)screenHeight, +0.0f, 1);
 }

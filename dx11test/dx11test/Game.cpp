@@ -108,10 +108,13 @@ void Game::Update()
 	camera->Render2DCamera();
 	input->Update();
 
-	
+	XMMATRIX w, p;
+
+	w = gw->GetWorl3DMatrix();
+	p = gw->GetProjectionM();
 	/*3d pasaulio kameros renderinimas*/
 	camera->GetView3DMatrix(viewMatrix);
-	world3DMatrix = gw->GetWorl3DMatrix() * viewMatrix * gw->GetProjectionM();
+	world3DMatrix = w * viewMatrix * p;
 
 	/*2d pasaulio cameros renderinimas, tikriausiai 
 	dar reikia nustatye identity matricą į 2d*/

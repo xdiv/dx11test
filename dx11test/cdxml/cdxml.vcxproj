@@ -18,6 +18,7 @@
     <ProjectGuid>{2F2A5CBC-9EE8-49D9-9C34-DB52A3779925}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>cdxml</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugW7|Win32'" Label="Configuration">
@@ -35,6 +36,7 @@
   </PropertyGroup>
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='DEBUGW10|Win32'">
     <PlatformToolset>v140</PlatformToolset>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">

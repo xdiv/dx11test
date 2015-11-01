@@ -15,8 +15,8 @@
 #if defined(DEBUGW10)
 #pragma comment (lib, "d3d12.lib")
 #pragma comment (lib, "d3d11.lib")
-//#pragma comment (lib, "d3dx11.lib")
-#pragma comment (lib, "d3dx10.lib")
+#pragma comment (lib, "d3d10.lib")
+#pragma comment (lib, "d3d10_1.lib")
 #endif
 
 using namespace DirectX;

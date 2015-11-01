@@ -117,7 +117,6 @@ void DataModelBase::LoadTestModel2(ID3D11Device * dev)
 
 	//D3DCreateShaderResourceViewFromFile(dev, L"bob_body.dds", NULL, NULL, &(data->texture), NULL);
 	//D3DCreateShaderResourceViewFromFile(dev, L"bob_body.dds", NULL, NULL, &(data->texture), NULL);
-	DirectX::C
 }
 
 void DataModelBase::LoadTestModel3(ID3D11Device * dev)

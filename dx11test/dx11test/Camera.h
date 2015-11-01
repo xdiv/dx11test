@@ -16,7 +16,7 @@ private:
 	XMMATRIX m_viewMatrix;
 	XMMATRIX view2dMatrix;
 
-	std::ostringstream os_;
+	//std::ostringstream os_;
 
 public:
 	Camera();

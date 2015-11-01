@@ -50,7 +50,7 @@ void Camera::MoveCamera(float dx, float dy, float dz)
 
 void Camera::SetRotation(float x, float y, float z)
 {
-	os_ << x << " " << y << "\n";
+	//os_ << x << " " << y << "\n";
 	//OutputDebugStringA(os_.str().c_str());
 
 	m_rotationX += x * 0.0174532925f;

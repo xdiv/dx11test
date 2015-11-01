@@ -26,6 +26,7 @@
     <ProjectGuid>{A17DA73D-14BB-4A90-A183-A9BB58C677D2}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>dx11test</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.10240.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -55,6 +56,7 @@
   </PropertyGroup>
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='DEBUGW10|Win32'">
     <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -153,6 +155,12 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DEBUGW10|Win32'">
     <ClCompile>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions);DEBUGW10</PreprocessorDefinitions>
+      <CompileAsWinRT>false</CompileAsWinRT>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <Optimization>Disabled</Optimization>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <SDLCheck>true</SDLCheck>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <AdditionalDependencies>d3d12.lib;dxgi.lib;d3dcompiler.lib;../DebugW10/cdxml.lib;../DebugW10/gml.lib;../includes/tinyxml2/tinyxml2.lib;%(AdditionalDependencies)</AdditionalDependencies>
