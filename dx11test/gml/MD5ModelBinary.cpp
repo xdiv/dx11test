@@ -49,7 +49,7 @@ void MD5ModelBinary::LoadModel(int modelPart)
 
 	if (myfile.is_open())
 	{
-		/*if (meshStarLocations == NULL)
+		/*if (meshStarLocations == nullptr)
 		{
 
 		}*/

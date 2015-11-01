@@ -59,7 +59,7 @@ protected:
 public:
 	ShaderBase();
 	~ShaderBase();
-	void Relese();
+	void Release();
 	//render indexd, instanced textured;
 	void RenderIIT(ID3D11DeviceContext* devcon, XMMATRIX &worldMatrix, UINT indexCount, UINT instanceCount);
 	void SetVertexShaderBuffers(ID3D11DeviceContext* devcon, XMMATRIX * data);

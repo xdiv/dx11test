@@ -74,7 +74,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	pElement = pRoot->FirstChildElement("List");
 	XMLElement * pListElement = pElement->FirstChildElement("Item");
 	std::vector<int> vecList;
-	while (pListElement != nullptr)
+	while (pListElement != nullptrptr)
 	{
 		int iOutListValue;
 		eResult = pListElement->QueryIntText(&iOutListValue);

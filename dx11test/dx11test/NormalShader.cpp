@@ -31,8 +31,8 @@ void NormalShader::Render(ID3D11DeviceContext* devcon, DMBdata* data)
 	}
 
 	// Set the vertex and pixel shaders that will be used to render this triangle.
-	devcon->VSSetShader(pVS, NULL, 0);
-	devcon->PSSetShader(pPS, NULL, 0);
+	devcon->VSSetShader(pVS, nullptr, 0);
+	devcon->PSSetShader(pPS, nullptr, 0);
 
 	devcon->IASetInputLayout(pLayout);
 

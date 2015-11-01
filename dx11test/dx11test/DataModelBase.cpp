@@ -93,8 +93,8 @@ void DataModelBase::LoadTestModel1(ID3D11Device * dev)
 void DataModelBase::LoadTestModel2(ID3D11Device * dev)
 {
 	MD5ModelBinary * mod = new MD5ModelBinary("test.txt");
-	mesh2d * mesh = NULL;
-	UINT * list = NULL;
+	mesh2d * mesh = nullptr;
+	UINT * list = nullptr;
 
 	mod->LoadModel(0);
 	mod->PrepareMesh(mesh, list, 0);
@@ -115,8 +115,8 @@ void DataModelBase::LoadTestModel2(ID3D11Device * dev)
 	SAFE_DELETE(list);
 	SAFE_DELETE(mod);
 
-	//D3DCreateShaderResourceViewFromFile(dev, L"bob_body.dds", NULL, NULL, &(data->texture), NULL);
-	//D3DCreateShaderResourceViewFromFile(dev, L"bob_body.dds", NULL, NULL, &(data->texture), NULL);
+	//D3DCreateShaderResourceViewFromFile(dev, L"bob_body.dds", nullptr, nullptr, &(data->texture), nullptr);
+	//D3DCreateShaderResourceViewFromFile(dev, L"bob_body.dds", nullptr, nullptr, &(data->texture), nullptr);
 }
 
 void DataModelBase::LoadTestModel3(ID3D11Device * dev)

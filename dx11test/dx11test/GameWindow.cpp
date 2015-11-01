@@ -35,16 +35,16 @@ GameWindow::~GameWindow()
 {
 	ShutDown();
 	DestroyWindow(hWnd);
-	hWnd = NULL;
+	hWnd = nullptr;
 
 	UnregisterClass(L"WindowClass1", hInstance);
-	hInstance = NULL;
+	hInstance = nullptr;
 }
 
 void GameWindow::ShutDown()
 {
 	if (swapchain)
-		swapchain->SetFullscreenState(false, NULL);
+		swapchain->SetFullscreenState(false, nullptr);
 	SAFE_RELEASE(swapchain);
 
 	SAFE_RELEASE(alphaDisableBlendingState);
@@ -64,7 +64,7 @@ void GameWindow::ShutDown()
 void GameWindow::InitializeWindows()
 {
 	WNDCLASSEX wc;
-	hInstance = GetModuleHandle(NULL);
+	hInstance = GetModuleHandle(nullptr);
 
 	ZeroMemory(&wc, sizeof(WNDCLASSEX));
 	// fill in the struct with the needed information
@@ -72,7 +72,7 @@ void GameWindow::InitializeWindows()
 	wc.style = CS_HREDRAW | CS_VREDRAW;
 	wc.lpfnWndProc = WindowProc;
 	wc.hInstance = hInstance;
-	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+	wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	//wc.hbrBackground = (HBRUSH)COLOR_WINDOW;
 	wc.lpszClassName = L"WindowClass1";
 	wc.hbrBackground = (HBRUSH)GetStockObject(GRAY_BRUSH);
@@ -91,10 +91,10 @@ void GameWindow::InitializeWindows()
 		300,    // y-position of the window
 		screenWidth,    // width of the window
 		screenHeight,    // height of the window
-		NULL,    // we have no parent window, NULL
-		NULL,    // we aren't using menus, NULL
+		nullptr,    // we have no parent window, nullptr
+		nullptr,    // we aren't using menus, nullptr
 		hInstance,    // application handle
-		NULL);    // used with multiple windows, NULL
+		nullptr);    // used with multiple windows, nullptr
 
 	ShowWindow(hWnd, SW_SHOW);
 	SetForegroundWindow(hWnd);
@@ -134,7 +134,7 @@ void GameWindow::InitD3D()
 	adapter->EnumOutputs(0, &adapterOutput);
 
 	// Get the number of modes that fit the DXGI_FORMAT_R8G8B8A8_UNORM display format for the adapter output (monitor).
-	adapterOutput->GetDisplayModeList(DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_ENUM_MODES_INTERLACED, &numModes, NULL);
+	adapterOutput->GetDisplayModeList(DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_ENUM_MODES_INTERLACED, &numModes, nullptr);
 
 	displayModeList = new DXGI_MODE_DESC[numModes];
 
@@ -197,9 +197,9 @@ void GameWindow::InitD3D()
 	
 	featureLevel = D3D_FEATURE_LEVEL_11_0;
 	// create a device, device context and swap chain using the information in the scd struct
-	result = D3D11CreateDeviceAndSwapChain(NULL,
+	result = D3D11CreateDeviceAndSwapChain(nullptr,
 		D3D_DRIVER_TYPE_HARDWARE,
-		NULL,
+		nullptr,
 		//D3D11_CREATE_DEVICE_DEBUG,
 		0,
 		&featureLevel,
@@ -208,7 +208,7 @@ void GameWindow::InitD3D()
 		&scd,
 		&swapchain,
 		&dev,
-		NULL,
+		nullptr,
 		&devcon);
 
 	// get the address of the back buffer
@@ -216,7 +216,7 @@ void GameWindow::InitD3D()
 	swapchain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer);
 	
 	// use the back buffer address to create the render target
-	dev->CreateRenderTargetView(pBackBuffer, NULL, &backbuffer);
+	dev->CreateRenderTargetView(pBackBuffer, nullptr, &backbuffer);
 	pBackBuffer->Release();
 	pBackBuffer = 0;
 	
@@ -232,7 +232,7 @@ void GameWindow::InitD3D()
 	depthBufferDesc.CPUAccessFlags = 0;
 	depthBufferDesc.MiscFlags = 0;
 
-	dev->CreateTexture2D(&depthBufferDesc, NULL, &depthStencilBuffer);
+	dev->CreateTexture2D(&depthBufferDesc, nullptr, &depthStencilBuffer);
 	
 	ZeroMemory(&depthStencilDesc, sizeof(depthStencilDesc));
 
@@ -292,7 +292,7 @@ void GameWindow::InitD3D()
 	
 	// set the render target as the back buffer
 	devcon->OMSetRenderTargets(1, &backbuffer, depthStencilView);
-	//devcon->OMSetRenderTargets(1, &backbuffer, NULL);
+	//devcon->OMSetRenderTargets(1, &backbuffer, nullptr);
 
 	// Setup the raster description which will determine how and what polygons will be drawn.
 	rasterDesc.AntialiasedLineEnable = true;

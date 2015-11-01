@@ -12,10 +12,10 @@ ShaderBase::ShaderBase()
 
 ShaderBase::~ShaderBase()
 {
-	Relese();
+	Release();
 }
 
-void ShaderBase::Relese()
+void ShaderBase::Release()
 {
 	SAFE_RELEASE(pSampleState);
 	SAFE_RELEASE(pLayout);
@@ -43,8 +43,8 @@ void ShaderBase::Init(ID3D11Device* dev, HWND hwnd, WCHAR* vsFilename, WCHAR* ps
 		OutputShaderErrorMessage(errorMessage, hwnd, psFilename);
 	}
 
-	dev->CreateVertexShader(VS->GetBufferPointer(), VS->GetBufferSize(), NULL, &pVS);
-	dev->CreatePixelShader(PS->GetBufferPointer(), PS->GetBufferSize(), NULL, &pPS);
+	dev->CreateVertexShader(VS->GetBufferPointer(), VS->GetBufferSize(), nullptr, &pVS);
+	dev->CreatePixelShader(PS->GetBufferPointer(), PS->GetBufferSize(), nullptr, &pPS);
 
 	dev->CreateInputLayout(iedf, desc_count, VS->GetBufferPointer(), VS->GetBufferSize(), &pLayout);
 
@@ -59,7 +59,7 @@ void ShaderBase::Init(ID3D11Device* dev, HWND hwnd, WCHAR* vsFilename, WCHAR* ps
 	matrixBufferDesc.MiscFlags = 0;
 	matrixBufferDesc.StructureByteStride = 0;
 
-	dev->CreateBuffer(&matrixBufferDesc, NULL, &IVsBuffer);
+	dev->CreateBuffer(&matrixBufferDesc, nullptr, &IVsBuffer);
 }
 
 void ShaderBase::RenderShader(ID3D11DeviceContext* deviceContext, int indexCount)
@@ -67,8 +67,8 @@ void ShaderBase::RenderShader(ID3D11DeviceContext* deviceContext, int indexCount
 	deviceContext->IASetInputLayout(pLayout);
 
 	// Set the vertex and pixel shaders that will be used to render this triangle.
-	deviceContext->VSSetShader(pVS, NULL, 0);
-	deviceContext->PSSetShader(pPS, NULL, 0);
+	deviceContext->VSSetShader(pVS, nullptr, 0);
+	deviceContext->PSSetShader(pPS, nullptr, 0);
 
 	// Set the sampler state in the pixel shader.
 	//deviceContext->PSSetSamplers(0, 1, &m_sampleState);
@@ -91,7 +91,7 @@ void ShaderBase::CreatePixelShaderBuffer(ID3D11Device* dev)
 	bufferDesc.MiscFlags = 0;
 	bufferDesc.StructureByteStride = 0;
 
-	result = dev->CreateBuffer(&bufferDesc, NULL, &IPxBuffer);       // create the buffer
+	result = dev->CreateBuffer(&bufferDesc, nullptr, &IPxBuffer);       // create the buffer
 }
 
 //void ShaderBase::SetShaderParameters(ID3D11DeviceContext* devcon, PSConstBuffer buffer)
@@ -260,8 +260,8 @@ void ShaderBase::RenderIIT(ID3D11DeviceContext* devcon, XMMATRIX &worldMatrix, U
 	devcon->IASetInputLayout(pLayout);
 
 	// Set the vertex and pixel shaders that will be used to render this triangle.
-	devcon->VSSetShader(pVS, NULL, 0);
-	devcon->PSSetShader(pPS, NULL, 0);
+	devcon->VSSetShader(pVS, nullptr, 0);
+	devcon->PSSetShader(pPS, nullptr, 0);
 
 	devcon->PSSetSamplers(0, 1, &pSampleState);
 
@@ -311,6 +311,6 @@ ID3D11Buffer* CreateD3D11BufferEmpty(ID3D11Device* dev, D3D11_USAGE usage, UINT 
 	bufferDesc.MiscFlags = 0;
 	bufferDesc.StructureByteStride = 0;
 
-	dev->CreateBuffer(&bufferDesc, NULL, &buffer);       // create the buffer
+	dev->CreateBuffer(&bufferDesc, nullptr, &buffer);       // create the buffer
 	return buffer;
 }

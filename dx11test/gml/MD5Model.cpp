@@ -14,9 +14,9 @@ MD5Model::~MD5Model()
 
 void MD5Model::SafeDelete()
 {
-	if (Joints != NULL)
+	if (Joints != nullptr)
 		SAFE_DELETE(Joints);
-	if (Meshes == NULL)
+	if (Meshes == nullptr)
 		return;
 	for (size_t i = 0; i < iNumMeshes; i++)
 	{
