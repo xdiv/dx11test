@@ -195,9 +195,9 @@ void Game::Update()
 void Game::Render()
 {
 	PSConstBuffer ps;
-	ps.color = float3(1, 1, 1);
-	ps.hasColor = 0;
-	ps.hasTexture = 1;
+	ps.color = float3(1, 0, 1);
+	ps.hasColor = 1;
+	ps.hasTexture = 0;
 	ps.transperency = 1.0f;
 
 	nshad->SetVertexShaderBuffers(gw->GetDeviceContext(), &world3DMatrix);
@@ -210,23 +210,23 @@ void Game::Render()
 
 void Game::RenderInterface()
 {
-	gw->TurnOnAlphaBlending();
-	gw->TurnZBufferOff();
+	//gw->TurnOnAlphaBlending();
+	//gw->TurnZBufferOff();
 
-	PSConstBuffer ps;
-	ps.color = float3(1, 1, 1);
-	ps.hasColor = 1;
-	ps.hasTexture = 0;
-	ps.transperency = 0.5f;
+	//PSConstBuffer ps;
+	//ps.color = float3(1, 1, 1);
+	//ps.hasColor = 1;
+	//ps.hasTexture = 0;
+	//ps.transperency = 0.5f;
 
-	nshad->SetVertexShaderBuffers(gw->GetDeviceContext(), &interfaceMatrix);
-	nshad->SetPixelShaderBuffers(gw->GetDeviceContext(), &ps);
+	//nshad->SetVertexShaderBuffers(gw->GetDeviceContext(), &interfaceMatrix);
+	//nshad->SetPixelShaderBuffers(gw->GetDeviceContext(), &ps);
 
-	/*pvz renderinti statini objektą*/
-	dmb->UpdateInstanceBuffer(gw->GetDeviceContext());
-	nshad->Render(gw->GetDeviceContext(), dmb->GetData());
+	///*pvz renderinti statini objektą*/
+	//dmb->UpdateInstanceBuffer(gw->GetDeviceContext());
+	//nshad->Render(gw->GetDeviceContext(), dmb->GetData());
 
-	
-	gw->TurnZBufferOn();
-	gw->TurnOffAlphaBlending();
+	//
+	//gw->TurnZBufferOn();
+	//gw->TurnOffAlphaBlending();
 }

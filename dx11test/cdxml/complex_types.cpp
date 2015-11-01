@@ -301,12 +301,14 @@ InstanceType_B::InstanceType_B(float x, float y, float z)
 	position.z = z;
 }
 
+//_int_ position, color
 InstanceType_B::InstanceType_B(float3 p, color_rgba c)
 {
 	position = p;
 	color = c;
 }
 
+//_int_ position, color, scale
 InstanceType_B::InstanceType_B(float3 p, color_rgba c, float3 s)
 {
 	position = p;
@@ -314,6 +316,7 @@ InstanceType_B::InstanceType_B(float3 p, color_rgba c, float3 s)
 	scale = s;
 }
 
+//_int_ position, color, scale, rotation
 InstanceType_B::InstanceType_B(float3 p, color_rgba c, float3 s, float3 r)
 {
 	position = p;

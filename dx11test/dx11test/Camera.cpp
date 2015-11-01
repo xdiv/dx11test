@@ -82,7 +82,7 @@ void Camera::Render3DCamera()
 	// Setup the vector that points upwards.
 	//up.x = 0.0f;	up.y = 0.0f;	up.z = 1.0f;
 
-	up = DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
+	up = DirectX::XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
 
 	// Setup the position of the camera in the world.
 	//position.x = m_positionX; 	position.y = m_positionY;	position.z = m_positionZ;
@@ -90,7 +90,7 @@ void Camera::Render3DCamera()
 
 	// Setup where the camera is looking by default.
 	//lookAt.x = 0.0f;	lookAt.y = 1.0f;	lookAt.z = 0.0f;
-	lookAt = DirectX::XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
+	lookAt = DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
 
 	// Set the yaw (Y axis), pitch (X axis), and roll (Z axis) rotations in radians.
 	//pitch = m_rotationX;
