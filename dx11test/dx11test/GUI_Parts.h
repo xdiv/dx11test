@@ -4,8 +4,8 @@
 #include <vector>
 #include <assert.h>
 #include "../cdxml/complex_types.h"
-#include "PublicData.h"
 #include "GUI_Base.h"
+#include "DX_Global.h"
 
 using namespace std;
 //-------------------------------------------------------------------------------

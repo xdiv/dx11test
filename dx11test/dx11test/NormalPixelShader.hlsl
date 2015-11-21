@@ -1,4 +1,4 @@
-Texture2D shaderTexture;
+Texture2D shaderTexture : register(t0);;
 SamplerState SampleType;
 
 cbuffer PSConstBuffer

@@ -1,5 +1,4 @@
 #include "Camera.h"
-#include "PublicData.h"
 
 Camera::Camera()
 {
@@ -162,11 +161,9 @@ void Camera::Render2DCamera()
 void Camera::GetView3DMatrix(XMMATRIX& viewMatrix)
 {
 	viewMatrix = m_viewMatrix;
-	return;
 }
 
 void Camera::GetView2DMatrix(XMMATRIX& viewMatrix)
 {
 	viewMatrix = view2dMatrix;
-	return;
 }

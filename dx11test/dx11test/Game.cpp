@@ -1,35 +1,31 @@
 ﻿#include "Game.h"
 #include <math.h>
 
-Game::Game()
+Game::Game(): gameWindow(nullptr), width (800), heigth(600)
 {
-	gw = 0;
-	width = 800;
-	heigth = 600;
 }
 
 
 Game::~Game()
 {
-	if (gw)
+	if (gameWindow)
 	{
-		gw->ShutDown();
+		gameWindow->ShutDown();
 	}
-
-	SAFE_DELETE(gw);
+	SAFE_DELETE(gameWindow);
 	SAFE_DELETE(camera);
 	SAFE_DELETE(input);
 }
 
 void Game::Init()
 {
-	gw = new GameWindow(width, heigth, L"Hello world", 0.1F, 1000.0f, 4.0f);
-	gw->InitializeWindows();
-	gw->InitD3D();
+	gameWindow = new GameWindow(width, heigth, L"Hello world", 0.1F, 100000.0f, 4);
+	gameWindow->InitializeWindows();
+	gameWindow->InitD3D();
 
 	time.Initialize();
 
-	GameWindow::SetInstance(gw);
+	GameWindow::SetInstance(gameWindow);
 }
 
 void Game::Run()
@@ -51,14 +47,14 @@ void Game::Run()
 		}
 		else
 		{
-			gw->BeginScene();
+			gameWindow->BeginScene();
 
 			Update();
 			Render();
 			//t->Render(devcon, worldMatrix, viewMatrix, projectionMatrix);
 			RenderInterface();
 
-			gw->EndScene();
+			gameWindow->EndScene();
 		}
 
 	}
@@ -70,25 +66,25 @@ void Game::GameInit()
 {
 	//ShowCursor(FALSE);
 	camera = new Camera();
-	input = new ButtonsActionMap(gw->GetHinstance(), gw->GetHwnd());
+	input = new ButtonsActionMap(gameWindow->GetHinstance(), gameWindow->GetHwnd());
 
-	camera->SetPosition(0.0f, -50.0f, 3.0f);
+	camera->SetPosition(0.0f, -50.0f, 0.0f);
 	input->SetCamera(camera);
 
-	nshad = new NormalShader();
-	nshad->Init(gw->GetDevice(), gw->GetHwnd(), gw->GetDeviceContext());
+	normalShader = new NormalShader();
+	normalShader->Init(gameWindow->GetDevice(), gameWindow->GetHwnd(), gameWindow->GetDeviceContext());
 
-	gw->GetDeviceContext()->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	gw->TurnOnAlphaBlending();
-	gw->VSinc(true);
+	gameWindow->GetDeviceContext()->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	gameWindow->TurnOnAlphaBlending();
+	gameWindow->VSinc(true);
 
 	dmb = 0;
 	dmb = new DataModelBase();
-	dmb->LoadTestModel3(gw->GetDevice());
+	dmb->LoadTestModel3(gameWindow->GetDevice());
 
 	xxf = 0;
 	xxf = new DataModelBase();
-	xxf->LoadTestModel2(gw->GetDevice());
+	xxf->LoadTestModel4(gameWindow->GetDevice());
 
 	zz = 0;
 }
@@ -102,26 +98,30 @@ void Game::GameShutDown()
 
 void Game::Update()
 {
+	XMFLOAT4X4A abc;
 	time.Frame();
 	time.GetTime();
 	camera->Render3DCamera();
 	camera->Render2DCamera();
 	input->Update();
 
-	XMMATRIX w, p;
-
-	w = gw->GetWorl3DMatrix();
-	p = gw->GetProjectionM();
+	gameWindow->GetWorl3DMatrix(w);
+	gameWindow->GetProjectionM(p);
 	/*3d pasaulio kameros renderinimas*/
 	camera->GetView3DMatrix(viewMatrix);
-	world3DMatrix = w * viewMatrix * p;
+	//XMMATRIX()
+	
+	world3DMatrix = XMMatrixMultiply(XMMatrixMultiply(w, viewMatrix), p);
+
 
 	/*2d pasaulio cameros renderinimas, tikriausiai 
 	dar reikia nustatye identity matricą į 2d*/
 	camera->GetView2DMatrix(viewMatrix);
-	world2Dmatrix = viewMatrix * gw->GetOrtoM();
-
-	interfaceMatrix = gw->GetWorl2DMatrix() * gw->GetOrtoM();
+	gameWindow->GetOrtoM(p);
+	world2Dmatrix = viewMatrix * p;
+	gameWindow->GetWorl2DMatrix(w);
+	gameWindow->GetOrtoM(p);
+	interfaceMatrix = w * p;
 
 	//dmb->AddInstance(InstanceType_B(float3( -150, -150, 0),		color_rgba(1, 0, 0, 1),		float3(100, 50, 1)));
 	//dmb->AddInstance(InstanceType_B(float3(	0,		0,	0),		color_rgba(0, 1, 0, 0.5),	float3(50,  100, 1)));
@@ -188,30 +188,30 @@ void Game::Update()
 	
 	
 	//xxf
-	xxf->AddInstance(InstanceType_B(float3(-15, 15, 0), color_rgba(1, 0, 0, 1),		float3(2)));
-	xxf->AddInstance(InstanceType_B(float3(0,	0,	0),	color_rgba(0, 1, 0, 0.5),	float3(1, 1, 0.5)));
-	xxf->AddInstance(InstanceType_B(float3(15,	15, 0),	color_rgba(0, 0, 1, 0.5),	float3(1, 1, 1)));
+	xxf->AddInstance(InstanceType_B(float3(-15, 15, 0), color_rgba(1, 0, 0, 1),		float3(1)));
+	xxf->AddInstance(InstanceType_B(float3(0,	0,	0),	color_rgba(0, 1, 0, 1),	float3(1, 1, 0.5)));
+	xxf->AddInstance(InstanceType_B(float3(15,	15, 0),	color_rgba(0, 0, 1, 1),	float3(1, 1, 1)));
 }
 void Game::Render()
 {
 	PSConstBuffer ps;
 	ps.color = float3(1, 0, 1);
-	ps.hasColor = 1;
-	ps.hasTexture = 0;
+	ps.hasColor = 0;
+	ps.hasTexture = 1;
 	ps.transperency = 1.0f;
 
-	nshad->SetVertexShaderBuffers(gw->GetDeviceContext(), &world3DMatrix);
-	nshad->SetPixelShaderBuffers(gw->GetDeviceContext(), &ps);
+	normalShader->SetVertexShaderBuffers(gameWindow->GetDeviceContext(), &world3DMatrix);
+	normalShader->SetPixelShaderBuffers(gameWindow->GetDeviceContext(), &ps);
 
 
-	xxf->UpdateInstanceBuffer(gw->GetDeviceContext());
-	nshad->Render(gw->GetDeviceContext(), xxf->GetData());
+	xxf->UpdateInstanceBuffer(gameWindow->GetDeviceContext());
+	normalShader->Render(gameWindow->GetDeviceContext(), xxf->GetData());
 }
 
 void Game::RenderInterface()
 {
-	//gw->TurnOnAlphaBlending();
-	//gw->TurnZBufferOff();
+	//gameWindow->TurnOnAlphaBlending();
+	//gameWindow->TurnZBufferOff();
 
 	//PSConstBuffer ps;
 	//ps.color = float3(1, 1, 1);
@@ -219,14 +219,14 @@ void Game::RenderInterface()
 	//ps.hasTexture = 0;
 	//ps.transperency = 0.5f;
 
-	//nshad->SetVertexShaderBuffers(gw->GetDeviceContext(), &interfaceMatrix);
-	//nshad->SetPixelShaderBuffers(gw->GetDeviceContext(), &ps);
+	//normalShader->SetVertexShaderBuffers(gameWindow->GetDeviceContext(), &interfaceMatrix);
+	//normalShader->SetPixelShaderBuffers(gameWindow->GetDeviceContext(), &ps);
 
 	///*pvz renderinti statini objektą*/
-	//dmb->UpdateInstanceBuffer(gw->GetDeviceContext());
-	//nshad->Render(gw->GetDeviceContext(), dmb->GetData());
+	//dmb->UpdateInstanceBuffer(gameWindow->GetDeviceContext());
+	//normalShader->Render(gameWindow->GetDeviceContext(), dmb->GetData());
 
 	//
-	//gw->TurnZBufferOn();
-	//gw->TurnOffAlphaBlending();
+	//gameWindow->TurnZBufferOn();
+	//gameWindow->TurnOffAlphaBlending();
 }

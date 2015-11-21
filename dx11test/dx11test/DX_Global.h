@@ -7,7 +7,7 @@
 #define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers.
 #endif
 
-#define _XM_NO_INTRINSICS_
+//#define _XM_NO_INTRINSICS_
 
 #include <windows.h>
 
@@ -43,11 +43,16 @@
 #if defined(DEBUGW10)
 	#include <d3d12.h>
 	#include <d3d11.h>
+	#include <d3d11_1.h>
+	#include <d3d11_2.h>
+	#include <d3d11_3.h>
 	#include <d3d10.h>
 	#include <dxgi1_4.h>
 	#include <d3dcommon.h>
 	#include <D3Dcompiler.h>
 	#include <DirectXMath.h>
+	#include <DirectXPackedVector.h>
+	#include <DirectXColors.h>
 	#include <DirectXCollision.h>
 	//#include <c:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\um\dxg>
 //D3DDECLTYPE, D3DFORMAT, and DXGI_FORMAT 
@@ -62,9 +67,20 @@
 
 #include <string>
 #include <wrl.h>
+#include <comdef.h>
 
 #define GML_EXPORTS
 #define CDXML_EXPORTS
 //project settings -> configuation propertes -> c\c++ -> processor -> processor definitions
+
+
+#define SAFE_DELETE(p)       { if (p) { delete (p);     (p)=nullptr; } }
+#define SAFE_RELEASE(p)      { if (p) { (p)->Release(); (p)=nullptr; } }
+
+inline LPCWSTR HresultToString(HRESULT hr)
+{
+	_com_error err(hr); 
+	return err.ErrorMessage();
+}
 
 #endif

@@ -5,7 +5,6 @@
 
 #include <dinput.h>
 #include "InputClass.h"
-#include "PublicData.h"
 #include "Camera.h"
 
 #pragma region Key codes

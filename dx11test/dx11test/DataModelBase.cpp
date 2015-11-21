@@ -1,5 +1,6 @@
 #include "DataModelBase.h"
 #include "../gml/MD5ModelBinary.h"
+#include "ResourcesManager.h"
 
 DMBdata::DMBdata()
 {
@@ -141,4 +142,24 @@ void DataModelBase::LoadTestModel3(ID3D11Device * dev)
 	data->pVBuffer = CreateVertexBufferHelp(dev, (sizeof(mesh2d) * data->vert_count), mesh);
 	data->pIBuffer = CreateIndexBufferHelp(dev, sizeof(unsigned long) * data->indexCount, index);
 	data->pInsBuffer = CreateInstanceBufferHelp(dev, sizeof(InstanceType_B) * data->maxInstanceCount, data->instances);
+}
+
+void DataModelBase::LoadTestModel4(ID3D11Device * dev)
+{
+	ResourcesManager rm;
+	rm.Init(dev);
+
+	GameModel *gm = rm.GetGameModelById(2);
+
+	data->pVBuffer = gm->pVBuffer;
+	data->pIBuffer = gm->pIBuffer;
+	data->indexCount = gm->indexCount;
+	data->stride[0] = gm->stride[0];
+	data->stride[1] = sizeof(InstanceType_B);
+	//data->texture = rm.GetTextureById(0);
+
+	data->instances = new InstanceType_B[data->maxInstanceCount];
+	data->pInsBuffer = CreateInstanceBufferHelp(dev, sizeof(InstanceType_B) * data->maxInstanceCount, data->instances);
+	
+	data->texture = rm.GetTextureById(0);
 }

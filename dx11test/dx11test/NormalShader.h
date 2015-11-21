@@ -3,6 +3,7 @@
 #include "DataModelBase.h"
 #include "ShaderBase.h"
 #include "../cdxml/math.h"
+#include "ResourcesManager.h"
 
 class NormalShader : public ShaderBase
 {

@@ -4,7 +4,6 @@
 #include "GameWindow.h"
 
 #include "Camera.h"
-#include "PublicData.h"
 #include "ButtonsActionMap.h"
 #include "ShadersIncludes.h"
 
@@ -16,7 +15,7 @@ class Game
 {
 private:
 	LONG width, heigth;
-	GameWindow * gw;
+	GameWindow * gameWindow;
 
 private:
 	void GameInit();
@@ -27,12 +26,13 @@ private:
 	
 
 	XMMATRIX viewMatrix,
-		world3DMatrix, world2Dmatrix, 
+		world3DMatrix, world2Dmatrix,
 		interfaceMatrix;
+	XMMATRIX w, p;
 
 	Camera* camera;
 	ButtonsActionMap *input;
-	NormalShader * nshad;
+	NormalShader * normalShader;
 
 	DataModelBase* dmb, *xxf;
 

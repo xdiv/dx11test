@@ -40,6 +40,9 @@
     <Filter Include="Models\game">
       <UniqueIdentifier>{300ff90a-c465-4066-bcb4-e63c3aa70ad8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Managers">
+      <UniqueIdentifier>{23549526-4455-478a-a8b3-75540dfd5391}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dx11test.cpp">
@@ -81,15 +84,18 @@
     <ClCompile Include="GameModelBase.cpp">
       <Filter>Models\game</Filter>
     </ClCompile>
+    <ClCompile Include="ResourcesManager.cpp">
+      <Filter>Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectX11.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PublicData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DX_Global.h">
@@ -116,9 +122,6 @@
     <ClInclude Include="NormalShader.h">
       <Filter>Renderers</Filter>
     </ClInclude>
-    <ClInclude Include="ShadersIncludes.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="GUI_Parts.h">
       <Filter>GUI</Filter>
     </ClInclude>
@@ -127,6 +130,12 @@
     </ClInclude>
     <ClInclude Include="GameModelBase.h">
       <Filter>Models\game</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourcesManager.h">
+      <Filter>Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectX11.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

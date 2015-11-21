@@ -170,6 +170,7 @@
     <ClCompile Include="ButtonsActionMap.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="DataModelBase.cpp" />
+    <ClCompile Include="DirectX11.cpp" />
     <ClCompile Include="dx11test.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameModelBase.cpp" />
@@ -178,6 +179,7 @@
     <ClCompile Include="GUI_Parts.cpp" />
     <ClCompile Include="InputClass.cpp" />
     <ClCompile Include="NormalShader.cpp" />
+    <ClCompile Include="ResourcesManager.cpp" />
     <ClCompile Include="ShaderBase.cpp" />
     <ClCompile Include="Timer.cpp" />
   </ItemGroup>
@@ -185,6 +187,7 @@
     <ClInclude Include="ButtonsActionMap.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="DataModelBase.h" />
+    <ClInclude Include="DirectX11.h" />
     <ClInclude Include="DX_Global.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameModelBase.h" />
@@ -193,8 +196,7 @@
     <ClInclude Include="GUI_Parts.h" />
     <ClInclude Include="InputClass.h" />
     <ClInclude Include="NormalShader.h" />
-    <ClInclude Include="ShadersIncludes.h" />
-    <ClInclude Include="PublicData.h" />
+    <ClInclude Include="ResourcesManager.h" />
     <ClInclude Include="ShaderBase.h" />
     <ClInclude Include="Timer.h" />
   </ItemGroup>

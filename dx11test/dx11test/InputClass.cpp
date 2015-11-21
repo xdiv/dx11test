@@ -1,5 +1,5 @@
 #include "InputClass.h"
-#include "PublicData.h"
+
 
 InputClass::InputClass()
 {
