@@ -1,6 +1,6 @@
 #include "NormalShader.h"
 
-void NormalShader::Init(ID3D11Device* dev, HWND hWnd, ID3D11DeviceContext * devcon)
+void NormalShader::Init(ID3D11Device2* dev, HWND hWnd, ID3D11DeviceContext2 * devcon)
 {
 	D3D11_INPUT_ELEMENT_DESC ied[] =
 	{
@@ -16,7 +16,7 @@ void NormalShader::Init(ID3D11Device* dev, HWND hWnd, ID3D11DeviceContext * devc
 	ShaderBase::CreatePixelShaderBuffer(dev);
 }
 
-void NormalShader::Render(ID3D11DeviceContext* devcon, DMBdata* data)
+void NormalShader::Render(ID3D11DeviceContext2* devcon, DMBdata* data)
 {
 
 	ID3D11Buffer* bufferPointers[] = { data->pVBuffer, data->pInsBuffer };

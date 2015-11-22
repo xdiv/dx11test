@@ -25,7 +25,7 @@ void ShaderBase::Release()
 	SAFE_RELEASE(IPxBuffer);
 }
 
-void ShaderBase::Init(ID3D11Device* dev, HWND hwnd, WCHAR* vsFilename, WCHAR* psFilename, ID3D11DeviceContext* devcon, D3D11_INPUT_ELEMENT_DESC * iedf, int desc_count)
+void ShaderBase::Init(ID3D11Device2* dev, HWND hwnd, WCHAR* vsFilename, WCHAR* psFilename, ID3D11DeviceContext2* devcon, D3D11_INPUT_ELEMENT_DESC * iedf, int desc_count)
 {
 	HRESULT result;
 	ID3DBlob *VS, *PS, *errorMessage;
@@ -62,7 +62,7 @@ void ShaderBase::Init(ID3D11Device* dev, HWND hwnd, WCHAR* vsFilename, WCHAR* ps
 	dev->CreateBuffer(&matrixBufferDesc, nullptr, &IVsBuffer);
 }
 
-void ShaderBase::RenderShader(ID3D11DeviceContext* deviceContext, int indexCount)
+void ShaderBase::RenderShader(ID3D11DeviceContext2* deviceContext, int indexCount)
 {
 	deviceContext->IASetInputLayout(pLayout);
 
@@ -77,7 +77,7 @@ void ShaderBase::RenderShader(ID3D11DeviceContext* deviceContext, int indexCount
 	deviceContext->DrawIndexed(indexCount, 0, 0);
 }
 
-void ShaderBase::CreatePixelShaderBuffer(ID3D11Device* dev)
+void ShaderBase::CreatePixelShaderBuffer(ID3D11Device2* dev)
 {
 	HRESULT result;
 	D3D11_BUFFER_DESC bufferDesc;
@@ -94,7 +94,7 @@ void ShaderBase::CreatePixelShaderBuffer(ID3D11Device* dev)
 	result = dev->CreateBuffer(&bufferDesc, nullptr, &IPxBuffer);       // create the buffer
 }
 
-//void ShaderBase::SetShaderParameters(ID3D11DeviceContext* devcon, PSConstBuffer buffer)
+//void ShaderBase::SetShaderParameters(ID3D11DeviceContext2* devcon, PSConstBuffer buffer)
 //{
 //	D3D11_MAPPED_SUBRESOURCE mappedResource;
 //	PSConstBuffer* dataPtr;
@@ -116,7 +116,7 @@ void ShaderBase::CreatePixelShaderBuffer(ID3D11Device* dev)
 //	devcon->PSSetConstantBuffers(0, 1, &IPxBuffer);
 //}
 //
-//void ShaderBase::SetShaderParameters(ID3D11DeviceContext* deviceContext, D3DXMATRIX worldMatrix)
+//void ShaderBase::SetShaderParameters(ID3D11DeviceContext2* deviceContext, D3DXMATRIX worldMatrix)
 //{
 ////	HRESULT result;
 //	D3D11_MAPPED_SUBRESOURCE mappedResource;
@@ -180,7 +180,7 @@ void ShaderBase::OutputShaderErrorMessage(ID3D10Blob* errorMessage, HWND hwnd, W
 	return;
 }
 
-void ShaderBase::CreateSampler(ID3D11Device* dev)
+void ShaderBase::CreateSampler(ID3D11Device2* dev)
 {
 	D3D11_SAMPLER_DESC samplerDesc;
 
@@ -201,7 +201,7 @@ void ShaderBase::CreateSampler(ID3D11Device* dev)
 	dev->CreateSamplerState(&samplerDesc, &pSampleState);
 }
 
-void ShaderBase::SetVertexShaderBuffers(ID3D11DeviceContext* devcon, XMMATRIX * data)
+void ShaderBase::SetVertexShaderBuffers(ID3D11DeviceContext2* devcon, XMMATRIX * data)
 {
 	//	HRESULT result;
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
@@ -230,7 +230,7 @@ void ShaderBase::SetVertexShaderBuffers(ID3D11DeviceContext* devcon, XMMATRIX * 
 	devcon->VSSetConstantBuffers(bufferNumber, 1, &IVsBuffer);
 }
 
-void ShaderBase::SetPixelShaderBuffers(ID3D11DeviceContext* devcon, PSConstBuffer * data)
+void ShaderBase::SetPixelShaderBuffers(ID3D11DeviceContext2* devcon, PSConstBuffer * data)
 {
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 	PSConstBuffer* dataPtr;
@@ -252,7 +252,7 @@ void ShaderBase::SetPixelShaderBuffers(ID3D11DeviceContext* devcon, PSConstBuffe
 	devcon->PSSetConstantBuffers(0, 1, &IPxBuffer);
 }
 
-void ShaderBase::RenderIIT(ID3D11DeviceContext* devcon, XMMATRIX &worldMatrix, UINT indexCount, UINT instanceCount)
+void ShaderBase::RenderIIT(ID3D11DeviceContext2* devcon, XMMATRIX &worldMatrix, UINT indexCount, UINT instanceCount)
 {
 	SetVertexShaderBuffers(devcon, &worldMatrix);
 	//devcon->PSSetShaderResources(0, 1, &texture); perkelti i modelRenderer
@@ -268,7 +268,7 @@ void ShaderBase::RenderIIT(ID3D11DeviceContext* devcon, XMMATRIX &worldMatrix, U
 	devcon->DrawIndexedInstanced(indexCount, instanceCount, 0, 0, 0);
 }
 
-ID3D11Buffer* CreateD3D11Buffer(ID3D11Device* dev, D3D11_USAGE usage, UINT byteWidth, UINT bindFlags, UINT cpuAccesFlags, void * data, UINT sysMemPitch, UINT sysMemSlicePitch)
+ID3D11Buffer* CreateD3D11Buffer(ID3D11Device2* dev, D3D11_USAGE usage, UINT byteWidth, UINT bindFlags, UINT cpuAccesFlags, void * data, UINT sysMemPitch, UINT sysMemSlicePitch)
 {
 	D3D11_BUFFER_DESC bufferDesc;
 	D3D11_SUBRESOURCE_DATA subData;
@@ -296,7 +296,7 @@ ID3D11Buffer* CreateD3D11Buffer(ID3D11Device* dev, D3D11_USAGE usage, UINT byteW
 	return buffer;
 }
 
-ID3D11ShaderResourceView* CreateD3D11TextureResourceView(ID3D11Device* dev, D3D11_USAGE usage, UINT width, UINT height, D3D11_BIND_FLAG bindFlags, D3D11_CPU_ACCESS_FLAG cpuAccesFlags, void * data, UINT sysMemPitch, UINT sysMemSlicePitch)
+ID3D11ShaderResourceView* CreateD3D11TextureResourceView(ID3D11Device2* dev, D3D11_USAGE usage, UINT width, UINT height, D3D11_BIND_FLAG bindFlags, D3D11_CPU_ACCESS_FLAG cpuAccesFlags, void * data, UINT sysMemPitch, UINT sysMemSlicePitch)
 {
 	HRESULT hr;
 	D3D11_TEXTURE2D_DESC desc; //textureDesc
@@ -358,7 +358,7 @@ ID3D11ShaderResourceView* CreateD3D11TextureResourceView(ID3D11Device* dev, D3D1
 	}
 }
 
-ID3D11Buffer* CreateD3D11BufferEmpty(ID3D11Device* dev, D3D11_USAGE usage, UINT byteWidth, UINT bindFlags, UINT cpuAccesFlags)
+ID3D11Buffer* CreateD3D11BufferEmpty(ID3D11Device2* dev, D3D11_USAGE usage, UINT byteWidth, UINT bindFlags, UINT cpuAccesFlags)
 {
 	D3D11_BUFFER_DESC bufferDesc;
 	ID3D11Buffer * buffer;

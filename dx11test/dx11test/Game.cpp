@@ -1,7 +1,7 @@
 ﻿#include "Game.h"
 #include <math.h>
 
-Game::Game(): gameWindow(nullptr), width (800), heigth(600)
+Game::Game(): gameWindow(nullptr), width (1200), heigth(900)
 {
 }
 
@@ -72,19 +72,19 @@ void Game::GameInit()
 	input->SetCamera(camera);
 
 	normalShader = new NormalShader();
-	normalShader->Init(gameWindow->GetDevice(), gameWindow->GetHwnd(), gameWindow->GetDeviceContext());
+	normalShader->Init(gameWindow->GetD3DDevice(), gameWindow->GetHwnd(), gameWindow->GetD3DDeviceContext());
 
-	gameWindow->GetDeviceContext()->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	gameWindow->GetD3DDeviceContext()->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	gameWindow->TurnOnAlphaBlending();
 	gameWindow->VSinc(true);
 
 	dmb = 0;
 	dmb = new DataModelBase();
-	dmb->LoadTestModel3(gameWindow->GetDevice());
+	dmb->LoadTestModel3(gameWindow->GetD3DDevice());
 
 	xxf = 0;
 	xxf = new DataModelBase();
-	xxf->LoadTestModel4(gameWindow->GetDevice());
+	xxf->LoadTestModel4(gameWindow->GetD3DDevice());
 
 	zz = 0;
 }
@@ -200,12 +200,12 @@ void Game::Render()
 	ps.hasTexture = 1;
 	ps.transperency = 1.0f;
 
-	normalShader->SetVertexShaderBuffers(gameWindow->GetDeviceContext(), &world3DMatrix);
-	normalShader->SetPixelShaderBuffers(gameWindow->GetDeviceContext(), &ps);
+	normalShader->SetVertexShaderBuffers(gameWindow->GetD3DDeviceContext(), &world3DMatrix);
+	normalShader->SetPixelShaderBuffers(gameWindow->GetD3DDeviceContext(), &ps);
 
 
-	xxf->UpdateInstanceBuffer(gameWindow->GetDeviceContext());
-	normalShader->Render(gameWindow->GetDeviceContext(), xxf->GetData());
+	xxf->UpdateInstanceBuffer(gameWindow->GetD3DDeviceContext());
+	normalShader->Render(gameWindow->GetD3DDeviceContext(), xxf->GetData());
 }
 
 void Game::RenderInterface()
@@ -219,12 +219,12 @@ void Game::RenderInterface()
 	//ps.hasTexture = 0;
 	//ps.transperency = 0.5f;
 
-	//normalShader->SetVertexShaderBuffers(gameWindow->GetDeviceContext(), &interfaceMatrix);
-	//normalShader->SetPixelShaderBuffers(gameWindow->GetDeviceContext(), &ps);
+	//normalShader->SetVertexShaderBuffers(gameWindow->GetD3DDeviceContext(), &interfaceMatrix);
+	//normalShader->SetPixelShaderBuffers(gameWindow->GetD3DDeviceContext(), &ps);
 
 	///*pvz renderinti statini objektą*/
-	//dmb->UpdateInstanceBuffer(gameWindow->GetDeviceContext());
-	//normalShader->Render(gameWindow->GetDeviceContext(), dmb->GetData());
+	//dmb->UpdateInstanceBuffer(gameWindow->GetD3DDeviceContext());
+	//normalShader->Render(gameWindow->GetD3DDeviceContext(), dmb->GetData());
 
 	//
 	//gameWindow->TurnZBufferOn();

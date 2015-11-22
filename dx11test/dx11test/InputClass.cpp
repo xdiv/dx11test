@@ -134,14 +134,19 @@ bool InputClass::Frame()
 	bool result;
 
 	// Read the current state of the keyboard.
-	result = ReadKeyboard();
-	if (!result)
+	if (m_keyboard != nullptr)
+		result = ReadKeyboard();
+	else
 	{
-		return false;
+		m_keyboard->Acquire();
 	}
 
 	// Read the current state of the mouse.
-	result = ReadMouse();
+	if (m_mouse != nullptr)
+		result = ReadMouse();
+	else
+		m_mouse->Acquire();
+
 	if (!result)
 	{
 		return false;

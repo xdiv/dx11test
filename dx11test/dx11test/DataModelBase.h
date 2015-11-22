@@ -43,12 +43,12 @@ public:
 	~DataModelBase();
 
 	void AddInstance(InstanceType_B );
-	void UpdateInstanceBuffer(ID3D11DeviceContext * devcon);
+	void UpdateInstanceBuffer(ID3D11DeviceContext2 * devcon);
 
-	void LoadTestModel1(ID3D11Device * dev);
-	void LoadTestModel2(ID3D11Device * dev);
-	void LoadTestModel3(ID3D11Device * dev);
-	void LoadTestModel4(ID3D11Device * dev);
+	void LoadTestModel1(ID3D11Device2 * dev);
+	void LoadTestModel2(ID3D11Device2 * dev);
+	void LoadTestModel3(ID3D11Device2 * dev);
+	void LoadTestModel4(ID3D11Device2 * dev);
 
 	DMBdata* GetData();
 };

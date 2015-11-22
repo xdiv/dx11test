@@ -76,6 +76,7 @@ void GameWindow::InitializeWindows()
 
 void GameWindow::InitD3D()
 {
+	DirectX11::InitD2D(hWnd);
 	DirectX11::InitD3D(hWnd, screenWidth, screenHeight);
 	BuildWorldMatrix();
 }

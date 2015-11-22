@@ -17,7 +17,7 @@ public:
 	NormalShader() {};
 	~NormalShader() {};
 
-	void Init(ID3D11Device* dev, HWND hWnd, ID3D11DeviceContext * devcon);
-	void Render(ID3D11DeviceContext* deviceContext, DMBdata* data);
+	void Init(ID3D11Device2* dev, HWND hWnd, ID3D11DeviceContext2 * devcon);
+	void Render(ID3D11DeviceContext2* deviceContext, DMBdata* data);
 };
 

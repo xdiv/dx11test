@@ -12,7 +12,7 @@ ResourcesManager::~ResourcesManager()
 {
 }
 
-void ResourcesManager::Init(ID3D11Device * dev)
+void ResourcesManager::Init(ID3D11Device2 * dev)
 {
 	if (gameModels != 0)
 		return;
@@ -65,7 +65,7 @@ ID3D11ShaderResourceView* ResourcesManager::GetTextureById(uint32_t id)
 //	return singleton;
 //}
 
-void ResourcesManager::setBasicData(ID3D11Device * dev)
+void ResourcesManager::setBasicData(ID3D11Device2 * dev)
 {
 	auto x = ResourceContainer<GameModel>();
 	x.resource = new GameModel();

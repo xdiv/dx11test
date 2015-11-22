@@ -56,7 +56,7 @@ DMBdata* DataModelBase::GetData()
 	return data;
 }
 
-void DataModelBase::UpdateInstanceBuffer(ID3D11DeviceContext * devcon)
+void DataModelBase::UpdateInstanceBuffer(ID3D11DeviceContext2 * devcon)
 {
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 	devcon->Map(data->pInsBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource); // lock the instance buffer        
@@ -64,7 +64,7 @@ void DataModelBase::UpdateInstanceBuffer(ID3D11DeviceContext * devcon)
 	devcon->Unmap(data->pInsBuffer, 0);
 }
 
-void DataModelBase::LoadTestModel1(ID3D11Device * dev)
+void DataModelBase::LoadTestModel1(ID3D11Device2 * dev)
 {
 	mesh2d mesh[4] =
 	{
@@ -91,7 +91,7 @@ void DataModelBase::LoadTestModel1(ID3D11Device * dev)
 	data->pInsBuffer = CreateInstanceBufferHelp(dev, sizeof(InstanceType_B) * data->maxInstanceCount, data->instances);
 }
 
-void DataModelBase::LoadTestModel2(ID3D11Device * dev)
+void DataModelBase::LoadTestModel2(ID3D11Device2 * dev)
 {
 	MD5ModelBinary * mod = new MD5ModelBinary("test.txt");
 	mesh2d * mesh = nullptr;
@@ -120,7 +120,7 @@ void DataModelBase::LoadTestModel2(ID3D11Device * dev)
 	//D3DCreateShaderResourceViewFromFile(dev, L"bob_body.dds", nullptr, nullptr, &(data->texture), nullptr);
 }
 
-void DataModelBase::LoadTestModel3(ID3D11Device * dev)
+void DataModelBase::LoadTestModel3(ID3D11Device2 * dev)
 {
 	mesh2d mesh[4] =
 	{
@@ -144,7 +144,7 @@ void DataModelBase::LoadTestModel3(ID3D11Device * dev)
 	data->pInsBuffer = CreateInstanceBufferHelp(dev, sizeof(InstanceType_B) * data->maxInstanceCount, data->instances);
 }
 
-void DataModelBase::LoadTestModel4(ID3D11Device * dev)
+void DataModelBase::LoadTestModel4(ID3D11Device2 * dev)
 {
 	ResourcesManager rm;
 	rm.Init(dev);

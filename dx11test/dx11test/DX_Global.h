@@ -10,6 +10,8 @@
 //#define _XM_NO_INTRINSICS_
 
 #include <windows.h>
+#include <wrl.h>
+#include <wrl/client.h>
 
 #ifdef DEBUGW7
 
@@ -47,6 +49,8 @@
 	#include <d3d11_2.h>
 	#include <d3d11_3.h>
 	#include <d3d10.h>
+	#include <d2d1_2.h>
+	#include <d2d1effects_1.h>
 	#include <dxgi1_4.h>
 	#include <d3dcommon.h>
 	#include <D3Dcompiler.h>
@@ -67,7 +71,12 @@
 
 #include <string>
 #include <wrl.h>
+#include <dwrite_2.h>
+#include <wincodec.h>
 #include <comdef.h>
+#include <memory>
+//#include <agile.h>
+#include <concrt.h>
 
 #define GML_EXPORTS
 #define CDXML_EXPORTS
@@ -80,7 +89,8 @@
 inline LPCWSTR HresultToString(HRESULT hr)
 {
 	_com_error err(hr); 
-	return err.ErrorMessage();
+	LPCTSTR errMsg = err.ErrorMessage();
+	return errMsg;
 }
 
 #endif

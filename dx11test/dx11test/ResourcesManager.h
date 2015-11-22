@@ -57,14 +57,14 @@ public:
 	ResourcesManager();
 	~ResourcesManager();
 
-	void Init(ID3D11Device * dev);
+	void Init(ID3D11Device2 * dev);
 	GameModel* GetGameModelById(uint32_t id);
 	ID3D11ShaderResourceView* GetTextureById(uint32_t id);
 
 	//ResourcesManager* GetInstance();
 
 private:
-	void setBasicData(ID3D11Device * dev);
+	void setBasicData(ID3D11Device2 * dev);
 	UINT8 * GenerateTextureData1();
 };
 
