@@ -1,5 +1,6 @@
 ﻿#include "Game.h"
 #include <math.h>
+#include "DX_Global.h"
 
 Game::Game(): gameWindow(nullptr), width (1200), heigth(900)
 {
@@ -31,7 +32,6 @@ void Game::Init()
 void Game::Run()
 {
 	MSG msg;
-	//test * t = new test(dev, hWnd, devcon, D3DXVECTOR3(0, 0, 0));
 	GameInit();
 	while (TRUE)
 	{
@@ -51,14 +51,12 @@ void Game::Run()
 
 			Update();
 			Render();
-			//t->Render(devcon, worldMatrix, viewMatrix, projectionMatrix);
 			RenderInterface();
 
 			gameWindow->EndScene();
 		}
 
 	}
-
 	GameShutDown();
 }
 
@@ -87,9 +85,12 @@ void Game::GameInit()
 	xxf->LoadTestModel4(gameWindow->GetD3DDevice());
 
 	zz = 0;
+
+	label = new Label(gameWindow->GetD2D(), L"Hello World", float4(0.0f, 0.0f, 100.0f, 100.0f), float4(1.f,0.f,0.f,1.f));
 }
 void Game::GameShutDown()
 {
+	SAFE_DELETE(label);
 	SAFE_DELETE(camera);
 	SAFE_DELETE(input);
 	SAFE_DELETE(xxf);
@@ -111,7 +112,7 @@ void Game::Update()
 	camera->GetView3DMatrix(viewMatrix);
 	//XMMATRIX()
 	
-	world3DMatrix = XMMatrixMultiply(XMMatrixMultiply(w, viewMatrix), p);
+	world3DMatrix = XMMatrixMultiply(XMMatrixMultiply(w, viewMatrix), p); 
 
 
 	/*2d pasaulio cameros renderinimas, tikriausiai 
@@ -210,23 +211,16 @@ void Game::Render()
 
 void Game::RenderInterface()
 {
-	//gameWindow->TurnOnAlphaBlending();
-	//gameWindow->TurnZBufferOff();
+	HRESULT hr;
+	gameWindow->TurnOnAlphaBlending();
+	gameWindow->TurnZBufferOff();
 
-	//PSConstBuffer ps;
-	//ps.color = float3(1, 1, 1);
-	//ps.hasColor = 1;
-	//ps.hasTexture = 0;
-	//ps.transperency = 0.5f;
+	//gameWindow->GetD2DDeviceContext()->SaveDrawingState(m_stateBlock);
+	gameWindow->GetD2DDeviceContext()->BeginDraw();
+	//gameWindow->GetD2DDeviceContext()->SetTransform()
+	label->Render();
 
-	//normalShader->SetVertexShaderBuffers(gameWindow->GetD3DDeviceContext(), &interfaceMatrix);
-	//normalShader->SetPixelShaderBuffers(gameWindow->GetD3DDeviceContext(), &ps);
-
-	///*pvz renderinti statini objektą*/
-	//dmb->UpdateInstanceBuffer(gameWindow->GetD3DDeviceContext());
-	//normalShader->Render(gameWindow->GetD3DDeviceContext(), dmb->GetData());
-
-	//
-	//gameWindow->TurnZBufferOn();
-	//gameWindow->TurnOffAlphaBlending();
+	hr = gameWindow->GetD2DDeviceContext()->EndDraw();
+	gameWindow->TurnZBufferOn();
+	gameWindow->TurnOffAlphaBlending();
 }

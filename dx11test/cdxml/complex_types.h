@@ -136,7 +136,8 @@ typedef struct CDXML_API rect
 {
 public:
 	unsigned int x, y, width, heigth;
-	rect(){ x = y = width = heigth = 0; };
+	rect(): x(0), y(0), width(0), heigth(0) {};
+	rect(const float f): x(0), y(0), width(f), heigth(f) {};
 } rect;
 
 //--------------------------------------------------------------------------------------------------------------

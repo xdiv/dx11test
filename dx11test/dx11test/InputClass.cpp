@@ -60,10 +60,6 @@ bool InputClass::Initialize(HINSTANCE hinstance, HWND hwnd)
 
 	// Now acquire the keyboard.
 	result = m_keyboard->Acquire();
-	if (FAILED(result))
-	{
-		return false;
-	}
 
 	// Initialize the direct input interface for the mouse.
 	result = m_directInput->CreateDevice(GUID_SysMouse, &m_mouse, nullptr);
@@ -74,24 +70,24 @@ bool InputClass::Initialize(HINSTANCE hinstance, HWND hwnd)
 
 	// Set the data format for the mouse using the pre-defined mouse data format.
 	result = m_mouse->SetDataFormat(&c_dfDIMouse);
-	if (FAILED(result))
+	/*if (FAILED(result))
 	{
 		return false;
-	}
+	}*/
 
 	// Set the cooperative level of the mouse to share with other programs.
 	result = m_mouse->SetCooperativeLevel(hwnd, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
-	if (FAILED(result))
+	/*if (FAILED(result))
 	{
 		return false;
-	}
+	}*/
 
 	// Acquire the mouse.
 	result = m_mouse->Acquire();
-	if (FAILED(result))
+	/*if (FAILED(result))
 	{
 		return false;
-	}
+	}*/
 
 	return true;
 }
@@ -134,23 +130,10 @@ bool InputClass::Frame()
 	bool result;
 
 	// Read the current state of the keyboard.
-	if (m_keyboard != nullptr)
-		result = ReadKeyboard();
-	else
-	{
-		m_keyboard->Acquire();
-	}
+	result = ReadKeyboard();
 
 	// Read the current state of the mouse.
-	if (m_mouse != nullptr)
-		result = ReadMouse();
-	else
-		m_mouse->Acquire();
-
-	if (!result)
-	{
-		return false;
-	}
+	result = ReadMouse();
 
 	// Process the changes in the mouse and keyboard.
 	ProcessInput();

@@ -8,6 +8,7 @@
 #include "ShadersIncludes.h"
 
 #include "Timer.h"
+#include "GUI_Parts.h"
 
 const float PI = 3.14159265;
 
@@ -37,6 +38,7 @@ private:
 	DataModelBase* dmb, *xxf;
 
 	Timer time;
+	Label* label;
 
 	float zz = -1.0f;
 	float ff = 0;

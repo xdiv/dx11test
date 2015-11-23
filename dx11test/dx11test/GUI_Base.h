@@ -5,37 +5,39 @@
 #include <vector>
 #include <assert.h>
 #include "../cdxml/complex_types.h"
+#include "DX_Global.h"
+#include "DirectX11.h"
 
 
 using namespace std;
-//-------------------------------------------------------------------------------
-//			Enums
-//-------------------------------------------------------------------------------
-enum Aligment
-{
-	left	= 0x0,
-	top		= 0x0,
-	hCenter = 0x1,
-	rigth	= 0x2,
-	buttom  = 0x4,
-	vCenter	= 0x8
-};
 
 //-------------------------------------------------------------------------------
 //			Gui Base
 //-------------------------------------------------------------------------------
 class GUI_Base
 {
-protected:
-	rect position; // absolute position
-	int margin;
-	float4 color;
-	Aligment	hAligment;
-
-private:
-	GUI_Base(GUI_Base&) {};
 public:
-	GUI_Base() {};
-	GUI_Base(rect, int, float4);
-	~GUI_Base() {};
+	GUI_Base(ID2D* d2d);
+	GUI_Base(ID2D* d2d, float4 poz, float4 color);
+	~GUI_Base();
+	void SetPosition(float4 pos);
+	void SetColor(float4 color);
+
+protected:
+	HRESULT		hr;
+	float4		m_position; // absolute m_position
+	float4		m_color;
+
+	//shared
+	ID2D* m_d2d;
+
+	//private
+	ID2D1SolidColorBrush*	m_brush;
+	ID2D1DrawingStateBlock* m_stateBlock;
+
+protected:
+	void Init(D2D1::ColorF color);
+	GUI_Base(GUI_Base&) {};
+	virtual void UpdatePosition() = 0;
+	virtual void Render() = 0;
 };

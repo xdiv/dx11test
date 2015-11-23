@@ -7,7 +7,7 @@
 #define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers.
 #endif
 
-//#define _XM_NO_INTRINSICS_
+#define _XM_NO_INTRINSICS_
 
 #include <windows.h>
 #include <wrl.h>
@@ -83,8 +83,9 @@
 //project settings -> configuation propertes -> c\c++ -> processor -> processor definitions
 
 
-#define SAFE_DELETE(p)       { if (p) { delete (p);     (p)=nullptr; } }
-#define SAFE_RELEASE(p)      { if (p) { (p)->Release(); (p)=nullptr; } }
+#define SAFE_DELETE(p)       { if (p) { delete (p);     (p) = nullptr; } }
+#define SAFE_DELETE_ARRAY(p) { if (p) { delete[] (p);	(p) = nullptr; } }
+#define SAFE_RELEASE(p)      { if (p) { (p)->Release(); (p) = nullptr; } }
 
 inline LPCWSTR HresultToString(HRESULT hr)
 {
