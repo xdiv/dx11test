@@ -161,6 +161,11 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <SDLCheck>true</SDLCheck>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>$(IntDir)pch.pch</PrecompiledHeaderOutputFile>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <StructMemberAlignment>16Bytes</StructMemberAlignment>
     </ClCompile>
     <Link>
       <AdditionalDependencies>d3d12.lib;dxgi.lib;d3dcompiler.lib;../DebugW10/cdxml.lib;../DebugW10/gml.lib;../includes/tinyxml2/tinyxml2.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -181,14 +186,12 @@
     <ClCompile Include="NormalShader.cpp" />
     <ClCompile Include="ResourcesManager.cpp" />
     <ClCompile Include="ShaderBase.cpp" />
-    <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ButtonsActionMap.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="DataModelBase.h" />
     <ClInclude Include="DirectX11.h" />
-    <ClInclude Include="DX_Global.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameModelBase.h" />
     <ClInclude Include="GameWindow.h" />
@@ -196,9 +199,10 @@
     <ClInclude Include="GUI_Parts.h" />
     <ClInclude Include="InputClass.h" />
     <ClInclude Include="NormalShader.h" />
+    <ClInclude Include="pch.h" />
     <ClInclude Include="ResourcesManager.h" />
     <ClInclude Include="ShaderBase.h" />
-    <ClInclude Include="Timer.h" />
+    <ClInclude Include="StepTimer.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="texttest.dds" />

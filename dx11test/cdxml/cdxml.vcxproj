@@ -87,6 +87,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DEBUGW10|Win32'">
     <ClCompile>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;CDXML_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>

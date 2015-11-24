@@ -1,6 +1,6 @@
 #pragma once
 
-#include "DX_Global.h"
+#include "pch.h"
 #include "..\cdxml\complex_types.h"
 #include "DataModelBase.h"
 

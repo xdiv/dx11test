@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "GUI_Base.h"
 
 //-------------------------------------------------------------------------------
@@ -32,10 +33,11 @@ void GUI_Base::SetPosition(float4 pos)
 void GUI_Base::SetColor(float4 color)
 {
 	m_color = color;
+	m_d2d->GetD2DDeviceContext()->CreateSolidColorBrush(D2D1::ColorF(color.x, color.y, color.z, color.w), &m_brush);
 }
 
 void GUI_Base::Init(D2D1::ColorF color)
 {
-	hr = m_d2d->GetD2DFactory()->CreateDrawingStateBlock(&m_stateBlock);
-	hr = m_d2d->GetD2DDeviceContext()->CreateSolidColorBrush(color, &m_brush);
+	m_d2d->GetD2DFactory()->CreateDrawingStateBlock(&m_stateBlock);
+	m_d2d->GetD2DDeviceContext()->CreateSolidColorBrush(color, &m_brush);
 }

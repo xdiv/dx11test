@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "DirectX11.h"
 
 #include <wrl.h>
@@ -32,6 +33,7 @@ DirectX11::DirectX11()
 
 DirectX11::~DirectX11()
 {
+	
 	if (m_swapChain)
 		m_swapChain->SetFullscreenState(false, nullptr);
 	//SAFE_RELEASE(m_swapChain);
@@ -48,6 +50,19 @@ DirectX11::~DirectX11()
 	SAFE_RELEASE(m_d3dRenderTargetView);
 }
 
+void DirectX11::ShutDown()
+{
+	ID3D11RenderTargetView* nullViews[] = { nullptr };
+	m_d3dDevCon->OMSetRenderTargets(ARRAYSIZE(nullViews), nullViews, nullptr);
+	m_d3dRenderTargetView = nullptr;
+	//m_d2dContext->SetTarget(nullptr);
+	//m_d2dTargetBitmap = nullptr;
+	m_d3dDepthStencilView = nullptr;
+	m_d3dDevCon->Flush();
+	DestroyWindow(hWnd);
+	hWnd = nullptr;
+}
+
 void DirectX11::InitD2D(HWND hwnd)
 {
 	// Initialize Direct2D resources.
@@ -56,12 +71,35 @@ void DirectX11::InitD2D(HWND hwnd)
 
 #if defined(_DEBUG)
 	// If the project is in a debug build, enable Direct2D debugging via SDK Layers.
-	options.debugLevel = D2D1_DEBUG_LEVEL_INFORMATION;
+	//options.debugLevel = D2D1_DEBUG_LEVEL_INFORMATION;
 #endif
 
 	IFFAILED2(D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, __uuidof(ID2D1Factory2), &options, &m_d2dFactory), L"61");
 	IFFAILED2(DWriteCreateFactory(DWRITE_FACTORY_TYPE_SHARED, __uuidof(IDWriteFactory2), &m_dwriteFactory),L"62");
-	//IFFAILED(CoCreateInstance(CLSID_WICImagingFactory2, nullptr, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&m_wicFactory)));
+	IFFAILED(CoCreateInstance(CLSID_WICImagingFactory2, nullptr, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&m_wicFactory)));
+
+	ComPtr<IDXGIDevice3> dxgiDevice;
+	IFFAILED(m_d3dDev.As(&dxgiDevice));
+
+	IFFAILED2(m_d2dFactory->CreateDevice(dxgiDevice.Get(), &m_d2dDevice), L" 144");
+	IFFAILED2(m_d2dDevice->CreateDeviceContext(D2D1_DEVICE_CONTEXT_OPTIONS_NONE, &m_d2dContext), L" 145");
+
+	D2D1_BITMAP_PROPERTIES1 bitmapProperties;
+	bitmapProperties.bitmapOptions = D2D1_BITMAP_OPTIONS_TARGET | D2D1_BITMAP_OPTIONS_CANNOT_DRAW;
+	bitmapProperties.dpiX = 96.f;
+	bitmapProperties.dpiY = 96.f;
+	bitmapProperties.pixelFormat.format = DXGI_FORMAT_B8G8R8A8_UNORM;
+	bitmapProperties.pixelFormat.alphaMode = D2D1_ALPHA_MODE_PREMULTIPLIED;
+	bitmapProperties.colorContext = nullptr;
+
+	ComPtr<IDXGISurface2> dxgiBackBuffer;
+	IFFAILED2(m_swapChain->GetBuffer(0, IID_PPV_ARGS(&dxgiBackBuffer)),  L" 81");
+	IFFAILED2(m_d2dContext->CreateBitmapFromDxgiSurface(dxgiBackBuffer.Get(),
+		&bitmapProperties,
+		&m_d2dTargetBitmap), L" 83");
+
+	m_d2dContext->SetTarget(m_d2dTargetBitmap.Get());
+	m_d2dContext->SetTextAntialiasMode(D2D1_TEXT_ANTIALIAS_MODE_GRAYSCALE);
 }
 
 void DirectX11::InitD3D(HWND hwnd, LONG screenW, LONG screenH)
@@ -71,91 +109,77 @@ void DirectX11::InitD3D(HWND hwnd, LONG screenW, LONG screenH)
 	D3D11_RASTERIZER_DESC rasterDesc;
 
 	D3D11_BLEND_DESC blendStateDescription;
-	ComPtr<ID3D11Device> device;
-	ComPtr<ID3D11DeviceContext> context;
-	ComPtr<IDXGISurface2> dxgiBackBuffer;
 
 #pragma region Device Resources 
-	{
-		UINT creationFlags = D3D11_CREATE_DEVICE_BGRA_SUPPORT;
+	
+	UINT creationFlags = D3D11_CREATE_DEVICE_BGRA_SUPPORT;
 #ifdef _DEBUG
-		//creationFlags |= D3D11_CREATE_DEVICE_DEBUGGABLE;
+	//creationFlags |= D3D11_CREATE_DEVICE_DEBUGGABLE;
 #endif
 
-		// This array defines the set of DirectX hardware feature levels this app will support.
-		// Note the ordering should be preserved.
-		// Don't forget to declare your application's minimum required feature level in its
-		// description.  All applications are assumed to support 9.1 unless otherwise stated.
-		D3D_FEATURE_LEVEL featureLevels[] =
-		{
-			D3D_FEATURE_LEVEL_11_1,
-			D3D_FEATURE_LEVEL_11_0,
-			D3D_FEATURE_LEVEL_10_1,
-			D3D_FEATURE_LEVEL_10_0,
-			D3D_FEATURE_LEVEL_9_3,
-			D3D_FEATURE_LEVEL_9_2,
-			D3D_FEATURE_LEVEL_9_1
-		};
+	// This array defines the set of DirectX hardware feature levels this app will support.
+	// Note the ordering should be preserved.
+	// Don't forget to declare your application's minimum required feature level in its
+	// description.  All applications are assumed to support 9.1 unless otherwise stated.
+	D3D_FEATURE_LEVEL featureLevels[] =
+	{
+		D3D_FEATURE_LEVEL_11_1,
+		D3D_FEATURE_LEVEL_11_0,
+		D3D_FEATURE_LEVEL_10_1,
+		D3D_FEATURE_LEVEL_10_0,
+		D3D_FEATURE_LEVEL_9_3,
+		D3D_FEATURE_LEVEL_9_2,
+		D3D_FEATURE_LEVEL_9_1
+	};
 
-		DXGI_SWAP_CHAIN_DESC scd;
-		// clear out the struct for use
-		ZeroMemory(&scd, sizeof(DXGI_SWAP_CHAIN_DESC));
+	DXGI_SWAP_CHAIN_DESC scd;
+	// clear out the struct for use
+	ZeroMemory(&scd, sizeof(DXGI_SWAP_CHAIN_DESC));
 
-		// fill the swap chain description struct
-		scd.BufferCount = 2;                                    // one back buffer
-		scd.BufferDesc.Width = screenW;
-		scd.BufferDesc.Height = screenH;
-		//scd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;     // use 32-bit m_color 
-		scd.BufferDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
-		scd.BufferDesc.RefreshRate.Numerator = 0;
-		scd.BufferDesc.RefreshRate.Denominator = 1;
-		scd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;      // how swap chain is to be used
-		scd.OutputWindow = hwnd;                                // the window to be used
-		scd.SampleDesc.Count = 1;								// how many multisamples
-		scd.SampleDesc.Quality = 0;
-		scd.Windowed = TRUE;                                    // windowed/full-screen mode
-		scd.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED; // Set the scan line ordering and scaling to unspecified.
-		scd.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
-		//scd.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;				// Discard the back buffer contents after presenting.
-		scd.SwapEffect = DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL;		// All Windows Store apps must use this SwapEffect.
-		scd.Flags = 0;     // allow full-screen switching
+	// fill the swap chain description struct
+	scd.BufferCount = 2;                                    // one back buffer
+	scd.BufferDesc.Width = screenW;
+	scd.BufferDesc.Height = screenH;
+	//scd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;     // use 32-bit m_color 
+	scd.BufferDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
+	scd.BufferDesc.RefreshRate.Numerator = 0;
+	scd.BufferDesc.RefreshRate.Denominator = 1;
+	scd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;      // how swap chain is to be used
+	scd.OutputWindow = hwnd;                                // the window to be used
+	scd.SampleDesc.Count = 1;								// how many multisamples
+	scd.SampleDesc.Quality = 0;
+	scd.Windowed = TRUE;                                    // windowed/full-screen mode
+	scd.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED; // Set the scan line ordering and scaling to unspecified.
+	scd.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
+	//scd.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;				// Discard the back buffer contents after presenting.
+	scd.SwapEffect = DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL;		// All Windows Store apps must use this SwapEffect.
+	scd.Flags = 0;     // allow full-screen switching
 
-		ComPtr<IDXGISwapChain> swpChain;
+	ComPtr<IDXGISwapChain> swpChain;
+	ComPtr<ID3D11Device> device;
+	ComPtr<ID3D11DeviceContext> context;
 
-		IFFAILED2(D3D11CreateDeviceAndSwapChain(nullptr,
-			D3D_DRIVER_TYPE_HARDWARE,
-			nullptr,
-			creationFlags,
-			featureLevels,
-			ARRAYSIZE(featureLevels),
-			D3D11_SDK_VERSION,
-			&scd,
-			&swpChain,
-			&device,
-			&m_featureLevel,
-			&context), L"136");
+	IFFAILED2(D3D11CreateDeviceAndSwapChain(nullptr,
+		D3D_DRIVER_TYPE_HARDWARE,
+		nullptr,
+		creationFlags,
+		featureLevels,
+		ARRAYSIZE(featureLevels),
+		D3D11_SDK_VERSION,
+		&scd,
+		&swpChain,
+		&device,
+		&m_featureLevel,
+		&context), L"136");
 
 		
-		IFFAILED2(swpChain.As(&m_swapChain), L" 139");
-		IFFAILED2(device.As(&m_d3dDev), L" 140");
-		IFFAILED2(context.As(&m_d3dDevCon), L" 141");
-
-		ComPtr<IDXGIDevice3> dxgiDevice;
-		IFFAILED2(m_d3dDev.As(&dxgiDevice), L" 143");
-		IFFAILED2(m_d2dFactory->CreateDevice(dxgiDevice.Get(), &m_d2dDevice), L" 144");
-		IFFAILED2(m_d2dDevice->CreateDeviceContext(D2D1_DEVICE_CONTEXT_OPTIONS_NONE, &m_d2dContext), L" 145");
-	}
-#pragma endregion
-	/*ID3D11RenderTargetView* nullViews[] = { nullptr };
-	m_d3dDevCon->OMSetRenderTargets(ARRAYSIZE(nullViews), nullViews, nullptr);
-	m_d3dRenderTargetView = nullptr;
-	m_d2dContext->SetTarget(nullptr);
-	m_d2dTargetBitmap = nullptr;
-	m_d3dDepthStencilView = nullptr;
-	m_d3dDevCon->Flush();*/
+	IFFAILED2(swpChain.As(&m_swapChain), L" 139");
+	IFFAILED2(device.As(&m_d3dDev), L" 140");
+	IFFAILED2(context.As(&m_d3dDevCon), L" 141");
 
 	ComPtr<IDXGIDevice3> dxgiDevice;
-	IFFAILED(m_d3dDev.As(&dxgiDevice));
+	IFFAILED2(m_d3dDev.As(&dxgiDevice), L" 143");
+#pragma endregion
 
 	ComPtr<IDXGIAdapter> dxgiAdapter;
 	IFFAILED(dxgiDevice->GetAdapter(&dxgiAdapter));
@@ -290,22 +314,6 @@ void DirectX11::InitD3D(HWND hwnd, LONG screenW, LONG screenH)
 	m_screenViewport.MaxDepth = D3D11_MAX_DEPTH;
 
 	m_d3dDevCon->RSSetViewports(1, &m_screenViewport);
-
-	D2D1_BITMAP_PROPERTIES1 bitmapProperties;
-	bitmapProperties.bitmapOptions = D2D1_BITMAP_OPTIONS_TARGET | D2D1_BITMAP_OPTIONS_CANNOT_DRAW;
-	bitmapProperties.dpiX = 96.f;
-	bitmapProperties.dpiY = 96.f;
-	bitmapProperties.pixelFormat.format = DXGI_FORMAT_B8G8R8A8_UNORM;
-	bitmapProperties.pixelFormat.alphaMode = D2D1_ALPHA_MODE_PREMULTIPLIED;
-	bitmapProperties.colorContext = nullptr;
-
-	status = (m_swapChain->GetBuffer(0, IID_PPV_ARGS(&dxgiBackBuffer)));
-	status = m_d2dContext->CreateBitmapFromDxgiSurface(dxgiBackBuffer.Get(), 
-		&bitmapProperties, 
-		&m_d2dTargetBitmap);
-
-	m_d2dContext->SetTarget(m_d2dTargetBitmap.Get());
-	m_d2dContext->SetTextAntialiasMode(D2D1_TEXT_ANTIALIAS_MODE_GRAYSCALE);
 }
 
 void DirectX11::TurnOnAlphaBlending()

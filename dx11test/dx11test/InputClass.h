@@ -9,7 +9,7 @@
 #pragma comment(lib, "dxguid.lib")
 
 #include <dinput.h>
-#include "DX_Global.h"
+#include "pch.h"
 
 const UINT DOWN = 0x80;
 const UINT UP = 0x15;

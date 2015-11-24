@@ -1,6 +1,6 @@
 #pragma once
 
-#include "DX_Global.h"
+#include "pch.h"
 
 #if defined(DEBUGW8)
 #pragma comment (lib, "d3d11.lib")
@@ -36,7 +36,7 @@ class DirectX11 : public ID3D, public ID2D
 public:
 	DirectX11();
 	~DirectX11();
-
+	void ShutDown();
 	void InitD3D(HWND hwnd, LONG screenW, LONG screenH);
 	void InitD2D(HWND hwnd);
 	void TurnOnAlphaBlending();
@@ -69,11 +69,11 @@ protected:
 	Microsoft::WRL::ComPtr<IDXGISwapChain1>			m_swapChain;
 	Microsoft::WRL::ComPtr<ID3D11Device2>			m_d3dDev;
 	Microsoft::WRL::ComPtr<ID3D11DeviceContext2>	m_d3dDevCon;
+	Microsoft::WRL::ComPtr<ID3D11DepthStencilView>	m_d3dDepthStencilView;
 	ID3D11RenderTargetView*		m_d3dRenderTargetView;
 	ID3D11Texture2D*			depthStencilBuffer;
 	ID3D11DepthStencilState*	m_depthStencilState;
 	ID3D11DepthStencilState*	m_depthDisabledStencilState;
-	Microsoft::WRL::ComPtr<ID3D11DepthStencilView>	m_d3dDepthStencilView;
 	ID3D11RasterizerState*		rasterState;
 	ID3D11BlendState*			alphaEnableBlendingState;
 	ID3D11BlendState*			alphaDisableBlendingState;
@@ -86,12 +86,15 @@ protected:
 	Microsoft::WRL::ComPtr<ID2D1Device1>		m_d2dDevice;
 	Microsoft::WRL::ComPtr<ID2D1DeviceContext1>	m_d2dContext;
 	Microsoft::WRL::ComPtr<ID2D1Bitmap1>		m_d2dTargetBitmap;
+	//ID2D1Bitmap1* m_d2dTargetBitmap;
 
-	// DirectWrite drawing components.
+	//// DirectWrite drawing components.
 	Microsoft::WRL::ComPtr<IDWriteFactory2>		m_dwriteFactory;
-	//Microsoft::WRL::ComPtr<IWICImagingFactory2>	m_wicFactory;
+	//Microsoft::WRL::ComPtr<IWICImagingFactory2>  m_wicFactory // failina release ir delete
+	IWICImagingFactory2*	m_wicFactory;
 
-	bool vsync_enabled;
+	bool	vsync_enabled;
 	HRESULT status;
+	HWND	hWnd;
 };
 

@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef __DX_GLOBAL__
-#define __DX_GLOBAL__
+#ifndef __PCH__
+#define __PCH__
 
 #ifndef WIN32_LEAN_AND_MEAN
 #define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers.
@@ -58,9 +58,6 @@
 	#include <DirectXPackedVector.h>
 	#include <DirectXColors.h>
 	#include <DirectXCollision.h>
-	//#include <c:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\um\dxg>
-//D3DDECLTYPE, D3DFORMAT, and DXGI_FORMAT 
-
 #endif
 
 //#define CDXML_EXPORTS
@@ -77,6 +74,8 @@
 #include <memory>
 //#include <agile.h>
 #include <concrt.h>
+#include <vector>
+#include <math.h>
 
 #define GML_EXPORTS
 #define CDXML_EXPORTS

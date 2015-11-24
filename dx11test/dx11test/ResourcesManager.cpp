@@ -1,6 +1,6 @@
+#include "pch.h"
 #include "ResourcesManager.h"
 #include "ShaderBase.h"
-#include "DX_Global.h"
 #include "../gml/MD5ModelBinary.h"
 
 ResourcesManager::ResourcesManager(): gameModels(nullptr), textures(nullptr)

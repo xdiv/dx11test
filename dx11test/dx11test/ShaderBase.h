@@ -2,7 +2,7 @@
 
 #ifndef __SHADER_BASE__
 #define __SHADER_BASE__
-#include "DX_Global.h"
+#include "pch.h"
 #include "../cdxml/complex_types.h"
 
 #include <fstream>

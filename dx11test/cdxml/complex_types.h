@@ -52,7 +52,7 @@ public:
 typedef struct CDXML_API float4
 {
 public:
-	float x, y, z, w;
+	float x, y, z, w; //left, top, width, heigth
 
 	float4() {};
 	float4(const float f) { x = y = z = w = f; }
@@ -135,9 +135,11 @@ public:
 typedef struct CDXML_API rect
 {
 public:
-	unsigned int x, y, width, heigth;
-	rect(): x(0), y(0), width(0), heigth(0) {};
-	rect(const float f): x(0), y(0), width(f), heigth(f) {};
+	UINT32 left, top, width, heigth;
+	rect(): left(0), top(0), width(0), heigth(0) {};
+	rect(const float f): left(0), top(0), width(f), heigth(f) {};
+	rect(UINT32 left, UINT32 top, UINT32 width, UINT32 heigth)
+	: left(left), top(top), width(width), heigth(heigth) {};
 } rect;
 
 //--------------------------------------------------------------------------------------------------------------

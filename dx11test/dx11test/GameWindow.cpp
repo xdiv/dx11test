@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "GameWindow.h"
 
 GameWindow* GameWindow::sInst = 0;
@@ -21,17 +22,12 @@ GameWindow::GameWindow(LONG& w, LONG& h, LPCWSTR t, float screenNear, float scre
 
 GameWindow::~GameWindow()
 {
-	ShutDown();
-	DestroyWindow(hWnd);
+	//ShutDown();
+	//DestroyWindow(hWnd);
 	hWnd = nullptr;
 
 	UnregisterClass(L"WindowClass1", hInstance);
 	hInstance = nullptr;
-}
-
-void GameWindow::ShutDown()
-{
-
 }
 
 void GameWindow::InitializeWindows()
@@ -76,8 +72,8 @@ void GameWindow::InitializeWindows()
 
 void GameWindow::InitD3D()
 {
-	DirectX11::InitD2D(hWnd);
 	DirectX11::InitD3D(hWnd, screenWidth, screenHeight);
+	DirectX11::InitD2D(hWnd);
 	BuildWorldMatrix();
 }
 

@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "DataModelBase.h"
 #include "../gml/MD5ModelBinary.h"
 #include "ResourcesManager.h"

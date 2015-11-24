@@ -15,7 +15,6 @@ class GameWindow : public DirectX11
 		LONG screenWidth, screenHeight;
 		float screenNear, screenDepth, aspectRatio;
 		
-		HWND hWnd;
 		HINSTANCE hInstance;
 
 		LPCWSTR title;
@@ -35,7 +34,6 @@ class GameWindow : public DirectX11
 		~GameWindow();
 		void InitializeWindows();
 		void InitD3D();
-		void ShutDown();
 		
 		HWND GetHwnd();
 		HINSTANCE GetHinstance();

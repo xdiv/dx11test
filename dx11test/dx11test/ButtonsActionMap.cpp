@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "ButtonsActionMap.h"
 
 ButtonsActionMap::ButtonsActionMap(HINSTANCE hInstance, HWND hWnd)

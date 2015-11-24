@@ -22,14 +22,8 @@
     <Filter Include="Renderers">
       <UniqueIdentifier>{941f3afe-bcbf-43fd-8188-024da8877e78}</UniqueIdentifier>
     </Filter>
-    <Filter Include="input">
-      <UniqueIdentifier>{104ef39b-72da-4b0f-959b-ece9b4e08479}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GUI">
       <UniqueIdentifier>{68a3cf8c-588b-438f-a262-b4433b3714f0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Perf Counters">
-      <UniqueIdentifier>{4d5df622-275f-4278-a3dd-595a60d921b1}</UniqueIdentifier>
     </Filter>
     <Filter Include="Models">
       <UniqueIdentifier>{ecd49a85-e2ad-43f7-aa16-b8ea5f7f91ba}</UniqueIdentifier>
@@ -43,6 +37,12 @@
     <Filter Include="Managers">
       <UniqueIdentifier>{23549526-4455-478a-a8b3-75540dfd5391}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Input">
+      <UniqueIdentifier>{104ef39b-72da-4b0f-959b-ece9b4e08479}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common">
+      <UniqueIdentifier>{3e86f966-1ae9-42d0-b14c-30c3b999c946}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dx11test.cpp">
@@ -55,10 +55,10 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="InputClass.cpp">
-      <Filter>input</Filter>
+      <Filter>Input</Filter>
     </ClCompile>
     <ClCompile Include="ButtonsActionMap.cpp">
-      <Filter>input</Filter>
+      <Filter>Input</Filter>
     </ClCompile>
     <ClCompile Include="ShaderBase.cpp">
       <Filter>Renderers</Filter>
@@ -78,9 +78,6 @@
     <ClCompile Include="GUI_Parts.cpp">
       <Filter>GUI</Filter>
     </ClCompile>
-    <ClCompile Include="Timer.cpp">
-      <Filter>Perf Counters</Filter>
-    </ClCompile>
     <ClCompile Include="GameModelBase.cpp">
       <Filter>Models\game</Filter>
     </ClCompile>
@@ -98,14 +95,11 @@
     <ClInclude Include="Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DX_Global.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="InputClass.h">
-      <Filter>input</Filter>
+      <Filter>Input</Filter>
     </ClInclude>
     <ClInclude Include="ButtonsActionMap.h">
-      <Filter>input</Filter>
+      <Filter>Input</Filter>
     </ClInclude>
     <ClInclude Include="ShaderBase.h">
       <Filter>Renderers</Filter>
@@ -125,9 +119,6 @@
     <ClInclude Include="GUI_Parts.h">
       <Filter>GUI</Filter>
     </ClInclude>
-    <ClInclude Include="Timer.h">
-      <Filter>Perf Counters</Filter>
-    </ClInclude>
     <ClInclude Include="GameModelBase.h">
       <Filter>Models\game</Filter>
     </ClInclude>
@@ -136,6 +127,12 @@
     </ClInclude>
     <ClInclude Include="DirectX11.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StepTimer.h">
+      <Filter>Common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

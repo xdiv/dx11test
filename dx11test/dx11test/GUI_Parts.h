@@ -13,17 +13,34 @@ using namespace std;
 
 const WCHAR LOCALENAME = L'en-US';
 
+struct TextFormatModel
+{
+	wstring				fontFamilyName;
+	DWRITE_FONT_WEIGHT	fontWeight;
+	DWRITE_FONT_STYLE	fontStyle;
+	DWRITE_FONT_STRETCH fontStretch;
+	FLOAT				fontSize;
+	wstring				localeName;
+};
+
 //-------------------------------------------------------------------------------
 //			Label
 //-------------------------------------------------------------------------------
 class Label : GUI_Base
 {
 public:
-	Label(ID2D* d2d, wstring text = L"", 
+	Label(ID2D* d2d, wstring text, 
 		float4 position = {0}, float4 color = { 0 });
 	~Label();
 
 	void Render();
+	float4 GetSize();
+
+	TextFormatModel GetTextFormat()									{ return m_textFormatModel; };
+
+	void			SetTextFormat(TextFormatModel textFormatModel);
+	void			SetText(wstring string);
+	//void SetTextFormat(TextFormatModel* textFormatModel);
 
 protected:
 	IDWriteTextFormat*		m_textFormat;
@@ -31,18 +48,13 @@ protected:
 	IDWriteTextLayout*      m_textLayout;
 	DWRITE_TEXT_METRICS	    m_textMetrics;
 
-	WCHAR*				m_fontFamilyName;
-	DWRITE_FONT_WEIGHT	m_fontWeight;
-	DWRITE_FONT_STYLE	m_fontStyle;
-	DWRITE_FONT_STRETCH m_fontStretch;
-	FLOAT				m_fontSize;
+	TextFormatModel		m_textFormatModel;
 
 	wstring	m_text;
 	bool	m_isDinamic;
 
 	void CreateTextFormat();
 	void CreateTextLayout();
-	void UpdatePosition();
 private:
 	//Label(Label& label) : GUI_Base((GUI_Base)label) {};
 

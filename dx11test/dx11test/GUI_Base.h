@@ -5,7 +5,7 @@
 #include <vector>
 #include <assert.h>
 #include "../cdxml/complex_types.h"
-#include "DX_Global.h"
+#include "pch.h"
 #include "DirectX11.h"
 
 
@@ -24,7 +24,6 @@ public:
 	void SetColor(float4 color);
 
 protected:
-	HRESULT		hr;
 	float4		m_position; // absolute m_position
 	float4		m_color;
 
@@ -38,6 +37,6 @@ protected:
 protected:
 	void Init(D2D1::ColorF color);
 	GUI_Base(GUI_Base&) {};
-	virtual void UpdatePosition() = 0;
 	virtual void Render() = 0;
+	virtual float4 GetSize() = 0;
 };

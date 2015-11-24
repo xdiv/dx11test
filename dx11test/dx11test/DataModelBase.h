@@ -3,7 +3,7 @@
 #ifndef __BASE_MODELS__
 #define __BASE_MODELS__
 
-#include "DX_Global.h"
+#include "pch.h"
 #include "..\cdxml\complex_types.h"
 #include "ShaderBase.h"
 

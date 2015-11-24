@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "NormalShader.h"
 
 void NormalShader::Init(ID3D11Device2* dev, HWND hWnd, ID3D11DeviceContext2 * devcon)
