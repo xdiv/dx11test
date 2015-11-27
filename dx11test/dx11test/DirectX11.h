@@ -23,12 +23,14 @@ __interface ID2D
 	ID2D1DeviceContext1*	GetD2DDeviceContext();
 	ID2D1Factory2*			GetD2DFactory();
 	IDWriteFactory2*		GetDWriteFactory();
+	HWND					GetHwnd();
 };
 
 __interface ID3D
 {
 	ID3D11Device2*			GetD3DDevice();
 	ID3D11DeviceContext2*	GetD3DDeviceContext();
+	HWND					GetHwnd();
 };
 
 class DirectX11 : public ID3D, public ID2D
@@ -54,6 +56,7 @@ public:
 	ID3D11Device2*			GetD3DDevice()			{ return m_d3dDev.Get(); }
 	ID3D11DeviceContext2*	GetD3DDeviceContext()	{ return m_d3dDevCon.Get(); }
 	ID3D*					GetD3D()				{ return (ID3D*)this; }
+	HWND					GetHwnd()				{ return m_hWnd; }
 
 	//d2d
 	ID2D1Device1*			GetD2DDevice()			{ return m_d2dDevice.Get(); }
@@ -95,6 +98,6 @@ protected:
 
 	bool	vsync_enabled;
 	HRESULT status;
-	HWND	hWnd;
+	HWND	m_hWnd;
 };
 

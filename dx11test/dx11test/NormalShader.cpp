@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "NormalShader.h"
 
-void NormalShader::Init(ID3D11Device2* dev, HWND hWnd, ID3D11DeviceContext2 * devcon)
+void NormalShader::Init()
 {
 	D3D11_INPUT_ELEMENT_DESC ied[] =
 	{
@@ -13,30 +13,30 @@ void NormalShader::Init(ID3D11Device2* dev, HWND hWnd, ID3D11DeviceContext2 * de
 		{ "POSITION",	2, DXGI_FORMAT_R32G32B32_FLOAT,		1, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_INSTANCE_DATA, 1 }
 	};
 
-	ShaderBase::Init(dev, hWnd, L"NormalVertexShader.hlsl", L"NormalPixelShader.hlsl", devcon, ied, sizeof(ied) / sizeof(D3D11_INPUT_ELEMENT_DESC));
-	ShaderBase::CreatePixelShaderBuffer(dev);
+	ShaderBase::Init(L"NormalVertexShader.hlsl", L"NormalPixelShader.hlsl", ied, sizeof(ied) / sizeof(D3D11_INPUT_ELEMENT_DESC));
+	ShaderBase::CreatePixelShaderBuffer();
 }
 
-void NormalShader::Render(ID3D11DeviceContext2* devcon, DMBdata* data)
+void NormalShader::Render(DMBdata* data)
 {
 
 	ID3D11Buffer* bufferPointers[] = { data->pVBuffer, data->pInsBuffer };
 
-	devcon->IASetVertexBuffers(0, 2, bufferPointers, data->stride, data->offset);
-	devcon->IASetIndexBuffer(data->pIBuffer, DXGI_FORMAT_R32_UINT, 0);
+	m_d3d->GetD3DDeviceContext()->IASetVertexBuffers(0, 2, bufferPointers, data->stride, data->offset);
+	m_d3d->GetD3DDeviceContext()->IASetIndexBuffer(data->pIBuffer, DXGI_FORMAT_R32_UINT, 0);
 
 	if (data->texture)
 	{
-		devcon->PSSetShaderResources(0, 1, &(data->texture));
-		devcon->PSSetSamplers(0, 1, &pSampleState);
+		m_d3d->GetD3DDeviceContext()->PSSetShaderResources(0, 1, &(data->texture));
+		m_d3d->GetD3DDeviceContext()->PSSetSamplers(0, 1, &m_SampleState);
 	}
 
 	// Set the vertex and pixel shaders that will be used to render this triangle.
-	devcon->VSSetShader(pVS, nullptr, 0);
-	devcon->PSSetShader(pPS, nullptr, 0);
+	m_d3d->GetD3DDeviceContext()->VSSetShader(m_VS, nullptr, 0);
+	m_d3d->GetD3DDeviceContext()->PSSetShader(m_PS, nullptr, 0);
 
-	devcon->IASetInputLayout(pLayout);
+	m_d3d->GetD3DDeviceContext()->IASetInputLayout(m_Layout);
 
-	devcon->DrawIndexedInstanced(data->indexCount, data->instanceCount, 0, 0, 0);
+	m_d3d->GetD3DDeviceContext()->DrawIndexedInstanced(data->indexCount, data->instanceCount, 0, 0, 0);
 	data->instanceCount = 0;
 }

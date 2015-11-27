@@ -20,17 +20,17 @@ const UINT NEW_S = 0;
 class InputClass
 {
 private:
-	IDirectInput8* m_directInput;
-	IDirectInputDevice8* m_keyboard;
-	IDirectInputDevice8* m_mouse;
+	IDirectInput8*			m_directInput;
+	IDirectInputDevice8*	m_keyboard;
+	IDirectInputDevice8*	m_mouse;
 
-	UINT buttonCount;
-	UCHAR keyboardState[256];
+	UINT			m_buttonCount;
+	UCHAR			m_keyboardState[256];
 	//UCHAR lastKeyboardState[256];
-	UCHAR **keyState;
-	DIMOUSESTATE m_mouseState;
-	DIMOUSESTATE *mouseState;
-	DIMOUSESTATE m_mouseLastState;
+	UCHAR**			m_keyState;
+	DIMOUSESTATE	m_mouseState;
+	DIMOUSESTATE*	mouseState;
+	DIMOUSESTATE	m_mouseLastState;
 
 	int m_screenWidth, m_screenHeight;
 	int m_mouseX, m_mouseY;

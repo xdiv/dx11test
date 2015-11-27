@@ -5,7 +5,7 @@
 //			Label
 //-------------------------------------------------------------------------------
 
-Label::Label(ID2D* d2d, wstring text, float4 position, float4 color)
+Label::Label(ID2D* d2d, wstring text, Rect_F position, D2D1_COLOR_F color)
 	: GUI_Base(d2d, position, color), m_stateBlock(nullptr), 
 	m_textFormat(nullptr), m_textLayout(nullptr)
 {
@@ -28,13 +28,13 @@ Label::~Label()
 
 void Label::Render()
 {
-	m_d2d->GetD2DDeviceContext()->DrawTextLayout(D2D1::Point2F(m_position.x, m_position.y), m_textLayout, m_brush);
+	m_d2d->GetD2DDeviceContext()->DrawTextLayout(D2D1::Point2F(m_position.left, m_position.top), m_textLayout, m_brush);
 }
 
-float4 Label::GetSize()
+Rect_F Label::GetSize()
 {
-	return float4(m_position.x, m_position.y, m_position.z,
-		m_position.w > m_textMetrics.height ?  m_position.w : m_textMetrics.height);
+	return Rect_F{ m_position.left, m_position.top, m_position.width,
+		m_position.height > (m_position.top + m_textMetrics.height) ? m_position.height : m_textMetrics.height };
 }
 
 void Label::SetTextFormat(TextFormatModel textFormatModel)
@@ -66,50 +66,64 @@ void Label::CreateTextFormat()
 void Label::CreateTextLayout()
 {
 	m_d2d->GetDWriteFactory()->CreateTextLayout(m_text.c_str(), (UINT32)m_text.length(),
-		m_textFormat, m_position.z, m_position.w, &m_textLayout);
+		m_textFormat, m_position.width, m_position.height, &m_textLayout);
 	m_textLayout->GetMetrics(&m_textMetrics);
 }
 
 //-------------------------------------------------------------------------------
 //			Frame
 //-------------------------------------------------------------------------------
-//Frame::Frame()
-//{
-//	parent = 0;
-//}
-//
-//Frame::~Frame()
-//{
-//}
-//
-//void Frame::Render()
-//{
-//	for (size_t i = 0; i < childList.size(); i++)
-//	{
-//		childList[i].Render();
-//	}
-//}
-//
-//void Frame::OnClick()
-//{
-//
-//}
-//void Frame::OnMouseEnter()
-//{
-//
-//}
-//void Frame::OnMouseLeave()
-//{
-//
-//}
-//void Frame::SetPosition(rect pos)
-//{
-//
-//}
-//void Frame::Border(int size, float4 color)
-//{
-//
-//}
+Frame::Frame(ID2D* d2d, Rect_F position, D2D1_COLOR_F color)
+	: GUI_Base(d2d, position, color), parent()
+{
+}
+
+Frame::~Frame()
+{
+}
+
+void Frame::Render()
+{
+	float buttom;
+	//perskaicuojam konteinerio dydi;
+	buttom = m_position.width;
+
+	for (size_t i = 0; i < childList.size(); i++)
+	{
+		//if (childList[i].GetSize().y > rigth)
+		{
+
+		}
+	}
+
+	m_d2d->GetD2DDeviceContext()->FillRectangle(D2D_RECT_F{ m_position.left, m_position.top, m_position.width, buttom }, m_brush);
+
+	for (size_t i = 0; i < childList.size(); i++)
+	{
+		childList[i].Render();
+	}
+}
+
+void Frame::OnClick()
+{
+
+}
+void Frame::OnMouseEnter()
+{
+
+}
+void Frame::OnMouseLeave()
+{
+
+}
+void Frame::SetPosition(rect pos)
+{
+
+}
+void Frame::Border(int size, D2D1_COLOR_F color)
+{
+
+}
 //
 ////-------------------------------------------------------------------------------
 ////			Button

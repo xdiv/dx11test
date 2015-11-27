@@ -10,10 +10,10 @@ InputClass::InputClass()
 	//keyboardState = 0;
 	m_mouse = 0;
 
-	keyState = 0;
-	keyState = new UCHAR*[2];
-	keyState[0] = new UCHAR[256];
-	keyState[1] = new UCHAR[256];
+	m_keyState = 0;
+	m_keyState = new UCHAR*[2];
+	m_keyState[0] = new UCHAR[256];
+	m_keyState[1] = new UCHAR[256];
 	
 	mouseState = new DIMOUSESTATE[2];
 }
@@ -71,24 +71,24 @@ bool InputClass::Initialize(HINSTANCE hinstance, HWND hwnd)
 
 	// Set the data format for the mouse using the pre-defined mouse data format.
 	result = m_mouse->SetDataFormat(&c_dfDIMouse);
-	/*if (FAILED(result))
+	if (FAILED(result))
 	{
 		return false;
-	}*/
+	}
 
 	// Set the cooperative level of the mouse to share with other programs.
 	result = m_mouse->SetCooperativeLevel(hwnd, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
-	/*if (FAILED(result))
+	if (FAILED(result))
 	{
 		return false;
-	}*/
+	}
 
 	// Acquire the mouse.
 	result = m_mouse->Acquire();
-	/*if (FAILED(result))
+	if (FAILED(result))
 	{
 		return false;
-	}*/
+	}
 
 	return true;
 }
@@ -97,7 +97,7 @@ void InputClass::Shutdown()
 {
 	/*SAFE_DELETE(keyState[0]);
 	SAFE_DELETE(keyState[0]);*/
-	SAFE_DELETE(keyState);
+	SAFE_DELETE(m_keyState);
 	SAFE_DELETE(mouseState);
 
 	// Release the mouse.
@@ -149,7 +149,7 @@ bool InputClass::ReadKeyboard()
 
 	// Read the keyboard device.
 	
-	result = m_keyboard->GetDeviceState(sizeof(keyboardState), (LPVOID)&keyboardState);
+	result = m_keyboard->GetDeviceState(sizeof(m_keyboardState), (LPVOID)&m_keyboardState);
 
 	if (FAILED(result))
 	{
@@ -165,8 +165,8 @@ bool InputClass::ReadKeyboard()
 	}
 	else
 	{
-		keyState[OLD_S] = keyState[NEW_S];
-		keyState[NEW_S] = keyboardState;
+		m_keyState[OLD_S] = m_keyState[NEW_S];
+		m_keyState[NEW_S] = m_keyboardState;
 	}
 
 	return true;
@@ -226,17 +226,17 @@ void InputClass::GetMouseLocation(int& mouseX, int& mouseY)
 
 bool InputClass::KeyPressedDown(UINT key)
 {
-	return keyState[NEW_S][key] & DOWN && keyState[OLD_S][key] & UP;
+	return m_keyState[NEW_S][key] & DOWN && m_keyState[OLD_S][key] & UP;
 }
 
 bool InputClass::KeyReleased(UINT key)
 {
-	return keyState[NEW_S][key] & UP && keyState[OLD_S][key] & DOWN;
+	return m_keyState[NEW_S][key] & UP && m_keyState[OLD_S][key] & DOWN;
 }
 
 bool InputClass::KeyHoldDown(UINT key)
 {
-	return keyState[NEW_S][key] & DOWN && keyState[OLD_S][key] & DOWN;
+	return m_keyState[NEW_S][key] & DOWN && m_keyState[OLD_S][key] & DOWN;
 }
 
 bool InputClass::MouseKeyPressedDown(UINT key)

@@ -2,6 +2,7 @@
 #include "ResourcesManager.h"
 #include "ShaderBase.h"
 #include "../gml/MD5ModelBinary.h"
+#include "Dx11Helper.h"
 
 ResourcesManager::ResourcesManager(): gameModels(nullptr), textures(nullptr)
 {
@@ -93,8 +94,8 @@ void ResourcesManager::setBasicData(ID3D11Device2 * dev)
 		x.resource->stride[0] = sizeof(mesh2d);
 		//x.resource->stride[1] = sizeof(InstanceType_B);
 
-		x.resource->pVBuffer = CreateVertexBufferHelp(dev, (sizeof(mesh2d) * x.resource->vert_count), mesh);
-		x.resource->pIBuffer = CreateIndexBufferHelp(dev, sizeof(unsigned long) * x.resource->indexCount, index);
+		x.resource->pVBuffer = Dx11Helper::CreateVertexBufferHelp(dev, (sizeof(mesh2d) * x.resource->vert_count), mesh);
+		x.resource->pIBuffer = Dx11Helper::CreateIndexBufferHelp(dev, sizeof(unsigned long) * x.resource->indexCount, index);
 	}
 	
 	gameModels->push_back(x); //0 plane
@@ -161,8 +162,8 @@ void ResourcesManager::setBasicData(ID3D11Device2 * dev)
 		x.resource->stride[0] = sizeof(mesh2d);
 		x.resource->stride[1] = sizeof(InstanceType_B);
 
-		x.resource->pVBuffer = CreateVertexBufferHelp(dev, (sizeof(mesh2d) * x.resource->vert_count), mesh);
-		x.resource->pIBuffer = CreateIndexBufferHelp(dev, sizeof(unsigned long) * x.resource->indexCount, index);
+		x.resource->pVBuffer = Dx11Helper::CreateVertexBufferHelp(dev, (sizeof(mesh2d) * x.resource->vert_count), mesh);
+		x.resource->pIBuffer = Dx11Helper::CreateIndexBufferHelp(dev, sizeof(unsigned long) * x.resource->indexCount, index);
 	}
 
 	gameModels->push_back(x); //1 cube
@@ -184,8 +185,8 @@ void ResourcesManager::setBasicData(ID3D11Device2 * dev)
 		x.resource->stride[0] = sizeof(mesh2d);
 		x.resource->stride[1] = sizeof(InstanceType_B);
 
-		x.resource->pVBuffer = CreateVertexBufferHelp(dev, (sizeof(mesh2d) * x.resource->vert_count), mesh);
-		x.resource->pIBuffer = CreateIndexBufferHelp(dev, sizeof(unsigned long) * x.resource->indexCount, list);
+		x.resource->pVBuffer = Dx11Helper::CreateVertexBufferHelp(dev, (sizeof(mesh2d) * x.resource->vert_count), mesh);
+		x.resource->pIBuffer = Dx11Helper::CreateIndexBufferHelp(dev, sizeof(unsigned long) * x.resource->indexCount, list);
 		//x.resource->pInsBuffer = CreateInstanceBufferHelp(dev, sizeof(InstanceType_B) * data->maxInstanceCount, data->instances);
 
 		//D3DCreateShaderResourceViewFromFile(dev, L"bob_body.dds", nullptr, nullptr, &(data->texture), nullptr);
@@ -202,7 +203,7 @@ void ResourcesManager::setBasicData(ID3D11Device2 * dev)
 		//ID3D11Buffer *textureBuffer = nullptr;
 		ID3D11ShaderResourceView *textureBuffer;
 		auto texture = GenerateTextureData1();
-		textureBuffer = CreateD3D11TextureResourceView(dev, D3D11_USAGE_DYNAMIC, 256, 256, D3D11_BIND_SHADER_RESOURCE, D3D11_CPU_ACCESS_WRITE, texture, 256, 256*256);
+		textureBuffer = Dx11Helper::CreateD3D11TextureResourceView(dev, D3D11_USAGE_DYNAMIC, 256, 256, D3D11_BIND_SHADER_RESOURCE, D3D11_CPU_ACCESS_WRITE, texture, 256, 256*256);
 		//CreateD3D11Buffer(dev, D3D11_USAGE_DYNAMIC, texture.size(), D3D11_BIND_SHADER_RESOURCE, D3D11_CPU_ACCESS_WRITE, &texture);
 		y.resource = textureBuffer;
 		//dev->CreateShaderResourceView()

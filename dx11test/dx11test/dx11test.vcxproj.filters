@@ -1,14 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
@@ -19,120 +11,133 @@
     <Filter Include="Resource Files\Pixel">
       <UniqueIdentifier>{7815d153-b8e7-47ca-90cc-dd57cb899bd7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Renderers">
-      <UniqueIdentifier>{941f3afe-bcbf-43fd-8188-024da8877e78}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GUI">
-      <UniqueIdentifier>{68a3cf8c-588b-438f-a262-b4433b3714f0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Models">
-      <UniqueIdentifier>{ecd49a85-e2ad-43f7-aa16-b8ea5f7f91ba}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Models\data">
-      <UniqueIdentifier>{be425ad2-887a-4110-8df0-51c6660c6f6f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Models\game">
-      <UniqueIdentifier>{300ff90a-c465-4066-bcb4-e63c3aa70ad8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Managers">
-      <UniqueIdentifier>{23549526-4455-478a-a8b3-75540dfd5391}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Input">
-      <UniqueIdentifier>{104ef39b-72da-4b0f-959b-ece9b4e08479}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Common">
       <UniqueIdentifier>{3e86f966-1ae9-42d0-b14c-30c3b999c946}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Common\Models">
+      <UniqueIdentifier>{f4366b31-00fa-491c-a306-eadc9bfb4010}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\Helpers">
+      <UniqueIdentifier>{ed9877ee-df9f-41e5-ab73-327e14cdb425}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{c98cb5ff-b804-4bb5-9315-34c0b15ec115}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Shaders">
+      <UniqueIdentifier>{941f3afe-bcbf-43fd-8188-024da8877e78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Input">
+      <UniqueIdentifier>{104ef39b-72da-4b0f-959b-ece9b4e08479}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External">
+      <UniqueIdentifier>{29187052-c4e4-45da-92a2-aa9d5ee9d3d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External\Managers">
+      <UniqueIdentifier>{23549526-4455-478a-a8b3-75540dfd5391}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External\GUI">
+      <UniqueIdentifier>{68a3cf8c-588b-438f-a262-b4433b3714f0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="dx11test.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GameWindow.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="InputClass.cpp">
-      <Filter>Input</Filter>
+      <Filter>Core\Input</Filter>
     </ClCompile>
     <ClCompile Include="ButtonsActionMap.cpp">
-      <Filter>Input</Filter>
+      <Filter>Core\Input</Filter>
     </ClCompile>
     <ClCompile Include="ShaderBase.cpp">
-      <Filter>Renderers</Filter>
-    </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DataModelBase.cpp">
-      <Filter>Models\data</Filter>
+      <Filter>Core\Shaders</Filter>
     </ClCompile>
     <ClCompile Include="GUI_Base.cpp">
-      <Filter>GUI</Filter>
+      <Filter>External\GUI</Filter>
     </ClCompile>
     <ClCompile Include="NormalShader.cpp">
-      <Filter>Renderers</Filter>
+      <Filter>Core\Shaders</Filter>
     </ClCompile>
     <ClCompile Include="GUI_Parts.cpp">
-      <Filter>GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="GameModelBase.cpp">
-      <Filter>Models\game</Filter>
+      <Filter>External\GUI</Filter>
     </ClCompile>
     <ClCompile Include="ResourcesManager.cpp">
-      <Filter>Managers</Filter>
+      <Filter>External\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="DataModelBase.cpp">
+      <Filter>Common\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="GameModelBase.cpp">
+      <Filter>Common\Models</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="DirectX11.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="GameWindow.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="dx11test.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GameWindow.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="InputClass.h">
-      <Filter>Input</Filter>
+      <Filter>Core\Input</Filter>
     </ClInclude>
     <ClInclude Include="ButtonsActionMap.h">
-      <Filter>Input</Filter>
+      <Filter>Core\Input</Filter>
     </ClInclude>
     <ClInclude Include="ShaderBase.h">
-      <Filter>Renderers</Filter>
-    </ClInclude>
-    <ClInclude Include="Game.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DataModelBase.h">
-      <Filter>Models\data</Filter>
+      <Filter>Core\Shaders</Filter>
     </ClInclude>
     <ClInclude Include="GUI_Base.h">
-      <Filter>GUI</Filter>
+      <Filter>External\GUI</Filter>
     </ClInclude>
     <ClInclude Include="NormalShader.h">
-      <Filter>Renderers</Filter>
+      <Filter>Core\Shaders</Filter>
     </ClInclude>
     <ClInclude Include="GUI_Parts.h">
-      <Filter>GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="GameModelBase.h">
-      <Filter>Models\game</Filter>
+      <Filter>External\GUI</Filter>
     </ClInclude>
     <ClInclude Include="ResourcesManager.h">
-      <Filter>Managers</Filter>
-    </ClInclude>
-    <ClInclude Include="DirectX11.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="pch.h">
-      <Filter>Header Files</Filter>
+      <Filter>External\Managers</Filter>
     </ClInclude>
     <ClInclude Include="StepTimer.h">
       <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderModel.h">
+      <Filter>Common\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Dx11Helper.h">
+      <Filter>Common\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="DataModelBase.h">
+      <Filter>Common\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="GameModelBase.h">
+      <Filter>Common\Models</Filter>
+    </ClInclude>
+    <ClInclude Include="TypeHelper.h">
+      <Filter>Common\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectX11.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="GameWindow.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="IScreen.h">
+      <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

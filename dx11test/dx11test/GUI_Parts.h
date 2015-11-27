@@ -30,11 +30,11 @@ class Label : GUI_Base
 {
 public:
 	Label(ID2D* d2d, wstring text, 
-		float4 position = {0}, float4 color = { 0 });
+		Rect_F position = {0}, D2D1_COLOR_F color = { 0 });
 	~Label();
 
 	void Render();
-	float4 GetSize();
+	Rect_F GetSize();
 
 	TextFormatModel GetTextFormat()									{ return m_textFormatModel; };
 
@@ -63,30 +63,30 @@ private:
 //-------------------------------------------------------------------------------
 //			Frame
 //-------------------------------------------------------------------------------
-//class Frame : GUI_Base
-//{
-//protected:
-//	int paddingSize;
-//	int borderSize;
-//	float4 borderColor;
-//	Frame* parent;
-//	vector<Frame> childList;
-//public:
-//	Frame();
-//	~Frame();
-//
-//	void Render();
-//
-//	void OnClick();
-//	void OnMouseEnter();
-//	void OnMouseLeave();
-//	void SetPosition(rect pos);
-//	void Border(int size, float4 color);
-//};
-//
-////-------------------------------------------------------------------------------
-////			Button
-////-------------------------------------------------------------------------------
+class Frame : GUI_Base
+{
+protected:
+	int paddingSize;
+	int borderSize;
+	float4 borderColor;
+	GUI_Base* parent;
+	vector<GUI_Base> childList;
+public:
+	Frame(ID2D* d2d, Rect_F position = { 0 }, D2D1_COLOR_F color = { 0 });
+	~Frame();
+
+	void Render();
+
+	void OnClick();
+	void OnMouseEnter();
+	void OnMouseLeave();
+	void SetPosition(rect pos);
+	void Border(int size, D2D1_COLOR_F color);
+};
+
+//-------------------------------------------------------------------------------
+//			Button
+//-------------------------------------------------------------------------------
 //class Button : Frame
 //{
 //protected:

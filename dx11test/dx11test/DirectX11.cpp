@@ -19,7 +19,7 @@ using namespace std;
 #define IFFAILED2(hr, ln) { if ( FAILED(hr) ) { status = hr; wstring str(HresultToString(status)); str.append(ln);  MessageBox(nullptr, str.c_str(), L"Critical Error", MB_OK);} }
 
 DirectX11::DirectX11()
-	: m_d3dRenderTargetView(), m_featureLevel(D3D_FEATURE_LEVEL_9_1)
+	: m_d3dRenderTargetView(), m_featureLevel(D3D_FEATURE_LEVEL_9_1), m_hWnd()
 {
 	depthStencilBuffer = 0;
 	m_depthDisabledStencilState = 0;
@@ -59,8 +59,8 @@ void DirectX11::ShutDown()
 	//m_d2dTargetBitmap = nullptr;
 	m_d3dDepthStencilView = nullptr;
 	m_d3dDevCon->Flush();
-	DestroyWindow(hWnd);
-	hWnd = nullptr;
+	DestroyWindow(m_hWnd);
+	m_hWnd = nullptr;
 }
 
 void DirectX11::InitD2D(HWND hwnd)

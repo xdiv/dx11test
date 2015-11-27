@@ -1,7 +1,8 @@
 ﻿#include "pch.h"
 #include "Game.h"
+#include "ShaderModel.h"
 
-Game::Game(): gameWindow(nullptr), width (1200), heigth(900)
+Game::Game(): gameWindow(nullptr), width (1280), heigth(720)
 {
 }
 
@@ -19,7 +20,7 @@ Game::~Game()
 
 void Game::Init()
 {
-	gameWindow = new GameWindow(width, heigth, L"Hello world", 0.1F, 100000.0f, 4);
+	gameWindow = new GameWindow(width, heigth, L"Hello world", 0.1F, 100000.0f);
 	gameWindow->InitializeWindows();
 	gameWindow->InitD3D();
 
@@ -68,8 +69,8 @@ void Game::GameInit()
 	camera->SetPosition(0.0f, -50.0f, 0.0f);
 	input->SetCamera(camera);
 
-	normalShader = new NormalShader();
-	normalShader->Init(gameWindow->GetD3DDevice(), gameWindow->GetHwnd(), gameWindow->GetD3DDeviceContext());
+	normalShader = new NormalShader(gameWindow->GetD3D());
+	normalShader->Init();
 
 	gameWindow->GetD3DDeviceContext()->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	gameWindow->TurnOnAlphaBlending();
@@ -85,7 +86,7 @@ void Game::GameInit()
 
 	zz = 0;
 
-	label = new Label(gameWindow->GetD2D(), L"Hello World", float4(0.0f, 0.0f, 100.0f, 100.0f), float4(1.f,0.f,0.f,1.f));
+	label = new Label(gameWindow->GetD2D(), L"Hello World", Rect_F{ 0.0f, 0.0f, 100.0f, 100.0f }, D2D1_COLOR_F{ 1.f,0.f,0.f,1.f });
 }
 void Game::GameShutDown()
 {
@@ -136,12 +137,12 @@ void Game::Render(StepTimer const& timer)
 	ps.hasTexture = 1;
 	ps.transperency = 1.0f;
 
-	normalShader->SetVertexShaderBuffers(gameWindow->GetD3DDeviceContext(), &world3DMatrix);
-	normalShader->SetPixelShaderBuffers(gameWindow->GetD3DDeviceContext(), &ps);
+	normalShader->SetVertexShaderBuffers(&world3DMatrix);
+	normalShader->SetPixelShaderBuffers(&ps);
 
 
 	xxf->UpdateInstanceBuffer(gameWindow->GetD3DDeviceContext());
-	normalShader->Render(gameWindow->GetD3DDeviceContext(), xxf->GetData());
+	normalShader->Render(xxf->GetData());
 }
 
 void Game::RenderInterface(StepTimer const& timer)

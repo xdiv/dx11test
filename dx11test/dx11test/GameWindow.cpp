@@ -3,18 +3,23 @@
 
 GameWindow* GameWindow::sInst = 0;
 
-GameWindow::GameWindow(LONG& w, LONG& h, LPCWSTR t, float screenNear, float screenDepth, float aspectRatio)
+GameWindow::GameWindow(LONG& w, LONG& h, LPCWSTR t, float screenNear, float screenDepth)
+	: m_screen()
 {
 	title = t;
-	screenHeight = h;
-	screenWidth = w;
+	//screenHeight = h;
+	//screenWidth = w;
+	//aspectRatio = (float)w / (float)h;
 	hInstance = 0;
+
+	m_screen.SetRez(w, h);
+	m_screen.SetClip(screenNear, screenDepth);
 
 	//hWnd = 0;
 
-	this->screenNear = screenNear;
-	this->screenDepth = screenDepth;
-	this->aspectRatio = aspectRatio;
+	//this->screenNear = screenNear;
+	//this->screenDepth = screenDepth;
+	//this->aspectRatio = aspectRatio;
 
 	//pb = (this);
 }
@@ -24,7 +29,7 @@ GameWindow::~GameWindow()
 {
 	//ShutDown();
 	//DestroyWindow(hWnd);
-	hWnd = nullptr;
+	m_hWnd = nullptr;
 
 	UnregisterClass(L"WindowClass1", hInstance);
 	hInstance = nullptr;
@@ -52,7 +57,7 @@ void GameWindow::InitializeWindows()
 	//RECT wr = { 0, 0, screenWidth, screenHeight };
 	//AdjustWindowRect(&wr, WS_OVERLAPPEDWINDOW, FALSE);
 
-	hWnd = CreateWindowEx(WS_EX_APPWINDOW,
+	m_hWnd = CreateWindowEx(WS_EX_APPWINDOW,
 		L"WindowClass1",    // name of the window class
 		title,   // title of the window
 		WS_OVERLAPPEDWINDOW,    // window style
@@ -65,15 +70,15 @@ void GameWindow::InitializeWindows()
 		hInstance,    // application handle
 		nullptr);    // used with multiple windows, nullptr
 
-	ShowWindow(hWnd, SW_SHOW);
-	SetForegroundWindow(hWnd);
-	SetFocus(hWnd);
+	ShowWindow(m_hWnd, SW_SHOW);
+	SetForegroundWindow(m_hWnd);
+	SetFocus(m_hWnd);
 }
 
 void GameWindow::InitD3D()
 {
-	DirectX11::InitD3D(hWnd, screenWidth, screenHeight);
-	DirectX11::InitD2D(hWnd);
+	DirectX11::InitD3D(m_hWnd, screenWidth, screenHeight);
+	DirectX11::InitD2D(m_hWnd);
 	BuildWorldMatrix();
 }
 
@@ -101,11 +106,11 @@ void GameWindow::BuildWorldMatrix()
 {
 	float fieldOfView, screenAspect;
 	// Setup the projection matrix.
-	fieldOfView = (float)XM_PI / aspectRatio;
-	screenAspect = (float)screenWidth / (float)screenHeight;
+	fieldOfView = (float)XM_PI / m_screen.aspect;
+	screenAspect = (float)m_screen.width / (float)m_screen.height;
 
 	// Create the projection matrix for 3D rendering.
-	projectionMatrix = XMMatrixPerspectiveFovLH(fieldOfView, screenAspect, screenNear, screenDepth);
+	projectionMatrix = XMMatrixPerspectiveFovLH(fieldOfView, screenAspect, m_screen.nearClip, m_screen.farClip);
 
 	// Initialize the world matrix to the identity matrix.
 	world3DMatrix = XMMatrixIdentity();
@@ -113,12 +118,7 @@ void GameWindow::BuildWorldMatrix()
 	world2DMatrix.r[2] = DirectX::XMVectorZero();
 	//world2DMatrix.r[3] = DirectX::XMVectorZero();
 	// Create an orthographic projection matrix for 2D rendering.
-	orthoMatrix = XMMatrixOrthographicLH((float)screenWidth, (float)screenHeight, +0.0f, 1);
-}
-
-HWND GameWindow::GetHwnd()
-{
-	return hWnd;
+	orthoMatrix = XMMatrixOrthographicLH((float)m_screen.width, (float)m_screen.height, +0.0f, 1);
 }
 
 HINSTANCE GameWindow::GetHinstance()
@@ -128,8 +128,7 @@ HINSTANCE GameWindow::GetHinstance()
 
 void GameWindow::SetWindowSize(LONG width, LONG heigth)
 {
-	screenWidth = width;
-	screenHeight = heigth;
+	m_screen.SetRez(width, heigth);
 	BuildWorldMatrix();
 }
 

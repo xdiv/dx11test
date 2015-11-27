@@ -5,15 +5,17 @@
 #define WIN32_LEAN_AND_MEAN
 
 #include "DirectX11.h"
+#include "IScreen.h"
 
 using namespace DirectX;
 
-class GameWindow : public DirectX11
+class GameWindow : public DirectX11, public IScreen
 {
 	private:
 		int m_videoCardMemory;
-		LONG screenWidth, screenHeight;
-		float screenNear, screenDepth, aspectRatio;
+		//LONG screenWidth, screenHeight;
+		//float screenNear, screenDepth, aspectRatio;
+		Screen m_screen;
 		
 		HINSTANCE hInstance;
 
@@ -30,12 +32,10 @@ class GameWindow : public DirectX11
 	protected:
 		GameWindow(GameWindow&){};
 	public:
-		GameWindow(LONG&, LONG&, LPCWSTR, float screenNear, float screenDepth, float aspectRatio);
+		GameWindow(LONG&, LONG&, LPCWSTR, float screenNear, float screenDepth);
 		~GameWindow();
 		void InitializeWindows();
 		void InitD3D();
-		
-		HWND GetHwnd();
 		HINSTANCE GetHinstance();
 
 		/// <summary>Gražina 3d pasaulio matrica

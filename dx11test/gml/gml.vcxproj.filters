@@ -13,10 +13,13 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Binary">
+    <Filter Include="ModelLoader">
+      <UniqueIdentifier>{501e2056-ac26-45bf-9d07-e1356f16c8fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Binary">
       <UniqueIdentifier>{07da36c0-2180-48b9-85af-a7390be8b1cb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Text">
+    <Filter Include="Header Files\Text">
       <UniqueIdentifier>{c2941f31-e25a-4b60-a86c-13c0b2b67068}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -31,10 +34,10 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MD5Model.h">
-      <Filter>Text</Filter>
+      <Filter>Header Files\Text</Filter>
     </ClInclude>
     <ClInclude Include="MD5ModelBinary.h">
-      <Filter>Binary</Filter>
+      <Filter>Header Files\Binary</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -45,10 +48,10 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MD5Model.cpp">
-      <Filter>Text</Filter>
+      <Filter>Header Files\Text</Filter>
     </ClCompile>
     <ClCompile Include="MD5ModelBinary.cpp">
-      <Filter>Binary</Filter>
+      <Filter>Header Files\Binary</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

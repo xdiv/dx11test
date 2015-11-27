@@ -2,6 +2,7 @@
 #include "DataModelBase.h"
 #include "../gml/MD5ModelBinary.h"
 #include "ResourcesManager.h"
+#include "Dx11Helper.h"
 
 DMBdata::DMBdata()
 {
@@ -87,9 +88,9 @@ void DataModelBase::LoadTestModel1(ID3D11Device2 * dev)
 	data->stride[0] = sizeof(mesh2d);
 	data->stride[1] = sizeof(InstanceType_B);
 
-	data->pVBuffer = CreateVertexBufferHelp(dev, (sizeof(mesh2d) * data->vert_count), mesh);
-	data->pIBuffer = CreateIndexBufferHelp(dev, sizeof(unsigned long) * data->indexCount, index);
-	data->pInsBuffer = CreateInstanceBufferHelp(dev, sizeof(InstanceType_B) * data->maxInstanceCount, data->instances);
+	data->pVBuffer = Dx11Helper::CreateVertexBufferHelp(dev, (sizeof(mesh2d) * data->vert_count), mesh);
+	data->pIBuffer = Dx11Helper::CreateIndexBufferHelp(dev, sizeof(unsigned long) * data->indexCount, index);
+	data->pInsBuffer = Dx11Helper::CreateInstanceBufferHelp(dev, sizeof(InstanceType_B) * data->maxInstanceCount, data->instances);
 }
 
 void DataModelBase::LoadTestModel2(ID3D11Device2 * dev)
@@ -109,9 +110,9 @@ void DataModelBase::LoadTestModel2(ID3D11Device2 * dev)
 	data->stride[0] = sizeof(mesh2d);
 	data->stride[1] = sizeof(InstanceType_B);
 
-	data->pVBuffer = CreateVertexBufferHelp(dev, (sizeof(mesh2d) * data->vert_count), mesh);
-	data->pIBuffer = CreateIndexBufferHelp(dev, sizeof(unsigned long) * data->indexCount, list);
-	data->pInsBuffer = CreateInstanceBufferHelp(dev, sizeof(InstanceType_B) * data->maxInstanceCount, data->instances);
+	data->pVBuffer = Dx11Helper::CreateVertexBufferHelp(dev, (sizeof(mesh2d) * data->vert_count), mesh);
+	data->pIBuffer = Dx11Helper::CreateIndexBufferHelp(dev, sizeof(unsigned long) * data->indexCount, list);
+	data->pInsBuffer = Dx11Helper::CreateInstanceBufferHelp(dev, sizeof(InstanceType_B) * data->maxInstanceCount, data->instances);
 
 	SAFE_DELETE(mesh);
 	SAFE_DELETE(list);
@@ -140,9 +141,9 @@ void DataModelBase::LoadTestModel3(ID3D11Device2 * dev)
 	data->stride[0] = sizeof(mesh2d);
 	data->stride[1] = sizeof(InstanceType_B);
 
-	data->pVBuffer = CreateVertexBufferHelp(dev, (sizeof(mesh2d) * data->vert_count), mesh);
-	data->pIBuffer = CreateIndexBufferHelp(dev, sizeof(unsigned long) * data->indexCount, index);
-	data->pInsBuffer = CreateInstanceBufferHelp(dev, sizeof(InstanceType_B) * data->maxInstanceCount, data->instances);
+	data->pVBuffer = Dx11Helper::CreateVertexBufferHelp(dev, (sizeof(mesh2d) * data->vert_count), mesh);
+	data->pIBuffer = Dx11Helper::CreateIndexBufferHelp(dev, sizeof(unsigned long) * data->indexCount, index);
+	data->pInsBuffer = Dx11Helper::CreateInstanceBufferHelp(dev, sizeof(InstanceType_B) * data->maxInstanceCount, data->instances);
 }
 
 void DataModelBase::LoadTestModel4(ID3D11Device2 * dev)
@@ -160,7 +161,7 @@ void DataModelBase::LoadTestModel4(ID3D11Device2 * dev)
 	//data->texture = rm.GetTextureById(0);
 
 	data->instances = new InstanceType_B[data->maxInstanceCount];
-	data->pInsBuffer = CreateInstanceBufferHelp(dev, sizeof(InstanceType_B) * data->maxInstanceCount, data->instances);
+	data->pInsBuffer = Dx11Helper::CreateInstanceBufferHelp(dev, sizeof(InstanceType_B) * data->maxInstanceCount, data->instances);
 	
 	data->texture = rm.GetTextureById(0);
 }

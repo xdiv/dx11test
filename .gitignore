@@ -7,6 +7,7 @@ dx11test.opensdf
 dx11test/ssh/*
 *.sdf
 *.v12.suo
+*.suo
 dx11test/ssh/*.*
 ssh/
 dx11test/ipch/
