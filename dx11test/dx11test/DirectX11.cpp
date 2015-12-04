@@ -137,7 +137,8 @@ void DirectX11::InitD3D(HWND hwnd, LONG screenW, LONG screenH)
 	ZeroMemory(&scd, sizeof(DXGI_SWAP_CHAIN_DESC));
 
 	// fill the swap chain description struct
-	scd.BufferCount = 2;                                    // one back buffer
+	scd.BufferCount = 1;
+	//scd.BufferCount = 2;                                    // one back buffer
 	scd.BufferDesc.Width = screenW;
 	scd.BufferDesc.Height = screenH;
 	//scd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;     // use 32-bit m_color 
@@ -151,8 +152,8 @@ void DirectX11::InitD3D(HWND hwnd, LONG screenW, LONG screenH)
 	scd.Windowed = TRUE;                                    // windowed/full-screen mode
 	scd.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED; // Set the scan line ordering and scaling to unspecified.
 	scd.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
-	//scd.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;				// Discard the back buffer contents after presenting.
-	scd.SwapEffect = DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL;		// All Windows Store apps must use this SwapEffect.
+	scd.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;				// Discard the back buffer contents after presenting.
+	//scd.SwapEffect = DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL;		// All Windows Store apps must use this SwapEffect.
 	scd.Flags = 0;     // allow full-screen switching
 
 	ComPtr<IDXGISwapChain> swpChain;
@@ -353,10 +354,10 @@ void DirectX11::TurnOffAlphaBlending()
 void DirectX11::BeginScene()
 {
 	// Reset the viewport to target the whole screen.
-	m_d3dDevCon->RSSetViewports(1, &m_screenViewport);
+	//m_d3dDevCon->RSSetViewports(1, &m_screenViewport);
 
-	ID3D11RenderTargetView *const targets[1] = { m_d3dRenderTargetView };
-	m_d3dDevCon->OMSetRenderTargets(1, targets, m_d3dDepthStencilView.Get());
+	//ID3D11RenderTargetView *const targets[1] = { m_d3dRenderTargetView };
+	//m_d3dDevCon->OMSetRenderTargets(1, targets, m_d3dDepthStencilView.Get());
 
 	m_d3dDevCon->ClearRenderTargetView(m_d3dRenderTargetView, DirectX::Colors::Black);
 	m_d3dDevCon->ClearDepthStencilView(m_d3dDepthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
@@ -371,9 +372,9 @@ void DirectX11::EndScene()
 		// Discard the contents of the render target.
 		// This is a valid operation only when the existing contents will be entirely
 		// overwritten. If dirty or scroll rects are used, this call should be removed.
-		m_d3dDevCon->DiscardView(m_d3dRenderTargetView);
+		//m_d3dDevCon->DiscardView(m_d3dRenderTargetView);
 		// Discard the contents of the depth stencil.
-		m_d3dDevCon->DiscardView(m_d3dDepthStencilView.Get());
+		//m_d3dDevCon->DiscardView(m_d3dDepthStencilView.Get());
 	}
 	else
 		// Present as fast as possible.

@@ -36,10 +36,11 @@ public:
 	void Render();
 	Rect_F GetSize();
 
-	TextFormatModel GetTextFormat()									{ return m_textFormatModel; };
+	IDWriteTextFormat*	TextFormat()	{ return m_textFormat; };
+	TextFormatModel		GetTextFormat()	{ return m_textFormatModel; };
 
-	void			SetTextFormat(TextFormatModel textFormatModel);
-	void			SetText(wstring string);
+	void	SetTextFormat(TextFormatModel textFormatModel);
+	void	SetText(wstring string);
 	//void SetTextFormat(TextFormatModel* textFormatModel);
 
 protected:

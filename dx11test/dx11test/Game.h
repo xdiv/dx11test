@@ -29,18 +29,25 @@ private:
 		interfaceMatrix;
 	XMMATRIX w, p;
 
+	XMFLOAT3 rz{0.f, 0.f, 0.f};
+
 	Camera* camera;
 	ButtonsActionMap *input;
 	NormalShader * normalShader;
 
-	DataModelBase* dmb, *xxf;
+	DataModelBase* dmb, *md5Model, *cubeModel;
 
 	StepTimer m_timer;
 	Label* label;
+	Label* mouseCLickLocation;
+	Label* gameWindowLocation;
 
 	float zz = -1.0f;
 	float ff = 0;
 	float alpha = 0;
+
+	LPPOINT mouseLocation;
+	LPRECT windowLocation;
 
 	void GameInit();
 	void GameShutDown();

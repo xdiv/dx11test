@@ -165,3 +165,23 @@ void DataModelBase::LoadTestModel4(ID3D11Device2 * dev)
 	
 	data->texture = rm.GetTextureById(0);
 }
+
+void DataModelBase::LoadTestModelCube(ID3D11Device2 * dev)
+{
+	ResourcesManager rm;
+	rm.Init(dev);
+
+	GameModel *gm = rm.GetGameModelById(1);
+
+	data->pVBuffer = gm->pVBuffer;
+	data->pIBuffer = gm->pIBuffer;
+	data->indexCount = gm->indexCount;
+	data->stride[0] = gm->stride[0];
+	data->stride[1] = sizeof(InstanceType_B);
+	//data->texture = rm.GetTextureById(0);
+
+	data->instances = new InstanceType_B[data->maxInstanceCount];
+	data->pInsBuffer = Dx11Helper::CreateInstanceBufferHelp(dev, sizeof(InstanceType_B) * data->maxInstanceCount, data->instances);
+
+	data->texture = rm.GetTextureById(0);
+}

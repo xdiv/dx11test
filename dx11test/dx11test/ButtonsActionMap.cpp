@@ -14,6 +14,7 @@ ButtonsActionMap::ButtonsActionMap(HINSTANCE hInstance, HWND hWnd)
 	moveUp	  = KEY_SPACE;
 	moveDow	  = KEY_C;
 	exit	  = KEY_ESCAPE;
+	mouseSelect = M_LEFT;
 }
 
 
@@ -84,3 +85,4 @@ void ButtonsActionMap::Rotate()
 		camera->SetRotation(input->MouseGetMovementX() * 0.1, input->MouseGetMovementY() * -0.1, 0);
 	}
 }
+

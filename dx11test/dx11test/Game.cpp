@@ -1,6 +1,7 @@
 ﻿#include "pch.h"
 #include "Game.h"
 #include "ShaderModel.h"
+#include "RayCast.h"
 
 Game::Game(): gameWindow(nullptr), width (1280), heigth(720)
 {
@@ -20,17 +21,16 @@ Game::~Game()
 
 void Game::Init()
 {
-	gameWindow = new GameWindow(width, heigth, L"Hello world", 0.1F, 100000.0f);
+	gameWindow = new GameWindow(width, heigth, L"Hello world", 0.1F, 1000.0f);
 	gameWindow->InitializeWindows();
 	gameWindow->InitD3D();
-
-	GameWindow::SetInstance(gameWindow);
 }
 
 void Game::Run()
 {
 	MSG msg;
 	GameInit();
+	//gameWindow->FullScreenSwitch(true);
 	while (TRUE)
 	{
 		if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
@@ -63,10 +63,15 @@ void Game::Run()
 void Game::GameInit()
 {
 	//ShowCursor(FALSE);
+
+	mouseLocation = new POINT();
+	mouseLocation->x = 0;
+	mouseLocation->y = 0;
 	camera = new Camera();
 	input = new ButtonsActionMap(gameWindow->GetHinstance(), gameWindow->GetHwnd());
 
-	camera->SetPosition(0.0f, -50.0f, 0.0f);
+	camera->SetPosition(0.0f, 0.0f, 0.0f);
+	camera->SetRotation(-60.f, 0.f, 0.f);
 	input->SetCamera(camera);
 
 	normalShader = new NormalShader(gameWindow->GetD3D());
@@ -80,13 +85,23 @@ void Game::GameInit()
 	dmb = new DataModelBase();
 	dmb->LoadTestModel3(gameWindow->GetD3DDevice());
 
-	xxf = 0;
-	xxf = new DataModelBase();
-	xxf->LoadTestModel4(gameWindow->GetD3DDevice());
+	md5Model = 0;
+	md5Model = new DataModelBase();
+	md5Model->LoadTestModel4(gameWindow->GetD3DDevice());
+
+	cubeModel = 0;
+	cubeModel = new DataModelBase();
+	cubeModel->LoadTestModelCube(gameWindow->GetD3DDevice());
+
 
 	zz = 0;
 
+	windowLocation = new RECT{ 0,0,0,0 };
+
 	label = new Label(gameWindow->GetD2D(), L"Hello World", Rect_F{ 0.0f, 0.0f, 100.0f, 100.0f }, D2D1_COLOR_F{ 1.f,0.f,0.f,1.f });
+	mouseCLickLocation = new Label(gameWindow->GetD2D(), L"Hello World", Rect_F{ 0.0f, 30.0f, 100.0f, 100.0f }, D2D1_COLOR_F{ 1.f,0.f,0.f,1.f });
+	gameWindowLocation = new Label(gameWindow->GetD2D(), L"Hello World", Rect_F{ 0.0f, 60.0f, 200.0f, 100.0f }, D2D1_COLOR_F{ 1.f,0.f,0.f,1.f });
+	gameWindowLocation->TextFormat()->SetWordWrapping(DWRITE_WORD_WRAPPING_NO_WRAP);
 }
 void Game::GameShutDown()
 {
@@ -94,7 +109,7 @@ void Game::GameShutDown()
 	//SAFE_DELETE(label);
 	SAFE_DELETE(camera);
 	SAFE_DELETE(input);
-	SAFE_DELETE(xxf);
+	SAFE_DELETE(md5Model);
 	SAFE_DELETE(dmb);
 	gameWindow->ShutDown();
 }
@@ -113,6 +128,19 @@ void Game::Update(StepTimer const& timer)
 	
 	world3DMatrix = w * viewMatrix * p; 
 
+	
+
+	input->MouseCick([&]
+	{
+		gameWindow->GetCursor(mouseLocation);
+		gameWindow->GetGameWindowRect(windowLocation);
+		XMFLOAT3 x = RayCast::CameraToWorldRay(gameWindow->GetScreen(), *mouseLocation, viewMatrix, p._11, p._22);
+		float l = Length(float3(-40, 0, 20));
+		rz = XMFLOAT3{ x.x * l, x.y * l, x.z * l};
+		BoundingBox box(XMFLOAT3(-40, 0, 20), XMFLOAT3(0, 0, 0));
+		bool intersects = box.Intersects(XMLoadFloat3(&XMFLOAT3(0,0,0)), XMLoadFloat3(&x), l);
+	});
+
 	/*2d pasaulio cameros renderinimas, tikriausiai 
 	dar reikia nustatye identity matricą į 2d*/
 	camera->GetView2DMatrix(viewMatrix);
@@ -123,11 +151,24 @@ void Game::Update(StepTimer const& timer)
 	interfaceMatrix = w * p;
 	
 	//xxf
-	xxf->AddInstance(InstanceType_B(float3(-15, 15, 0), color_rgba(1, 0, 0, 1),		float3(1)));
-	xxf->AddInstance(InstanceType_B(float3(0,	0,	0),	color_rgba(0, 1, 0, 1),	float3(1, 1, 0.5)));
-	xxf->AddInstance(InstanceType_B(float3(15,	15, 0),	color_rgba(0, 0, 1, 1),	float3(1, 1, 1)));
+	/*md5Model->AddInstance(InstanceType_B(float3(-15,  0, 65), color_rgba(1, 0, 0, 1),	float3(1), float3(-0.8f,0,0)));
+	md5Model->AddInstance(InstanceType_B(float3(  40,  0, 20), color_rgba(0, 1, 0, 1),	float3(1, 1, 0.5)));
+	md5Model->AddInstance(InstanceType_B(float3( 15,  65, 0), color_rgba(0, 0, 1, 1),	float3(1, 1, 1)));
+*/
+	cubeModel->AddInstance(InstanceType_B(float3(-40, 0, 20), color_rgba(0, 0, 1, 1), float3(1), float3(0, 0, 0)));
 	
 	label->SetText(std::to_wstring(timer.GetFramesPerSecond()) + L" FPS");
+	mouseCLickLocation->SetText(std::to_wstring(mouseLocation->x) + L" - x " + std::to_wstring(mouseLocation->y) + L" - y ");
+	/*gameWindowLocation->SetText(
+		std::to_wstring(windowLocation->left) + L" - left " +
+		std::to_wstring(windowLocation->top) + L" - top " +
+		std::to_wstring(windowLocation->right) + L" - right " +
+		std::to_wstring(windowLocation->bottom) + L" - bottom ");*/
+
+	gameWindowLocation->SetText(
+		std::to_wstring(rz.x) + L" - x " +
+		std::to_wstring(rz.y) + L" - y " +
+		std::to_wstring(rz.z) + L" - z ");
 }
 void Game::Render(StepTimer const& timer)
 {
@@ -141,21 +182,25 @@ void Game::Render(StepTimer const& timer)
 	normalShader->SetPixelShaderBuffers(&ps);
 
 
-	xxf->UpdateInstanceBuffer(gameWindow->GetD3DDeviceContext());
-	normalShader->Render(xxf->GetData());
+	md5Model->UpdateInstanceBuffer(gameWindow->GetD3DDeviceContext());
+	cubeModel->UpdateInstanceBuffer(gameWindow->GetD3DDeviceContext());
+	normalShader->Render(md5Model->GetData());
+	normalShader->Render(cubeModel->GetData());
 }
 
 void Game::RenderInterface(StepTimer const& timer)
 {
-	gameWindow->TurnOnAlphaBlending();
-	gameWindow->TurnZBufferOff();
+	//gameWindow->TurnOnAlphaBlending();
+	//gameWindow->TurnZBufferOff();
 
 	//gameWindow->GetD2DDeviceContext()->SaveDrawingState(m_stateBlock);
 	gameWindow->GetD2DDeviceContext()->BeginDraw();
 	//gameWindow->GetD2DDeviceContext()->SetTransform()
 	label->Render();
+	mouseCLickLocation->Render();
+	gameWindowLocation->Render();
 
 	gameWindow->GetD2DDeviceContext()->EndDraw();
-	gameWindow->TurnZBufferOn();
-	gameWindow->TurnOffAlphaBlending();
+	//gameWindow->TurnZBufferOn();
+	//gameWindow->TurnOffAlphaBlending();
 }

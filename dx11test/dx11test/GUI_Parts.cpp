@@ -17,6 +17,7 @@ Label::Label(ID2D* d2d, wstring text, Rect_F position, D2D1_COLOR_F color)
 	CreateTextLayout();
 	m_textFormat->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_NEAR);
 	m_textFormat->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_LEADING);
+	m_textFormat->SetWordWrapping(DWRITE_WORD_WRAPPING_NO_WRAP);
 }
 
 Label::~Label()

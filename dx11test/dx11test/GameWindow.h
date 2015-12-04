@@ -11,32 +11,11 @@ using namespace DirectX;
 
 class GameWindow : public DirectX11, public IScreen
 {
-	private:
-		int m_videoCardMemory;
-		//LONG screenWidth, screenHeight;
-		//float screenNear, screenDepth, aspectRatio;
-		Screen m_screen;
-		
-		HINSTANCE hInstance;
-
-		LPCWSTR title;
-		//renderTargetView
-
-		char m_videoCardDescription[128];
-
-		XMMATRIX projectionMatrix;
-		XMMATRIX world3DMatrix, world2DMatrix;
-		XMMATRIX orthoMatrix;
-
-		static GameWindow * sInst;
-	protected:
-		GameWindow(GameWindow&){};
 	public:
 		GameWindow(LONG&, LONG&, LPCWSTR, float screenNear, float screenDepth);
 		~GameWindow();
 		void InitializeWindows();
 		void InitD3D();
-		HINSTANCE GetHinstance();
 
 		/// <summary>Gražina 3d pasaulio matrica
 		/// <para>gražinama matrica</para>
@@ -53,9 +32,21 @@ class GameWindow : public DirectX11, public IScreen
 		
 		void SetWindowSize(LONG width, LONG heigth);
 		static void ShowMessageBox(LPCWSTR msg);
-		void GetCursor(LPPOINT& poz);
-		static void SetInstance(GameWindow * gw);
-		static GameWindow * GetInstance();
+		void GetCursor(LPPOINT poz);
+
+		// Inherited via IScreen
+		Screen		GetScreen() override;
+		HINSTANCE	GetHinstance() override;
+		bool		GetGameWindowRect(LPRECT lpRect) override;
+private:
+	XMMATRIX	projectionMatrix;
+	XMMATRIX	world3DMatrix;
+	XMMATRIX	world2DMatrix;
+	XMMATRIX	orthoMatrix;
+
+	Screen		m_screen;
+	HINSTANCE	hInstance;
+	LPCWSTR		title;
 };
 
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);

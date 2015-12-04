@@ -1,27 +1,17 @@
 #include "pch.h"
 #include "GameWindow.h"
 
-GameWindow* GameWindow::sInst = 0;
+#define WINDOW_WIDTH_PAD  16
+#define WINDOW_HEIGHT_PAD 39
 
 GameWindow::GameWindow(LONG& w, LONG& h, LPCWSTR t, float screenNear, float screenDepth)
-	: m_screen()
+	: m_screen(w, h)
 {
 	title = t;
-	//screenHeight = h;
-	//screenWidth = w;
-	//aspectRatio = (float)w / (float)h;
 	hInstance = 0;
 
 	m_screen.SetRez(w, h);
 	m_screen.SetClip(screenNear, screenDepth);
-
-	//hWnd = 0;
-
-	//this->screenNear = screenNear;
-	//this->screenDepth = screenDepth;
-	//this->aspectRatio = aspectRatio;
-
-	//pb = (this);
 }
 
 
@@ -54,17 +44,22 @@ void GameWindow::InitializeWindows()
 
 	RegisterClassEx(&wc);
 
-	//RECT wr = { 0, 0, screenWidth, screenHeight };
-	//AdjustWindowRect(&wr, WS_OVERLAPPEDWINDOW, FALSE);
+	POINT location;
+	RECT desktop;
+	const HWND hDesktop = GetDesktopWindow();
+	GetWindowRect(hDesktop, &desktop);
+
+	location.x = (desktop.right - m_screen.width + WINDOW_WIDTH_PAD) * .5f;
+	location.y = (desktop.bottom - m_screen.height + WINDOW_HEIGHT_PAD) * .5f;
 
 	m_hWnd = CreateWindowEx(WS_EX_APPWINDOW,
 		L"WindowClass1",    // name of the window class
 		title,   // title of the window
 		WS_OVERLAPPEDWINDOW,    // window style
-		300,    // x-position of the window
-		300,    // y-position of the window
-		screenWidth,    // width of the window
-		screenHeight,    // height of the window
+		location.x,    // x-position of the window
+		location.y,    // y-position of the window
+		m_screen.width + WINDOW_WIDTH_PAD,    // width of the window
+		m_screen.height + WINDOW_HEIGHT_PAD,    // height of the window
 		nullptr,    // we have no parent window, nullptr
 		nullptr,    // we aren't using menus, nullptr
 		hInstance,    // application handle
@@ -77,7 +72,7 @@ void GameWindow::InitializeWindows()
 
 void GameWindow::InitD3D()
 {
-	DirectX11::InitD3D(m_hWnd, screenWidth, screenHeight);
+	DirectX11::InitD3D(m_hWnd, m_screen.width, m_screen.height);
 	DirectX11::InitD2D(m_hWnd);
 	BuildWorldMatrix();
 }
@@ -106,11 +101,10 @@ void GameWindow::BuildWorldMatrix()
 {
 	float fieldOfView, screenAspect;
 	// Setup the projection matrix.
-	fieldOfView = (float)XM_PI / m_screen.aspect;
-	screenAspect = (float)m_screen.width / (float)m_screen.height;
+	fieldOfView = (float)XM_PI / 4.f;
 
 	// Create the projection matrix for 3D rendering.
-	projectionMatrix = XMMatrixPerspectiveFovLH(fieldOfView, screenAspect, m_screen.nearClip, m_screen.farClip);
+	projectionMatrix = XMMatrixPerspectiveFovLH(fieldOfView, m_screen.aspect, m_screen.nearClip, m_screen.farClip);
 
 	// Initialize the world matrix to the identity matrix.
 	world3DMatrix = XMMatrixIdentity();
@@ -132,16 +126,24 @@ void GameWindow::SetWindowSize(LONG width, LONG heigth)
 	BuildWorldMatrix();
 }
 
-void GameWindow::SetInstance(GameWindow * gw)
+Screen GameWindow::GetScreen()
 {
-	if (sInst)
-		sInst = 0;
-	sInst = gw;
+	RECT rect;
+	UINT w, h;
+
+	GetClientRect(this->m_hWnd, &rect);
+	w = rect.right - rect.left;
+	h = rect.bottom - rect.top;
+	if (w != m_screen.width || h != m_screen.height)
+		m_screen.SetRez(w, h);
+	m_screen.x = rect.left;
+	m_screen.y = rect.top;
+	return m_screen;
 }
 
-GameWindow * GameWindow::GetInstance()
+bool GameWindow::GetGameWindowRect(LPRECT lpRect)
 {
-	return sInst;
+	return GetWindowRect(this->m_hWnd, lpRect);
 }
 
 void GameWindow::ShowMessageBox(LPCWSTR msg)
@@ -149,9 +151,10 @@ void GameWindow::ShowMessageBox(LPCWSTR msg)
 	MessageBox(nullptr, msg, L"Critical Error", MB_OK);
 }
 
-void GameWindow::GetCursor(LPPOINT & poz)
+void GameWindow::GetCursor(LPPOINT poz)
 {
 	GetPhysicalCursorPos(poz);
+	ScreenToClient(m_hWnd, poz);
 }
 
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -160,6 +163,7 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 	switch (message)
 	{
 		// this message is read when the window is closed
+		case WM_CLOSE:
 		case WM_DESTROY:
 		{
 			// close the application entirely
@@ -168,12 +172,7 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 		} break;
 		case WM_SIZE:
 		{
-			RECT rect;
-			if (GetWindowRect(hWnd, &rect))
-			{
-				if (GameWindow::GetInstance())
-					GameWindow::GetInstance()->SetWindowSize(rect.right - rect.left, rect.bottom - rect.top);
-			}
+
 		} break;
 	}
 

@@ -251,8 +251,8 @@ bool InputClass::MouseKeyReleased(UINT key)
 
 bool InputClass::MouseKeyHoldDown(UINT key)
 {
-	//return mouseState[NEW_S].rgbButtons[key] & DOWN &&  mouseState[OLD_S].rgbButtons[key] & DOWN;
-	return mouseState[NEW_S].rgbButtons[key] & DOWN;
+	return mouseState[NEW_S].rgbButtons[key] & DOWN &&  mouseState[OLD_S].rgbButtons[key] & DOWN;
+	//return mouseState[NEW_S].rgbButtons[key] & DOWN;
 }
 
 LONG InputClass::MouseGetMovementX()

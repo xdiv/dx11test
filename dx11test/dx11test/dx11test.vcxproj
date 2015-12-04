@@ -170,6 +170,9 @@
     <Link>
       <AdditionalDependencies>d3d12.lib;dxgi.lib;d3dcompiler.lib;../DebugW10/cdxml.lib;../DebugW10/gml.lib;../includes/tinyxml2/tinyxml2.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <FxCompile>
+      <ShaderModel>5.0</ShaderModel>
+    </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ButtonsActionMap.cpp" />
@@ -184,6 +187,7 @@
     <ClCompile Include="GUI_Parts.cpp" />
     <ClCompile Include="InputClass.cpp" />
     <ClCompile Include="NormalShader.cpp" />
+    <ClCompile Include="ObjReader.cpp" />
     <ClCompile Include="ResourcesManager.cpp" />
     <ClCompile Include="ShaderBase.cpp" />
   </ItemGroup>
@@ -201,7 +205,9 @@
     <ClInclude Include="InputClass.h" />
     <ClInclude Include="IScreen.h" />
     <ClInclude Include="NormalShader.h" />
+    <ClInclude Include="ObjReader.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="RayCast.h" />
     <ClInclude Include="ResourcesManager.h" />
     <ClInclude Include="ShaderBase.h" />
     <ClInclude Include="ShaderModel.h" />
@@ -212,20 +218,46 @@
     <Image Include="texttest.dds" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="NormalPixelShader.hlsl">
+    <FxCompile Include="NormalPixelShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='DebugW7|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='DebugW8|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
       <FileType>Document</FileType>
-    </None>
-    <None Include="NormalVertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='DEBUGW10|Win32'">Pixel</ShaderType>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='DEBUGW10|Win32'">PShader</EntryPointName>
+      <EnableDebuggingInformation Condition="'$(Configuration)|$(Platform)'=='DEBUGW10|Win32'">true</EnableDebuggingInformation>
+    </FxCompile>
+    <FxCompile Include="NormalVertexShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='DebugW7|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='DebugW8|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
       <FileType>Document</FileType>
-    </None>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='DEBUGW10|Win32'">Vertex</ShaderType>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='DEBUGW10|Win32'">VShader</EntryPointName>
+      <EnableDebuggingInformation Condition="'$(Configuration)|$(Platform)'=='DEBUGW10|Win32'">true</EnableDebuggingInformation>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="CirclePixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='DebugW7|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='DebugW8|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='DEBUGW10|Win32'">Pixel</ShaderType>
+      <FileType>Document</FileType>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='DEBUGW10|Win32'">PShader</EntryPointName>
+    </FxCompile>
+    <FxCompile Include="CircleVertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='DebugW7|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='DebugW8|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='DEBUGW10|Win32'">Vertex</ShaderType>
+      <FileType>Document</FileType>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='DEBUGW10|Win32'">VShader</EntryPointName>
+    </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

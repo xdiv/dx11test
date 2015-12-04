@@ -76,6 +76,8 @@
 #include <concrt.h>
 #include <vector>
 #include <math.h>
+#include <iostream>
+#include <fstream>
 
 #define GML_EXPORTS
 #define CDXML_EXPORTS

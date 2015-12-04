@@ -80,6 +80,9 @@
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="dx11test.cpp" />
+    <ClCompile Include="ObjReader.cpp">
+      <Filter>External</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="InputClass.h">
@@ -139,18 +142,30 @@
     <ClInclude Include="IScreen.h">
       <Filter>Core</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="NormalPixelShader.hlsl">
-      <Filter>Resource Files\Pixel</Filter>
-    </None>
-    <None Include="NormalVertexShader.hlsl">
-      <Filter>Resource Files\Vertex</Filter>
-    </None>
+    <ClInclude Include="RayCast.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjReader.h">
+      <Filter>External</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="texttest.dds">
       <Filter>Resource Files</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="CirclePixelShader.hlsl">
+      <Filter>Resource Files\Pixel</Filter>
+    </FxCompile>
+    <FxCompile Include="CircleVertexShader.hlsl">
+      <Filter>Resource Files\Vertex</Filter>
+    </FxCompile>
+    <FxCompile Include="NormalVertexShader.hlsl">
+      <Filter>Resource Files\Vertex</Filter>
+    </FxCompile>
+    <FxCompile Include="NormalPixelShader.hlsl">
+      <Filter>Resource Files\Pixel</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

@@ -159,6 +159,7 @@ private:
 	UINT moveUp;
 	UINT moveDow;
 	UINT exit;
+	UINT mouseSelect;
 
 	Camera* camera;
 	InputClass *input;
@@ -177,6 +178,15 @@ public:
 	~ButtonsActionMap();
 	void Update();
 	void SetCamera(Camera* cam);
+
+	template<typename TUpdate>
+	void MouseCick(const TUpdate& update)
+	{
+		if (input->MouseKeyHoldDown(mouseSelect))
+		{
+			update();
+		}
+	}
 };
 
 #endif

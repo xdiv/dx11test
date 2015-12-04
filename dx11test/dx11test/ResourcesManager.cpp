@@ -3,6 +3,7 @@
 #include "ShaderBase.h"
 #include "../gml/MD5ModelBinary.h"
 #include "Dx11Helper.h"
+#include "ObjReader.h"
 
 ResourcesManager::ResourcesManager(): gameModels(nullptr), textures(nullptr)
 {
@@ -101,61 +102,25 @@ void ResourcesManager::setBasicData(ID3D11Device2 * dev)
 	gameModels->push_back(x); //0 plane
 
 	{ //cube
-		mesh2d mesh[] =
+		x = ResourceContainer<GameModel>();
+		x.resource = new GameModel();
+
+		mesh2d * mesh = nullptr;
+		int size;
+
+		ObjReader obj;
+		obj.ReadFileStructure(L"untitled.obj");
+		obj.GetTriangeleList(&mesh, size);
+
+		UINT *index = new UINT[size];
+
+		for (size_t i = 0; i < size; i++)
 		{
-			mesh2d( 0.5, -0.5, -0.5,  0,  0),
-			mesh2d( 0.5, -0.5,  0.5,  0, -1),
-			mesh2d(-0.5, -0.5,  0.5, -1, -1),
+			index[i] = i;
+		}
 
-			mesh2d(-0.5, 0.5, -0.5, -1, 1),
-			mesh2d(-0.5, 0.5,  0.5, -1, 0),
-			mesh2d(-0.5, 0.5,  0.5,  0, 0),
-
-			mesh2d(0.5,  0.5, -0.5,  0, 1),
-			mesh2d(0.5,  0.5,  0.5, -1, 1),
-			mesh2d(0.5, -0.5,  0.5, -1, 0),
-
-			mesh2d( 0.5,  0.5, 0.5,  0, 1),
-			mesh2d(-0.5,  0.5, 0.5, -1, 1),
-			mesh2d(-0.5, -0.5, 0.5, -1, 0),
-
-			mesh2d(-0.5,  0.5,  0.5, 0, 1),
-			mesh2d(-0.5,  0.5, -0.5, 1, 1),
-			mesh2d(-0.5, -0.5, -0.5, 1, 0),
-
-			mesh2d( 0.5, -0.5, -0.5,  0, -1),
-			mesh2d(-0.5, -0.5, -0.5, -1, -1),
-			mesh2d(-0.5,  0.5, -0.5, -1,  0),
-
-			mesh2d(-0.5, -0.5, -0.5, -1, 0),
-			mesh2d(0.5, -0.5, -0.5, 0, 0),
-			mesh2d(-0.5, -0.5, 0.5, -1, -1),
-
-			mesh2d( 0.5, 0.5, -0.5,  0, 1),
-			mesh2d(-0.5, 0.5, -0.5, -1, 1),
-			mesh2d( 0.5, 0.5,  0.5,  0, 0),
-
-			mesh2d(0.5, -0.5, -0.5,  0, 0),
-			mesh2d(0.5,  0.5, -0.5,  0, 1),
-			mesh2d(0.5, -0.5,  0.5, -1, 0),
-
-			mesh2d( 0.5, -0.5, 0.5,  0, 0),
-			mesh2d( 0.5,  0.5, 0.5,  0, 1),
-			mesh2d(-0.5, -0.5, 0.5, -1, 0),
-
-			mesh2d(-0.5, -0.5,  0.5, 0, 0),
-			mesh2d(-0.5,  0.5,  0.5, 0, 1),
-			mesh2d(-0.5, -0.5, -0.5, 1, 0),
-
-			mesh2d(0.5, 0.5, -0.5, 0, 0),
-			mesh2d(0.5, -0.5, -0.5, 0, -1),
-			mesh2d(-0.5, 0.5, -0.5, -1, 0),
-		};
-
-		UINT index[] = { 0, 1, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
-
-		x.resource->vert_count = sizeof(mesh) / sizeof(mesh2d);
-		x.resource->indexCount = sizeof(index) / sizeof(UINT);
+		x.resource->vert_count = size;
+		x.resource->indexCount = size;
 
 		//x.instances = new InstanceType_B[data->maxInstanceCount];
 
@@ -169,6 +134,9 @@ void ResourcesManager::setBasicData(ID3D11Device2 * dev)
 	gameModels->push_back(x); //1 cube
 
 	{ //binary model
+		x = ResourceContainer<GameModel>();
+		x.resource = new GameModel();
+
 		mesh2d * mesh = nullptr;
 		UINT * list = nullptr;
 
