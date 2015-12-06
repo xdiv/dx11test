@@ -10,46 +10,23 @@
 
 #include <dinput.h>
 #include "pch.h"
+#include "GameWindow.h"
+
+#define KEY_COUNT 256 // istikro tai yra 237
 
 const UINT DOWN = 0x80;
-const UINT UP = 0x15;
-
-const UINT OLD_S = 1;
-const UINT NEW_S = 0;
+const UINT UP = 0x00;
 
 class InputClass
 {
-private:
-	IDirectInput8*			m_directInput;
-	IDirectInputDevice8*	m_keyboard;
-	IDirectInputDevice8*	m_mouse;
-
-	UINT			m_buttonCount;
-	UCHAR			m_keyboardState[256];
-	//UCHAR lastKeyboardState[256];
-	UCHAR**			m_keyState;
-	DIMOUSESTATE	m_mouseState;
-	DIMOUSESTATE*	mouseState;
-	DIMOUSESTATE	m_mouseLastState;
-
-	int m_screenWidth, m_screenHeight;
-	int m_mouseX, m_mouseY;
-
-private:
-	bool ReadKeyboard();
-	bool ReadMouse();
-	void ProcessInput();
-
 public:
-	InputClass();
+	InputClass(IScreen* screen);
 	InputClass(const InputClass&);
 	~InputClass();
 
-	bool Initialize(HINSTANCE, HWND);
+	void Initialize();
 	void Shutdown();
-	bool Frame();
-
-	//void GetMouseLocation(int&, int&);
+	void Update();
 
 	bool KeyPressedDown(UINT key);
 	bool KeyReleased(UINT key);
@@ -61,5 +38,24 @@ public:
 
 	LONG MouseGetMovementX();
 	LONG MouseGetMovementY();
+
+	LPPOINT GetMouseLocation() { return m_cursor; };
+
+private:
+	IDirectInput8*			m_directInput;
+	IDirectInputDevice8*	m_keyboard;
+	IDirectInputDevice8*	m_mouse;
+
+	IScreen*		m_screen;
+
+	UCHAR*			m_keyState_old;
+	UCHAR*			m_keyState_new;
+	DIMOUSESTATE*	m_mouseState_old;
+	DIMOUSESTATE*	m_mouseState_new;
+
+	LPPOINT			m_cursor;
+
+	void ReadKeyboard();
+	void ReadMouse();
 };
 #endif

@@ -1,88 +1,80 @@
 #include "pch.h"
 #include "ButtonsActionMap.h"
 
-ButtonsActionMap::ButtonsActionMap(HINSTANCE hInstance, HWND hWnd)
+ButtonsActionMap::ButtonsActionMap(InputClass* input)
+	: m_input(nullptr)
 {
-	input = 0;
-	input = new InputClass();
-	input->Initialize(hInstance, hWnd);
-
-	moveForw  = KEY_W;
-	moveBack  = KEY_S;
-	moveLeft  = KEY_A;
-	moveRigth = KEY_D;
-	moveUp	  = KEY_SPACE;
-	moveDow	  = KEY_C;
-	exit	  = KEY_ESCAPE;
-	mouseSelect = M_LEFT;
+	m_input = input;
+	m_moveFoward	= KEY_W;
+	m_moveBack		= KEY_S;
+	m_moveLeft		= KEY_A;
+	m_moveRigth		= KEY_D;
+	m_moveUp		= KEY_SPACE;
+	m_moveDown		= KEY_C;
+	m_exit			= KEY_ESCAPE;
 }
 
 
 ButtonsActionMap::~ButtonsActionMap()
 {
-	SAFE_DELETE(input);
+	SAFE_DELETE(m_input);
 }
 
 void ButtonsActionMap::Update()
 {
-	input->Frame();
-
-	MoveForward();
-	MoveBack();
-	MoveLeft();
-	MoveRight();
-	MoveUp();
-	MoveDown();
-	Rotate();
+	MoveEvent();
+	CameraRotate();
+	Exit();
+	FullScreenSwitch();
+	MouseButton1Click();
 }
 
-
-void ButtonsActionMap::SetCamera(Camera* cam)
+void ButtonsActionMap::MoveEvent()
 {
-	camera = cam;
+	short x = 0, y = 0, z = 0; 
+
+	if (m_input->KeyHoldDown(m_moveFoward))
+		y++;
+	if (m_input->KeyHoldDown(m_moveBack))
+		y--;
+	if (m_input->KeyHoldDown(m_moveLeft))
+		x++;
+	if (m_input->KeyHoldDown(m_moveRigth))
+		x--;
+	if (m_input->KeyHoldDown(m_moveUp))
+		z++;
+	if (m_input->KeyHoldDown(m_moveDown))
+		z--;
+
+	if( x != 0 || y != 0 || z != 0)
+		__raise MoveEvent(1, 2, 3);
 }
-
-void ButtonsActionMap::MoveForward()
+void ButtonsActionMap::CameraRotate()
 {
-	if (input->KeyPressedDown(moveForw) || input->KeyHoldDown(moveForw))
-		camera->MoveCamera(0.0f, 0.2f, 0.0f);
-}
-
-void ButtonsActionMap::MoveBack()
-{
-	if (input->KeyPressedDown(moveBack) || input->KeyHoldDown(moveBack))
-		camera->MoveCamera(0.0f, -0.2f, 0.0f);
-}
-
-void ButtonsActionMap::MoveLeft()
-{
-	if (input->KeyPressedDown(moveLeft) || input->KeyHoldDown(moveLeft))
-		camera->MoveCamera(0.2f, 0.0f, 0.0f);
-}
-
-void ButtonsActionMap::MoveRight()
-{
-	if (input->KeyPressedDown(moveRigth) || input->KeyHoldDown(moveRigth))
-		camera->MoveCamera(-0.2f, 0.0f, 0.0f);
-}
-
-void ButtonsActionMap::MoveUp()
-{
-	if (input->KeyPressedDown(moveUp) || input->KeyHoldDown(moveUp))
-		camera->MoveCamera(0.0f, 0.0f, 0.2f);
-}
-
-void ButtonsActionMap::MoveDown()
-{
-	if (input->KeyPressedDown(moveDow) || input->KeyHoldDown(moveDow))
-		camera->MoveCamera(0.0f, 0.0f, -0.2f);
-}
-
-void ButtonsActionMap::Rotate()
-{
-	if (input->MouseKeyHoldDown(M_RIGTH))
+	if (m_input->MouseKeyHoldDown(M_RIGTH))
 	{
-		camera->SetRotation(input->MouseGetMovementX() * 0.1, input->MouseGetMovementY() * -0.1, 0);
+		__raise CameraRotate(m_input->MouseGetMovementX(), m_input->MouseGetMovementY());
+	}
+}
+void ButtonsActionMap::Exit()
+{
+	if ((m_input->KeyHoldDown(KEY_LMENU)
+		|| m_input->KeyHoldDown(KEY_RMENU))
+		&& m_input->KeyPressedDown(KEY_F4)
+		|| m_input->KeyPressedDown(KEY_ESCAPE))
+		__raise ExitEvent();
+}
+void ButtonsActionMap::FullScreenSwitch()
+{
+	if (m_input->MouseKeyPressedDown(KEY_F10))
+		__raise FullScreenSwitchEvent();
+}
+
+void ButtonsActionMap::MouseButton1Click()
+{
+	if (m_input->MouseKeyReleased(M_LEFT))
+	{
+		__raise MouseButton1ClickEvent();
 	}
 }
 

@@ -26,6 +26,8 @@ public:
 	void SetColor(D2D1_COLOR_F color);
 	void SetTransperancy(float t);
 
+	ID2D1SolidColorBrush* GetBrush() { return m_brush; }
+
 	virtual void Render() = 0;
 	virtual Rect_F GetSize() = 0;
 

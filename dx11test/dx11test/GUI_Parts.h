@@ -26,7 +26,7 @@ struct TextFormatModel
 //-------------------------------------------------------------------------------
 //			Label
 //-------------------------------------------------------------------------------
-class Label : GUI_Base
+class Label : public GUI_Base
 {
 public:
 	Label(ID2D* d2d, wstring text, 

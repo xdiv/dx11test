@@ -148,45 +148,43 @@ const UINT M_RIGTH = 0x01;//1
 const UINT M_MIDLE = 0x02;//2
 #pragma endregion
 
+[event_source(native)]
 class ButtonsActionMap
 {
-
-private:
-	UINT moveForw;
-	UINT moveBack;
-	UINT moveLeft;
-	UINT moveRigth;
-	UINT moveUp;
-	UINT moveDow;
-	UINT exit;
-	UINT mouseSelect;
-
-	Camera* camera;
-	InputClass *input;
-
-private:
-	void MoveForward();
-	void MoveBack();
-	void MoveLeft();
-	void MoveRight();
-	void MoveUp();
-	void MoveDown();
-	void Rotate();
 	
 public:
-	ButtonsActionMap(HINSTANCE, HWND);
+	ButtonsActionMap(InputClass* input);
 	~ButtonsActionMap();
 	void Update();
-	void SetCamera(Camera* cam);
 
-	template<typename TUpdate>
-	void MouseCick(const TUpdate& update)
-	{
-		if (input->MouseKeyHoldDown(mouseSelect))
-		{
-			update();
-		}
-	}
+//https://msdn.microsoft.com/en-us/library/ee2k0a7d.aspx
+	__event void MouseButton1ClickEvent();
+	__event void MouseButton2ClickEvent();
+	__event void CameraRotate(UINT x, UINT y);
+	__event void ShowMeniuEvent();
+	__event void FullScreenSwitchEvent();
+	__event void MoveEvent(short x, short y, short z);
+	__event void SaveEvent();
+	__event void LoadEvent();
+	__event void ExitEvent();
+
+private:
+	UINT m_exit;
+	UINT m_moveFoward;
+	UINT m_moveBack;
+	UINT m_moveLeft;
+	UINT m_moveRigth;
+	UINT m_moveUp;
+	UINT m_moveDown;
+	
+	InputClass*	m_input;
+
+private:
+	void MoveEvent();
+	void CameraRotate();
+	void Exit();
+	void FullScreenSwitch();
+	void MouseButton1Click();
 };
 
 #endif

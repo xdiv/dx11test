@@ -48,4 +48,5 @@ __interface IScreen
 	Screen		GetScreen();
 	bool		GetGameWindowRect(LPRECT lpRect);
 	HINSTANCE	GetHinstance();
+	HWND		GetHWND();
 };

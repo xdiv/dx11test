@@ -12,6 +12,7 @@
 #include <windows.h>
 #include <wrl.h>
 #include <wrl/client.h>
+#include <stdio.h>
 
 #ifdef DEBUGW7
 

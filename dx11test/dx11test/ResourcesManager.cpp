@@ -167,6 +167,42 @@ void ResourcesManager::setBasicData(ID3D11Device2 * dev)
 
 	gameModels->push_back(x); //2 model
 
+	{ //cube
+		x = ResourceContainer<GameModel>();
+		x.resource = new GameModel();
+
+		mesh2d * mesh = nullptr;
+		int size;
+
+		ObjReader obj;
+		obj.ReadFileStructure(L"sphere.obj");
+		obj.GetTriangeleList(&mesh, size);
+
+		UINT *index = new UINT[size];
+
+		for (size_t i = 0; i < size; i++)
+		{
+			index[i] = i;
+		}
+
+		x.resource->vert_count = size;
+		x.resource->indexCount = size;
+
+		//x.instances = new InstanceType_B[data->maxInstanceCount];
+
+		x.resource->stride[0] = sizeof(mesh2d);
+		x.resource->stride[1] = sizeof(InstanceType_B);
+
+		x.resource->pVBuffer = Dx11Helper::CreateVertexBufferHelp(dev, (sizeof(mesh2d) * x.resource->vert_count), mesh);
+		x.resource->pIBuffer = Dx11Helper::CreateIndexBufferHelp(dev, sizeof(unsigned long) * x.resource->indexCount, index);
+	}
+
+	gameModels->push_back(x); //3 sphere
+
+	//------------------------------------------------------------
+	//			textures
+	//------------------------------------------------------------
+
 	{
 		//ID3D11Buffer *textureBuffer = nullptr;
 		ID3D11ShaderResourceView *textureBuffer;

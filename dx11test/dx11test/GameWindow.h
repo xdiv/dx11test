@@ -11,33 +11,33 @@ using namespace DirectX;
 
 class GameWindow : public DirectX11, public IScreen
 {
-	public:
-		GameWindow(LONG&, LONG&, LPCWSTR, float screenNear, float screenDepth);
-		~GameWindow();
-		void InitializeWindows();
-		void InitD3D();
+public:
+	GameWindow(LONG&, LONG&, LPCWSTR, float screenNear, float screenDepth);
+	~GameWindow();
+	void InitializeWindows();
+	void InitD3D();
 
-		/// <summary>Gražina 3d pasaulio matrica
-		/// <para>gražinama matrica</para>
-		/// </summary>
-		void GetWorl3DMatrix(XMMATRIX &);
+	/// <summary>Gražina 3d pasaulio matrica
+	/// <para>gražinama matrica</para>
+	/// </summary>
+	void GetWorl3DMatrix(XMMATRIX &);
 
-		/// <summary>Gražina 2d pasaulio matrica
-		/// <para>gražinama matrica</para>
-		/// </summary>
-		void GetWorl2DMatrix(XMMATRIX &);
-		void GetProjectionM(XMMATRIX &);
-		void GetOrtoM(XMMATRIX&);
-		void BuildWorldMatrix();
+	/// <summary>Gražina 2d pasaulio matrica
+	/// <para>gražinama matrica</para>
+	/// </summary>
+	void GetWorl2DMatrix(XMMATRIX &);
+	void GetProjectionM(XMMATRIX &);
+	void GetOrtoM(XMMATRIX&);
+	void BuildWorldMatrix();
 		
-		void SetWindowSize(LONG width, LONG heigth);
-		static void ShowMessageBox(LPCWSTR msg);
-		void GetCursor(LPPOINT poz);
+	void SetWindowSize(LONG width, LONG heigth);
+	static void ShowMessageBox(LPCWSTR msg);
 
-		// Inherited via IScreen
-		Screen		GetScreen() override;
-		HINSTANCE	GetHinstance() override;
-		bool		GetGameWindowRect(LPRECT lpRect) override;
+	// Inherited via IScreen
+	Screen		GetScreen();
+	HINSTANCE	GetHinstance()						{ return m_hinstance; };
+	HWND		GetHWND()							{ return m_hWnd; }
+	bool		GetGameWindowRect(LPRECT lpRect)	{ return GetWindowRect(m_hWnd, lpRect); };
 private:
 	XMMATRIX	projectionMatrix;
 	XMMATRIX	world3DMatrix;
@@ -45,7 +45,7 @@ private:
 	XMMATRIX	orthoMatrix;
 
 	Screen		m_screen;
-	HINSTANCE	hInstance;
+	HINSTANCE	m_hinstance;
 	LPCWSTR		title;
 };
 

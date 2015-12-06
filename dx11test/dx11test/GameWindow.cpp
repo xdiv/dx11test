@@ -8,7 +8,7 @@ GameWindow::GameWindow(LONG& w, LONG& h, LPCWSTR t, float screenNear, float scre
 	: m_screen(w, h)
 {
 	title = t;
-	hInstance = 0;
+	m_hinstance = 0;
 
 	m_screen.SetRez(w, h);
 	m_screen.SetClip(screenNear, screenDepth);
@@ -21,21 +21,21 @@ GameWindow::~GameWindow()
 	//DestroyWindow(hWnd);
 	m_hWnd = nullptr;
 
-	UnregisterClass(L"WindowClass1", hInstance);
-	hInstance = nullptr;
+	UnregisterClass(L"WindowClass1", m_hinstance);
+	m_hinstance = nullptr;
 }
 
 void GameWindow::InitializeWindows()
 {
 	WNDCLASSEX wc;
-	hInstance = GetModuleHandle(nullptr);
+	m_hinstance = GetModuleHandle(nullptr);
 
 	ZeroMemory(&wc, sizeof(WNDCLASSEX));
 	// fill in the struct with the needed information
 	wc.cbSize = sizeof(WNDCLASSEX);
 	wc.style = CS_HREDRAW | CS_VREDRAW;
 	wc.lpfnWndProc = WindowProc;
-	wc.hInstance = hInstance;
+	wc.hInstance = m_hinstance;
 	wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	//wc.hbrBackground = (HBRUSH)COLOR_WINDOW;
 	wc.lpszClassName = L"WindowClass1";
@@ -62,7 +62,7 @@ void GameWindow::InitializeWindows()
 		m_screen.height + WINDOW_HEIGHT_PAD,    // height of the window
 		nullptr,    // we have no parent window, nullptr
 		nullptr,    // we aren't using menus, nullptr
-		hInstance,    // application handle
+		m_hinstance,    // application handle
 		nullptr);    // used with multiple windows, nullptr
 
 	ShowWindow(m_hWnd, SW_SHOW);
@@ -115,11 +115,6 @@ void GameWindow::BuildWorldMatrix()
 	orthoMatrix = XMMatrixOrthographicLH((float)m_screen.width, (float)m_screen.height, +0.0f, 1);
 }
 
-HINSTANCE GameWindow::GetHinstance()
-{
-	return hInstance;
-}
-
 void GameWindow::SetWindowSize(LONG width, LONG heigth)
 {
 	m_screen.SetRez(width, heigth);
@@ -141,20 +136,9 @@ Screen GameWindow::GetScreen()
 	return m_screen;
 }
 
-bool GameWindow::GetGameWindowRect(LPRECT lpRect)
-{
-	return GetWindowRect(this->m_hWnd, lpRect);
-}
-
 void GameWindow::ShowMessageBox(LPCWSTR msg)
 {
 	MessageBox(nullptr, msg, L"Critical Error", MB_OK);
-}
-
-void GameWindow::GetCursor(LPPOINT poz)
-{
-	GetPhysicalCursorPos(poz);
-	ScreenToClient(m_hWnd, poz);
 }
 
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
